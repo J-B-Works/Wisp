@@ -29,8 +29,8 @@ graph LR
     %% Estilização
     style UC1 fill:#DE802B,stroke:#333
     style UC2 fill:#DE802B,stroke:#333
-    style UC3 fill:#DE802B,stroke:#333
-    style UC4 fill:#16476A,stroke:#333
+    style UC3 fill:#16476A,stroke:#333
+    style UC4 fill:#36656B,stroke:#333
     style UC5 fill:#36656B,stroke:#333
     style UC6 fill:#16476A,stroke:#666,stroke-dasharray: 5 5
 ```
