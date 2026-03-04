@@ -1,36 +1,44 @@
 ```mermaid
 
 classDiagram
-  class Usuário{
+  class Usuario{
       +String Nome
       +Int ID
       +Int Idade
       +String Localização
-      ...
-      +Retorno()????
+      +List interesses
+      %%----------------------
+      +getRecomendacoes() List~Atividade~
   }
   class Instituiçao{
-      +String Nome
       +Int ID
+      +String Nome
       +String Localização
-      ...
-      +Retorno()????
+      +String descricao
+      +String linkSite
+    %%----------------------
+      +cadastrarAtividade(Atividade dados) Atividade
+      +listarSuasAtividades() List~Atividade~
   }
 class Categoria{
-      +String Nome
       +Int ID
-      ...
-      +Retorno()????
+      +String Nome
+      %%----------------------
+      +getAtividadesRelacionadas() List~Atividade~
   }
 class Atividade{
-      +String Nome
       +Int ID
-      ...
-      +Retorno()????
+      +String Nome
+      +String descricao
+      +DateTime dataHora
+      +String linkExterno
+      %%----------------------
+      +exibirDetalhes() Atividade
   }
 
-Instituiçao "1" --> "*" Atividade : Fornece
-Categoria "1" --> "*" Atividade : Possui
-Usuário "1" --> "*" Categoria : Busca
+Instituiçao "1" -- "*" Atividade : Gerencia
+Categoria "1" -- "*" Atividade : Possui
+Usuario "*" -- "*" Categoria : Se interessa/Busca
+Usuario "n" -- "n" Atividade : Visualiza/Busca
 
 ```
