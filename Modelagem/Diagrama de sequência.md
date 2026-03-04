@@ -5,19 +5,36 @@
 sequenceDiagram
     actor U as Usuário
     participant S as Site
-    participant R as Recomendador de Atividades
+    participant DB as Banco de Dados
+    participant R as Recomendador (AWS)
 
-    %% Ida: Setas contínuas (->>) para requisições
-    U->>S: solicitarRecomendacoes()
-    S->>R: buscarAtividades(preferencias)
+    Note over U, R: Visualizar Menu de Recomendações
 
-    %% Bloco de Condição: Sucesso vs Falha
+    U->>S: acessarPaginaPrincipal()
+    S->>DB: validarSessaoERecuperarPerfil()
+    DB-->>S: perfilEPosicaoUsuario
+
+    S->>R: buscarAtividades(perfilUsuario, posicao)
+    
     alt erro na busca ou servidor
         R-->>S: retornarErro()
         S-->>U: exibirMensagem("Erro ao carregar recomendações")
     else sucesso
-        %% Volta: Setas pontilhadas (-->>) para respostas
         R-->>S: retornarLista(Atividades)
-        S-->>U: renderizarMenu(Atividades)
+        S-->>U: renderizarCards(Atividades)
+    end
+
+    Note over U, S: Extensões (opcionais)
+
+    opt Visualizar Detalhes
+        U->>S: clicarNoCard(idAtividade)
+        S->>DB: buscarInformacoesCompletas(idAtividade)
+        DB-->>S: detalhesAtividade
+        S-->>U: mostrarModalDetalhes()
+    end
+
+    opt Acessar Link Externo
+        U->>S: clicarLinkExterno()
+        S-->>U: redirecionarParaURL(siteInstituicao)
     end
 ```
