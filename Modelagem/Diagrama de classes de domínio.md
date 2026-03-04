@@ -1,4 +1,4 @@
-# Diagrama de Classes/Domínio
+# Diagrama de Classes de Domínio
 
 ```mermaid
 
