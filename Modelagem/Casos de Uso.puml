@@ -1,0 +1,34 @@
+@startuml
+    left to right direction
+
+    actor "Usuário Comum" as User
+    actor "Instituição" as Inst
+
+    rectangle "Sistema de Recomendação de Atividades" {
+        usecase "Personalizar perfil" as UC_PP
+        usecase "Visualizar Atividades Recomendadas" as UC_VAR
+        usecase "Visualizar Detalhes de uma Atividade" as UC_VDDUA
+        usecase "Buscar atividades" as UC_BA
+        usecase "Cadastrar Atividade" as UC_CNA
+        usecase "Editar Atividade Cadastrada" as UC_EAC
+    
+    }
+
+    ' Relacionamentos do Usuário:
+    User -- UC_PP
+    User -- UC_VAR
+    User -- UC_BA
+
+    ' Relacionamentos da Instituição:
+    Inst -- UC_BA
+    Inst -- UC_CNA
+    Inst -- UC_EAC
+
+    'Extends:
+    UC_VAR -[hidden]down- UC_VDDUA
+    UC_BA -[hidden]down- UC_VDDUA
+
+    UC_VAR .> UC_VDDUA : <<extend>>
+    UC_BA .> UC_VDDUA : <<extend>>
+
+@enduml
