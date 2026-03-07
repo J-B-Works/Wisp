@@ -10,7 +10,7 @@
         usecase "Visualizar Detalhes de uma Atividade" as UC_VDDUA
         usecase "Buscar atividades" as UC_BA
         usecase "Cadastrar Atividade" as UC_CNA
-        usecase "Editar Atividade Cadastrada" as UC_EAC
+        usecase "Gerenciar Atividade" as UC_EAC
     
     }
 
