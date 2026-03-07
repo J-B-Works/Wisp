@@ -6,3 +6,8 @@
 
 ## Diagrama de Classes de Negócio
 
+![Diagrama de Classes de Negócio](./Modelagem/Outputs(Imagens)/Diagrama%20de%20Classes%20de%20Negocio.png)
+
+## Diagrama de Implantação
+
+![Diagrama de Implantação](./Modelagem/Outputs(Imagens)/Diagrama%20de%20Implantação.png)
