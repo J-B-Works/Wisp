@@ -1,0 +1,52 @@
+@startuml
+    'Deixa os atores só em cima
+    skinparam style strictuml 
+    'Centraliza as frases
+    skinparam sequenceMessageAlign center
+
+    actor "Usuário Comum" as User
+    control "Interface Web" as Web
+    control "Controller de recomendação" as API
+    control "Controller Grafos" as GF
+    control "Mapbox API" as Map
+
+    User -> Web : Acessar tela inicial
+    activate Web
+
+    Web -> API : GET atividades recomendadas (userId)
+    activate API
+
+    API -> GF : Consultar Grafo (Interesses + Perfil)
+    activate GF
+    GF --> API : Lista de IDs de Atividades
+    deactivate GF
+
+    API -> Map : Consultar distância
+    activate Map
+    Map --> API : Distancias
+    deactivate Map
+
+    API -> API : Organizar por relevância
+    API --> Web : Lista de Atividades
+    deactivate API
+
+    Web --> User : Exibir recomendações
+    deactivate Web
+
+    == Visualizar Detalhes (Extend) ==
+
+    User -> Web : Selecionar uma Atividade
+    activate Web
+    Web -> API : GET atividade{id}
+    activate API
+    API -> GF : Buscar todos os detalhes das atividades
+    activate GF
+    GF --> API : Detalhes da Atividade + LinkExterno
+    deactivate GF
+    API --> Web : Detalhes da Atividade
+    deactivate API
+    Web --> User : Abrir apresentar os detalhes
+deactivate Web
+
+@enduml
+
