@@ -11,3 +11,11 @@
 ## Diagrama de Implantação
 
 ![Diagrama de Implantação](./Modelagem/Outputs(Imagens)/Diagrama%20de%20Implantação.png)
+
+## Diagrama de Sequencia
+
+![Diagrama de Implantação](./Modelagem/Outputs(Imagens)/Diagrama%20de%20Sequencia.png)
+
+## Diagrama de Pacotes
+
+![Diagrama de Implantação](./Modelagem/Outputs(Imagens)/Diagrama_de_pacotes.png)
