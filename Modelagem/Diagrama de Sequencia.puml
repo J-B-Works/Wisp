@@ -1,21 +1,19 @@
 @startuml
-    'Deixa os atores só em cima
+    ' Configurações de estilo acadêmico
     skinparam style strictuml 
-    'Centraliza as frases
     skinparam sequenceMessageAlign center
 
+    ' Ordem ajustada: Usuário na esquerda, depois interface, depois controllers
     actor "Usuário Comum" as User
-    control "Interface Web" as Web
-    control "Controller de recomendação" as API
+    boundary "View" as View
+    control "Controller de Recomendação" as API
     control "Controller Grafos" as GF
-    control "Mapbox API" as Map
+    participant "Infraestrutura Mapbox" as Map <<system>>
 
-    User -> Web : Acessar tela inicial
-    activate Web
-
-    Web -> API : GET atividades recomendadas (userId)
+    ' O fluxo começa "do meio para fora", com o Controller iniciando a ação
+    activate User
     activate API
-
+    
     API -> GF : Consultar Grafo (Interesses + Perfil)
     activate GF
     GF --> API : Lista de IDs de Atividades
@@ -23,30 +21,33 @@
 
     API -> Map : Consultar distância
     activate Map
-    Map --> API : Distancias
+    Map --> API : Retorna Distâncias
     deactivate Map
 
     API -> API : Organizar por relevância
-    API --> Web : Lista de Atividades
-    deactivate API
 
-    Web --> User : Exibir recomendações
-    deactivate Web
+    ' O Controller comanda a Interface (seta para a esquerda)
+    API -> View : Apresentar Lista de Atividades
+    activate View
+    deactivate View
 
     == Visualizar Detalhes (Extend) ==
 
-    User -> Web : Selecionar uma Atividade
-    activate Web
-    Web -> API : GET atividade{id}
-    activate API
-    API -> GF : Buscar todos os detalhes das atividades
+    ' O usuário interage com a interface que foi gerada
+    User -> View : Selecionar Atividade
+    activate View
+    
+    ' A Interface notifica o Controller (retorno tracejado da ação)
+    View --> API : Retorna Seleção (ID da Atividade)
+    
+    API -> GF : Buscar todos os detalhes da atividade
     activate GF
-    GF --> API : Detalhes da Atividade + LinkExterno
+    GF --> API : Detalhes da Atividade + Link Externo
     deactivate GF
-    API --> Web : Detalhes da Atividade
+    
+    ' Controller manda a interface apresentar os dados finais
+    API -> View : Apresentar Página de Detalhes
     deactivate API
-    Web --> User : Abrir apresentar os detalhes
-deactivate Web
+    deactivate User
 
 @enduml
-
