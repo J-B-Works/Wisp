@@ -1,0 +1,46 @@
+@startuml
+skinparam style strictuml
+skinparam shadowing false
+
+' Entidades de Negócio (Domain Entities)
+class Usuario {
+    - id: Long
+    - nome: String
+    - email: String
+    - quizRespondido: boolean
+    + personalizarPerfil()
+    + responderQuiz()
+}
+
+class Instituicao {
+    - id: Long
+    - nome: String
+    - cnpj: String
+    + cadastrarAtividade()
+    + gerenciarAtividade()
+}
+
+class Atividade {
+    - id: Long
+    - titulo: String
+    - descricao: String
+    - data: Date
+    - hora: Time
+    - local: String
+    - linkExterno: String
+    - imagemUrl: String
+}
+
+class Categoria {
+    - nome: String
+}
+
+' Relacionamentos com as multiplicidades definidas anteriormente
+Instituicao "1" -- "*" Atividade : Gerencia
+Categoria "1..*" -- "1..*" Atividade : Contém
+
+Usuario "*" -- "*" Categoria : Se interessa/Busca
+Usuario "*" -- "*" Atividade : Visualiza/Busca
+Usuario "*" -- "*" Instituicao : Visualiza/Busca
+
+@enduml

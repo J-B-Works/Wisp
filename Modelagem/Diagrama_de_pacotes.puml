@@ -3,33 +3,34 @@ skinparam packageStyle rectangle
 skinparam shadowing false
 skinparam linetype ortho
 
-package "Camada de Apresentação (Frontend)" as Presentation {
-    [Interface Web] as UI
+' Camada 1: Apresentação
+package "Apresentação" {
+    package "View (Interface Web)" as V
 }
 
-package "Camada de Aplicação (Backend Java)" as App {
-    
-        package "Services" as Domain_Logic {
-        [SistemadeRecomendacao] <<service>>
-        [IntegradorMapbox] <<service>>
-
-    }
+' Camada 2: Aplicação
+package "Aplicação" {
+    package "controladorRecomendacao" as CR
 }
 
-package "Camada de Dados" as DataLayer {
-    [RepositoriodeAtividades] <<gateway>>
-    
+' Camada 3: Negócio
+package "Negócio" {
+    package "controladorGrafos" as CG
+    package "integradorMapbox" as IM
 }
 
-package "Serviços Externos" as External {
-    [Mapbox API] <<system>>
+' Camada 4: Persistência
+package "Persistência" {
+    package "repositorioAtividades" as RA
+    package "repositorioUsuarios" as RU
 }
 
-' Fluxo lógico de dependência
+' Relacionamentos sincronizados com o Diagrama de Sequência
+V ..> CR
+CR ..> CG
+CR ..> IM
 
-Presentation ..> API : JSON/HTTP
-API --> App
-App --> DataLayer : Solicita dados
-App ..> External : Consulta coordenadas
-
+' Negócio consultando a Persistência
+CG ..> RA
+CG ..> RU
 @enduml
