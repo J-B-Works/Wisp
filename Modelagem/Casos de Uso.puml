@@ -28,7 +28,7 @@
     UC_VAR -[hidden]down- UC_VDDUA
     UC_BA -[hidden]down- UC_VDDUA
 
-    UC_VAR .> UC_VDDUA : <<extend>>
-    UC_BA .> UC_VDDUA : <<extend>>
+    UC_VAR <. UC_VDDUA : <<extend>>
+    UC_BA <. UC_VDDUA : <<extend>>
 
 @enduml

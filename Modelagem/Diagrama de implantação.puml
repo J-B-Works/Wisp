@@ -10,7 +10,7 @@ node "<<device>>\nDispositivo do Usuário" as user_device {
 }
 
 ' --- Nuvem AWS ---
-cloud "Nuvem AWS" as aws {
+node "Nuvem AWS" as aws {
     node "<<device>>\nServidor de Aplicação " as AppServer {
         artifact "Backend / Recomendador\n(Java)" as backend
     }

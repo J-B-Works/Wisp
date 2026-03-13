@@ -17,12 +17,12 @@ class Atividade {
 }
 
 ' Relacionamentos
-Instituicao --> Atividade : Gerencia
-Categoria --> Atividade : Contem
+Instituicao "1" -- "*" Atividade : Gerencia
+Categoria "1..*" -- "1..*" Atividade : Contem
 Categoria -[hidden]down- Atividade
-Usuario --> Categoria : Se interessa/Busca
-Usuario --> Atividade : Visualiza/Busca
-Usuario --> Instituicao : Visualiza/Busca
+Usuario "*" -- "*" Categoria : Se interessa/Busca
+Usuario "*" -- "*" Atividade : Visualiza/Busca
+Usuario "*" -- "*" Instituicao : Visualiza/Busca
 
 
 @enduml
