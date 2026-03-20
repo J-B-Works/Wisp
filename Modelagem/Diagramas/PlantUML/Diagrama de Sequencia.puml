@@ -10,9 +10,6 @@
     control "Controller Grafos" as GF
     participant "Infraestrutura Mapbox" as Map <<system>>
 
-    ' O fluxo começa "do meio para fora", com o Controller iniciando a ação
-    activate User
-    activate API
     
     API -> GF : Consultar Grafo (Interesses + Perfil)
     activate GF
@@ -24,10 +21,14 @@
     Map --> API : Retorna Distâncias
     deactivate Map
 
-    API -> API : Organizar por relevância
 
-    ' O Controller comanda a Interface (seta para a esquerda)
+    API -> API : Organizar por relevância
+    activate API
+
     API -> View : Apresentar Lista de Atividades
+    deactivate API
+    
+
     activate View
     deactivate View
 
@@ -35,11 +36,11 @@
 
     ' O usuário interage com a interface que foi gerada
     User -> View : Selecionar Atividade
-    activate View
     
     ' A Interface notifica o Controller (retorno tracejado da ação)
     View --> API : Retorna Seleção (ID da Atividade)
-    
+    deactivate View
+
     API -> GF : Buscar todos os detalhes da atividade
     activate GF
     GF --> API : Detalhes da Atividade + Link Externo
@@ -47,7 +48,7 @@
     
     ' Controller manda a interface apresentar os dados finais
     API -> View : Apresentar Página de Detalhes
+    activate View
     deactivate API
-    deactivate User
 
 @enduml

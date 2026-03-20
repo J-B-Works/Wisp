@@ -4,24 +4,24 @@ left to right direction
 
 ' --- Dispositivo do Usuário ---
 node "<<device>>\nDispositivo do Usuário" as user_device {
-    node "<<execution environment>>\nNavegador Web" as browser {
+    node "<<node>>\nNavegador Web" as browser {
         artifact "Frontend da Plataforma\n(JS/HTML/CSS)" as frontend
     }
 }
 
 ' --- Nuvem AWS ---
 node "Nuvem AWS" as aws {
-    node "<<device>>\nServidor de Aplicação " as AppServer {
+    node "<<node>>\nServidor de Aplicação " as AppServer {
         artifact "Backend / Recomendador\n(Java)" as backend
     }
     
-    node "<<device>>\nServidor de Banco de Dados (RDS)" as rds {
+    node "<<node>>\nServidor de Banco de Dados (RDS)" as rds {
         database "Banco de Dados\n(SQL)" as db
     }
 }
 
 ' --- Infraestrutura API do mapbox ---
-node "<<system>>\nInfraestrutura Mapbox" as mapbox {
+node "<<node>>\nInfraestrutura Mapbox" as mapbox {
     component "API do Mapbox" as mapbox_api
 }
 

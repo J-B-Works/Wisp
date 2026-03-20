@@ -5,12 +5,8 @@ skinparam linetype ortho
 
 ' Camada 1: Apresentação
 package "Apresentação" {
-    package "View (Interface Web)" as V
-}
-
-' Camada 2: Aplicação
-package "Aplicação" {
     package "controladorRecomendacao" as CR
+    package "View (Interface Web)" as V
 }
 
 ' Camada 3: Negócio
@@ -26,7 +22,6 @@ package "Persistência" {
 }
 
 ' Relacionamentos sincronizados com o Diagrama de Sequência
-V ..> CR
 CR ..> CG
 CR ..> IM
 
