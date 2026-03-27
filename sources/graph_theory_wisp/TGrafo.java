@@ -1,14 +1,17 @@
 package graph_theory_wisp;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-/*
-===================================================================
-	MUDANÇAS FEITAS PELO NOSSO GRUPO NESSA CLASSE SERÁ MARACADA
-	COM A TAG         // === MUDANÇA === 
-===================================================================
-*/
+
+// =================================================================== //
+// 	   MUDANÇAS FEITAS PELO NOSSO GRUPO NESSA CLASSE SERÁ MARACADA     //
+//   	COM A TAG         // === MUDANÇA ===                           //
+// =================================================================== //
+
 
 //definicao da classe de nós da lista
 class TNo{ // define uma struct (registro)
@@ -213,7 +216,10 @@ public class TGrafo{
         // -------- Decrementa a contagem de arestas no grafo --------
         m--; 
     }
+
 	/*
+    // === MUDANÇA ===
+
 	Para cada vértice v do grafo, este método imprime, em
 	uma linha, todos os vértices adjacentes ao vértice v
 	(vizinhos ao vértice v).
@@ -246,4 +252,97 @@ public class TGrafo{
 	    }
 	    System.out.print("\n\nfim da impressao do grafo.\n");
 	}
+
+
+
+
+
+    // =================================================================== //
+    //            MÉTODOS EXTRAS EXCLUSIVOS DO NOSSO PROJETO               //
+    //         (Não fazem parte da implementação do grafo em si)           //
+    // =================================================================== //
+
+    // --- Getters ---
+    public int getN() { return n; }
+    public int getM() { return m; }
+    public TNo getAdj(int v) {
+        return adj[v];
+    }
+    public GraphNode getNodeByIndex(int index) {
+        return indexToNode[index];
+    }
+    public Integer getIndexByNodeId(String id) {
+        return nodeIdToIndex.get(id);
+    }
+
+    // --- Método extra p/ converter o grafo numa edge list p/ graph online ---
+    // a-b representa uma aresta/edge bidirecional no graph online
+    // https://graphonline.top/create_graph_by_edge_list
+    public void exportToGraphOnline(String fileName) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
+            for (int i = 0; i < n; i++) {
+                TNo no = adj[i];
+                while (no != null) {
+                    // Como o grafo é bidirecional, só escrevemos se i < no.w
+                    // Isso evita escrever "0 87" e "87 0" como duas arestas separadas
+                    if (i < no.w) {
+                        writer.println(i + "-" + no.w);
+                    }
+                    no = no.prox;
+                }
+            }
+            System.out.println("Arquivo " + fileName + " gerado com sucesso!");
+        } catch (IOException e) {
+            System.err.println("Erro ao gerar arquivo: " + e.getMessage());
+        }
+    }
+
+    // --- Exportador para formato simples (txt) ---
+    public void exportToTxtFormat(String fileName) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
+            // Tipo do Grafo
+            writer.println("Não-Direcionado");
+
+            // Quantidade de vértices
+            writer.println(n);
+
+            // Lista de Vértices: ID  “Identificação do Rótulo” “peso do vértice”
+            for (int i = 0; i < n; i++) {
+                GraphNode node = indexToNode[i];
+                
+                // Define o rótulo com base no tipo do objeto
+                String label = "";
+                if (node instanceof Category) {
+                    label = "Category: " + node.getName();
+                } else if (node instanceof Activity) {
+                    label = "Activity: " + node.getName();
+                } else if (node instanceof User) {
+                    label = "User: " + node.getName();
+                }
+
+                // Formato: i "Rótulo"
+                writer.println(i + " \"" + label + "\"");
+            }
+
+            // Quantidade de arestas
+            writer.println(m);
+
+            // Lista de Arestas: Aresta  Peso_aresta
+            for (int i = 0; i < n; i++) {
+                TNo no = adj[i];
+                while (no != null) {
+                    // Como o grafo é bidirecional, só escrevemos se i < no.w
+                    // Isso evita escrever "0 87" e "87 0" como duas arestas separadas
+                    if (i < no.w) {
+                        // Entre Atividade e Categoria não há peso // TODO adicionar User depois
+                        writer.println(i + " " + no.w);
+                    }
+                    no = no.prox;
+                }
+            }
+            System.out.println("Grafo simples em txt " + fileName + " gerado com sucesso!");
+        } catch (IOException e) {
+            System.err.println("Erro ao gerar arquivo: " + e.getMessage());
+        }
+    }
 }

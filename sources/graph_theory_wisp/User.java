@@ -13,5 +13,6 @@ class User implements GraphNode {
 
     @Override
     public String getId() { return id; }
+    @Override
     public String getName() { return name; }
 }
