@@ -90,7 +90,7 @@ finally:
 with open('Atividades_FC.csv', mode='w', newline='', encoding='utf-8-sig') as csv_file:
     
     writer = csv.writer(csv_file, delimiter=';')#; separa as colunas no excel br
-    writer.writerow(['Nome', 'Categoria', 'Unidade', 'Data'])#Nomes das colunas
+    writer.writerow(['Nome', 'Categoria', 'Unidade', 'Data', 'Imagem'])#Nomes das colunas
     
     writer.writerows(dados_list)#escreve as linhas
 
