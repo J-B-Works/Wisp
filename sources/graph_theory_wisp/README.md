@@ -36,3 +36,6 @@ https://stackoverflow.com/questions/1053467/how-do-i-save-a-string-to-a-text-fil
 
 "java how to verify what class an instance is"
 https://stackoverflow.com/questions/541749/how-to-determine-an-objects-class
+
+"java how to read text between the first " and the last ""
+https://stackoverflow.com/questions/17252615/get-string-between-two-strings-in-a-string

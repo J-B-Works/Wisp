@@ -16,6 +16,7 @@ import java.util.Map;
 //definicao da classe de nós da lista
 class TNo{ // define uma struct (registro)
 	public	int w;  // vértice que é adjacente ao elemento da lista
+    public Integer peso = null; // === MUDANÇA === // Guarda peso da aresta, se ela tiver
 	public TNo prox;
 }
 
@@ -74,6 +75,12 @@ public class TGrafo{
         this.indexToNode = novoIndexToNode;
         this.n = novoN;
     }
+
+    // === MUDANÇA ===
+    // Insere uma aresta sem peso
+    public void insereA(GraphNode v, GraphNode w) {
+        insereA(v, w, null);
+    }
 	
 	/*
 	=== MUDANÇA ===
@@ -90,7 +97,7 @@ public class TGrafo{
 	nas duas direções: v -> w e w -> v.
 
 	*/
-    public void insereA(GraphNode v, GraphNode w) {
+    public void insereA(GraphNode v, GraphNode w, Integer pesoDaAresta) {
         Integer indexV = nodeIdToIndex.get(v.getId()); // Node V -> Índice V
         Integer indexW = nodeIdToIndex.get(w.getId()); // Node W -> Índice W
 
@@ -115,6 +122,7 @@ public class TGrafo{
         // Cria o novo nó para guardar o índice W
         TNo novoNoW = new TNo();
         novoNoW.w = indexW;
+        novoNoW.peso = pesoDaAresta;
         novoNoW.prox = noV;
         // Atualiza a lista de V
         if (antV == null) {
@@ -137,6 +145,7 @@ public class TGrafo{
 		// Cria o novo nó para guardar o índice V
         TNo novoNoV = new TNo();
         novoNoV.w = indexV;
+        novoNoV.peso = pesoDaAresta;
         novoNoV.prox = noW;
 		// Atualiza a lista de W
         if (antW == null) {
@@ -217,6 +226,107 @@ public class TGrafo{
         m--; 
     }
 
+    /*
+    === MUDANÇA ===
+
+    Método que remove um vértice do grafo e todas as suas arestas adjacentes.
+    Como a estrutura utiliza arrays de tamanho estático,
+    precisamos realocá-las com tamanho n - 1 e ajustar todos os índices
+    dos vértices seguintes para "voltar" uma posição.
+    */
+    public void removeV(GraphNode node) {
+        Integer indexToRemove = nodeIdToIndex.get(node.getId()); // Node -> Índice do nó a ser removido
+
+        // Verificação de segurança
+        if (indexToRemove == null) {
+            throw new RuntimeException("Erro: Tentativa de remover aresta entre nós que não existem.");
+        }
+
+        // Remove todas as arestas adjacentes a este vértice (ida e volta)
+        // Percorremos os vizinhos do nó a ser removido e apagamos a aresta de volta
+        TNo atual = adj[indexToRemove];
+        while (atual != null) {                                  // Enquanto não terminar de percorrer a lista ligada
+            int indexVizinho = atual.w;                          // Pega o índice do vizinho atual
+            
+            // Percorre a lista do vizinho para remover o "indexToRemove"
+            TNo noVizinho = adj[indexVizinho];                   // Pega o início da lista do vizinho
+            TNo antVizinho = null;
+            while (noVizinho != null && noVizinho.w != indexToRemove) { // Enquanto não encontrar o índice do nó a ser removido,
+                antVizinho = noVizinho;                          // Percorre a lista do vizinho passando o nó antigo da lista para ser o atual
+                noVizinho = noVizinho.prox;                      // e o nó atual da lista para ser o próximo da lista do vizinho
+            }
+            
+            // Se encontrou a aresta no vizinho, remove ela e atualiza "m"
+            if (noVizinho != null) {
+                if (antVizinho == null) {                        // Se a aresta a ser removida é a primeira da lista do vizinho
+                    adj[indexVizinho] = noVizinho.prox;          // Ajusta o início da lista do vizinho para a próxima
+                } else {
+                    antVizinho.prox = noVizinho.prox;            // Ajusta o ponteiro do anterior para pular o nó da aresta removida
+                }
+                m--; // Decrementa a quantidade de arestas do grafo
+            }
+            atual = atual.prox;                                  // Move para o próximo vizinho do nó a ser removido
+        }
+
+        // Realocação dos Arrays reduzindo o tamanho
+        int novoN = this.n - 1;                                  // Novo número de vértices é o atual - 1
+        TNo novaAdj[] = new TNo[novoN];                          // Nova lista de adjacências com tamanho reduzido
+        GraphNode novoIndexToNode[] = new GraphNode[novoN];      // Novo "tradutor" índice -> objeto
+
+        // Percorre todos os vértices atuais
+        int novoIndice = 0;
+        for (int i = 0; i < this.n; i++) {
+            if (i == indexToRemove) {
+                continue;                                        // Pula o vértice a ser removido
+            }
+
+            novoIndexToNode[novoIndice] = this.indexToNode[i];   // Copia o nó para o novo array de nós (na nova posição)
+            
+            nodeIdToIndex.put(this.indexToNode[i].getId(), novoIndice); // Atualiza o dicionário de Node ID -> Índice com a nova posição
+
+            // Atualiza os índices de destino nas listas de adjacência
+            // Se algum vizinho tinha índice MAIOR que o removido, o índice dele cai em 1
+            TNo no = this.adj[i];                                // Pega o início da lista de adjacência do vértice atual
+            TNo novaListaHead = null;                            // Cabeça da nova lista de adjacência para o vértice atual (com índices corrigidos)
+            TNo novaListaTail = null;                            // Cauda da nova lista para facilitar inserção no final
+
+            while (no != null) {
+                TNo novoNoAdj = new TNo();
+                
+                // Subtrair 1 do índice se ele estava à frente do removido
+                if (no.w > indexToRemove) {                      // Se estava depois do removido,
+                    novoNoAdj.w = no.w - 1;                      // Atualiza para o novo índice - 1
+                } else {
+                    novoNoAdj.w = no.w;                          // Não muda índice
+                }
+                
+                // Insere no final da nova lista
+                novoNoAdj.prox = null;
+                if (novaListaHead == null) {                     // Se a nova lista ainda estiver vazia,
+                    novaListaHead = novoNoAdj;                   // Esse mesmo nó será o primeiro (head)
+                    novaListaTail = novoNoAdj;                   // e o último (tail)
+                } else {
+                    novaListaTail.prox = novoNoAdj;              // O antigo último agora aponta para o novo nó
+                    novaListaTail = novoNoAdj;                   // O novo nó assume o posto de último da fila (Tail)
+                }
+
+                no = no.prox;                                    // Move para o próximo vizinho da lista antiga
+            }
+            
+            // Atribui a lista corrigida à nova posição
+            novaAdj[novoIndice] = novaListaHead;
+            novoIndice++;                                        // Incrementa o índice para o próximo vértice (que não é o removido)
+        }
+
+        // Remove do tradutor (mapa) Node ID -> índice, o Node ID do nó deletado
+        nodeIdToIndex.remove(node.getId());
+
+        // Atualiza
+        this.adj = novaAdj;                                      // Atualiza lista de adjacências
+        this.indexToNode = novoIndexToNode;                      // Atualiza "tradutor" índice -> objeto
+        this.n = novoN;
+    }
+
 	/*
     // === MUDANÇA ===
 
@@ -245,12 +355,15 @@ public class TGrafo{
 	        // Percorre a lista na posição i do vetor
 	        TNo no = adj[i];
 	        while( no != null ){
-	        	System.out.print(no.w + " ");
+                if (no.peso != null) {
+                    System.out.print(no.w + "(" + no.peso + ") ");
+                } else {
+                    System.out.print(no.w + " ");
+                }
 	            no = no.prox;
 	        }
 			System.out.print("null");
 	    }
-	    System.out.print("\n\nfim da impressao do grafo.\n");
 	}
 
 
@@ -286,7 +399,11 @@ public class TGrafo{
                     // Como o grafo é bidirecional, só escrevemos se i < no.w
                     // Isso evita escrever "0 87" e "87 0" como duas arestas separadas
                     if (i < no.w) {
-                        writer.println(i + "-" + no.w);
+                        if (no.peso != null) {
+                            writer.println(i + "-(" + no.peso + ")-" + no.w);
+                        } else {
+                            writer.println(i + "-" + no.w);
+                        }
                     }
                     no = no.prox;
                 }
@@ -301,7 +418,7 @@ public class TGrafo{
     public void exportToTxtFormat(String fileName) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
             // Tipo do Grafo
-            writer.println("Não-Direcionado");
+            writer.println("2"); // 2 – grafo não orientado com peso na aresta
 
             // Quantidade de vértices
             writer.println(n);
@@ -334,8 +451,8 @@ public class TGrafo{
                     // Como o grafo é bidirecional, só escrevemos se i < no.w
                     // Isso evita escrever "0 87" e "87 0" como duas arestas separadas
                     if (i < no.w) {
-                        // Entre Atividade e Categoria não há peso // TODO adicionar User depois
-                        writer.println(i + " " + no.w);
+                        // Atividade-Categoria e Atividade-Usuário não há peso, porém Usuário-Categoria há peso
+                        writer.println(i + " " + no.w + (no.peso != null ? " " + no.peso : ""));
                     }
                     no = no.prox;
                 }
@@ -343,6 +460,52 @@ public class TGrafo{
             System.out.println("Grafo simples em txt " + fileName + " gerado com sucesso!");
         } catch (IOException e) {
             System.err.println("Erro ao gerar arquivo: " + e.getMessage());
+        }
+    }
+
+   // --- Método extra p/ Verificar se o grafo é Conexo usando BFS e gerar sua versão Reduzida ---
+    public void printConnectivityAndReducedGraph() {
+        System.out.println("\n======== ANÁLISE DE CONEXIDADE E GRAFO REDUZIDO ========");
+    
+        // Contando componentes conexos e imprimindo os vértices que compõe cada componente
+        boolean[] visited = new boolean[n];
+        int numComponentes = 0;
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {                                   // Se esse vértice já não tiver sido visitado,
+                numComponentes++;                                // Conta +1 componente conexo encontrado
+                System.out.print("Componente " + numComponentes + " (Vértices): { ");
+                
+                //  ------------ BFS ------------
+                // Mapeando todos os vértices da componente conexa atual
+                java.util.Queue<Integer> queue = new java.util.LinkedList<>(); // Fila p/ BFS
+                queue.add(i);                                    // Adiciona o vértice inicial à fila
+                visited[i] = true;                               // Marca ele como visitado
+
+                while (!queue.isEmpty()) {                       // Enquanto a fila não estiver vazia,
+                    int v = queue.poll();                        // Pega e remove o próximo vértice da fila
+                    System.out.print(v + " ");                   // Imprime ele (pois faz parte da componente conexa atual)
+                    
+                    TNo no = adj[v];                             // Olha para os vizinhos adjacentes do vértice atual
+                    while (no != null) {                         // Enquanto não tiver terminado de percorrer a lista ligada,
+                        if (!visited[no.w]) {                    // Se o vizinho ainda não tiver sido visitado, 
+                            visited[no.w] = true;                // Visita vizinho
+                            queue.add(no.w);                     // Adiciona vizinho na fila para ser processado depois
+                        }
+                        no = no.prox;                            // Continua percorrendo lista ligada
+                    }
+                }
+                System.out.println("}");                       // Finaliza impressão dessa componente conexa
+            }
+        }
+
+        // ------- RESULTADO DO GRAFO REDUZIDO -------
+        System.out.println("\n--- CONCLUSÃO ---");
+        if (numComponentes == 1) {
+            System.out.println("Conexidade: O Grafo é CONEXO.");
+            System.out.println("Grafo Reduzido: É composto por 1 único vértice (que engloba todos os " + n + " vértices atuais) e 0 arestas.");
+        } else {
+            System.out.println("Conexidade: O Grafo é DESCONEXO.");
+            System.out.println("Grafo Reduzido: É composto por " + numComponentes + " vértices isolados e 0 arestas.");
         }
     }
 }

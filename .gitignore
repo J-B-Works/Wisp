@@ -1,7 +1,6 @@
 bin
 
-text_format.txt
-
+grafo.txt
 graph_online.txt
 
 generalized_wisp/*
