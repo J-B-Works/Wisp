@@ -1,46 +1,4 @@
-/*
-
-=======================================================
-  WISP– Sistema de recomendação de educação e cultura
-=======================================================
-
--- Grupo --
-Teoria dos Grafos - Turma: 6G
-- Bruna Gonçalves Corte David (RA: 10425696)
-- Júlia Andrade (RA: 1042513)
-
--- Síntese do Conteúdo --
-
--> Classe TGrafo.java, é a classe que cria, gerencia e controla o grafo em si
--> Cria grafo como lista de adjacências
--> Utiliza um array estático para representar as "cabeças" das listas ligadas (ponteiros que apontam para elas)
-    -> Cada nó na lista ligada representa uma aresta, o último nó é um null para indicar fim da lista ligada
-    -> Cada aresta possui um índice de um vértice que existe no grafo
-    -> A aresta conecta os dois vértices:
-       -> Vértice origem (representado pelo índice da "cabeça da lista" atual no array estático)
-       -> Vértice destino (representado pelo índice guardado no atributo dentro de uma aresta do vértice origem)
-
--> Possui "tradutores" que "convertem" (encontram) um Objeto GraphNode p/ seu índice no array estático
-e vice-versa
-   -> Índice -> Objeto Nó - utiliza lista estática normal para traduzir
-   -> ID de um Objeto Nó -> Índice - utiliza um map para associar a key que é o ID ao elemento que é o índice
-
--> Possui métodos de inserir e remover vértices e arestas
--> Possui métodos extra para exportar o grafo para grafo.txt e no formato para graph online desenhá-lo
--> Possui método que roda um BFS para verificar se o grafo é conexo e calcula o seu grafo reduzido
-
--- Histórico de Alterações --
-
-26/03/2026 - Bruna - Adaptação inicial do código fonte da lista de adj fornecida em aula p/ necessidades do projeto
-27/03/2026 - Júlia - Implementação de getters para testar carregamento de dados
-27/03/2026 - Júlia - Implementação dos métodos de exportação do grafo escrevendo-os em arquivos .txt
-01/04/2026 - Bruna - Adiciona suporte à peso nas arestas exclusivamente de usuário <-> categoria
-01/04/2026 - Bruna - Implementa método de remoção de vértice, cálculo de conexidade e grafo reduzido
-
-*/
-
-
-package graph_theory_wisp;
+package graph_theory_wisp_dev;
 
 import java.io.FileWriter;
 import java.io.IOException;

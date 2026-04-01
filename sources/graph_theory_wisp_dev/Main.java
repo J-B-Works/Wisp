@@ -1,33 +1,4 @@
-/*
-
-=======================================================
-  WISP– Sistema de recomendação de educação e cultura
-=======================================================
-
--- Grupo --
-Teoria dos Grafos - Turma: 6G
-- Bruna Gonçalves Corte David (RA: 10425696)
-- Júlia Andrade (RA: 1042513)
-
--- Síntese do Conteúdo --
-
--> Menu de Opções para interagir com o grafo salvo em grafo.txt
-   -> Métodos como carregar grafo.txt, calcular grafo reduzido, inserir e remover nós e arestas, etc
-
--- Histórico de Alterações --
-
-27/03/2026 - Júlia - Main criada para realizar testes de carregamento de dados no grafo
-27/03/2026 - Júlia - Adiciona a opção de interromper o carregamento quando atingir n quantia de nós para fins de teste
-01/04/2026 - Bruna - Main refatorada para implementar menu de opções
-                -> Menu dev para carregar dados, gerar grafos e testar adição de usuários
-                -> Menu normal para lidar apenas com grafo.txt final
-01/04/2026 - Bruna - Main refatorada para não conter mais Menu dev, apenas o Menu final
-01/04/2026 - Júlia - Adição de cabeçalho, síntese, refatoração de comentários e melhoria das prints
-
-*/
-
-
-package graph_theory_wisp;
+package graph_theory_wisp_dev;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,28 +6,140 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+public class Main { // TODO limpar comentários, prints e etc
     private static Scanner sc = new Scanner(System.in);
     
     public static void main(String[] args) {
         System.out.println("========================================");
-        System.out.println("       BEM-VINDO AO NOSSO PROJETO       ");
-        System.out.println("========================================\n");
-        System.out.println("Teoria dos Grafos - Turma: 6G");
-        System.out.println("- Bruna Gonçalves Corte David (RA: 10425696)");
-        System.out.println("- Júlia Andrade (RA: 1042513)\n");
-
-        Menu();
-
+        System.out.println("            WISP INICIALIZAÇÃO          ");
+        System.out.println("========================================");
+        System.out.println("1 - Modo DESENVOLVEDOR");
+        System.out.println("2 - Modo NORMAL/APRESENTAÇÃO");
+        System.out.print("Escolha o modo: ");
+        
+        int modo = lerInteiro();
+        if (modo == 1) {
+            DevMenu();
+        } else if (modo == 2) {
+            DefaultMenu();
+        } else {
+            System.out.println("Modo inválido. Encerrando.");
+        }
         System.out.println("Encerrando...");
+        
         sc.close();
     }
 
+
     // =========================================================================
-    //                             MENU DE OPÇÕES
+    //                          MODO DESENVOLVEDOR
     // =========================================================================
 
-    public static void Menu() {
+    public static void DevMenu() {
+        TGrafo tgraph = new TGrafo(0);     // Cria objeto grafo vazio (aumenta dinamicamente)
+        DataLoader loader = new DataLoader(); // Carrega dados no grafo
+        
+        int op = -1;
+        while (op != 6) {
+            System.out.println("\n--- MENU DESENVOLVEDOR ---");
+            System.out.println("1. Carregar TODOS os dados reais (FC + SESC)");
+            System.out.println("2. Carregar dados reais (FC + SESC) reduzidos (Máx 100 Vértices)");
+            System.out.println("3. Adicionar Usuário e criar arestas com vértices existentes no grafo");
+            System.out.println("4. Gerar arquivos TXT (grafo.txt e graph_online.txt)");
+            System.out.println("5. Mostrar estrutura do Grafo atual (Show)");
+            System.out.println("6. Sair");
+            System.out.print("Escolha uma opção: ");
+            
+            op = lerInteiro();
+
+            switch (op) {
+
+                case 1:
+                    tgraph = new TGrafo(0);        // Cria novo grafo para substituir atual (com os dados carregados)
+                    loader.loadAll(tgraph);           // Carrega TODOS os dados reais (FC + SESC) sem limite
+                    System.out.println("TODOS os dados carregados com sucesso! Vértices: " + tgraph.getN() + " | Arestas: " + tgraph.getM());
+                    break;
+
+                case 2:
+                    tgraph = new TGrafo(0);         // Cria novo grafo para substituir atual (com os dados carregados)
+                    loader.loadAll(tgraph, 100); // Passa o limite de 70 vértices
+                    System.out.println("Dados reduzidos carregados com sucesso! Vértices: " + tgraph.getN() + " | Arestas: " + tgraph.getM());
+                    break;
+
+                case 3:
+                    boolean gerenciarUsuarios = true;
+                    while (gerenciarUsuarios) {
+                        System.out.println("\n--- GERENCIAR USUÁRIOS E INTERAÇÕES ---");
+                        System.out.println("1. Criar novo usuário");
+                        System.out.println("2. Conectar um usuário a um vértice (Categoria/Atividade)");
+                        System.out.println("0. Voltar ao Menu Desenvolvedor");
+                        System.out.print("Escolha: ");
+                        int optUser = lerInteiro();
+                        
+                        if (optUser == 1) {
+                            System.out.print("Digite o nome do Usuário: ");
+                            String nome = sc.nextLine();
+                            User u = new User(nome);          
+                            tgraph.insereV(u);                
+                            System.out.println("Novo Usuário criado! Nome: " + nome + " | Índice: " + tgraph.getIndexByNodeId(u.getId()));
+                        } 
+                        else if (optUser == 2) {
+                            System.out.print("Digite o ÍNDICE do Usuário: ");
+                            int idxUser = lerInteiro();
+                            System.out.print("Digite o ÍNDICE do alvo (Categoria/Atividade): ");
+                            int idxTarget = lerInteiro();
+                            
+                            try {
+                                GraphNode userNode = tgraph.getNodeByIndex(idxUser);
+                                GraphNode targetNode = tgraph.getNodeByIndex(idxTarget);
+                                
+                                // Verifica se é a conexão especial User <-> Category para pedir peso
+                                if (userNode instanceof User && targetNode instanceof Category) {
+                                    System.out.print("Interação com Categoria detectada! Informe o peso do interesse (ex: 1 a 5): ");
+                                    int peso = lerInteiro();
+                                    tgraph.insereA(userNode, targetNode, peso); // Usa método com peso p/ interações User-Category
+                                    System.out.println("Aresta criada com peso " + peso + "!");
+                                } else {
+                                    tgraph.insereA(userNode, targetNode);       // Usa método sem peso p/ interações normais
+                                    System.out.println("Aresta criada com sucesso");
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Erro: Índices inválidos ou não encontrados.");
+                            }
+                        } 
+                        else if (optUser == 0) {
+                            gerenciarUsuarios = false;
+                        } else {
+                            System.out.println("Opção inválida.");
+                        }
+                    }
+                    break;
+
+                case 4:
+                    tgraph.exportToTxtFormat("sources/graph_theory_wisp/grafo.txt");          // Gera arquivo txt para apresentação
+                    tgraph.exportToGraphOnline("sources/graph_theory_wisp/graph_online.txt"); // Gera arquivo txt para exportar pro graph online
+                    System.out.println("Arquivos gerados com sucesso na raiz do projeto!");
+                    break;
+
+                case 5:
+                    tgraph.show();
+                    break;
+
+                case 6:
+                    break;
+
+                default:
+                    System.out.println("Opção inválida.");
+            }
+        }
+    }
+
+
+    // =========================================================================
+    //                      MODO NORMAL / APRESENTAÇÃO
+    // =========================================================================
+
+    public static void DefaultMenu() {
         TGrafo tgraph = new TGrafo(0); // Cria objeto grafo vazio (aumenta dinamicamente)
         
         int op = -1;
