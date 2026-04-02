@@ -8,7 +8,10 @@ itens_lidos = 0
 
 
 servico = Service()
-navegador = webdriver.Edge(service = servico) 
+try :
+    navegador = webdriver.Edge(service = servico) 
+except:
+    print("Erro no Webdriver - não instalado ou sem permissão ou desatualizado ")
 
 dados_list = []
 
