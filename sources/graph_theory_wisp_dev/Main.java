@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main { // TODO limpar comentários, prints e etc
+public class Main {
     private static Scanner sc = new Scanner(System.in);
     
     public static void main(String[] args) {

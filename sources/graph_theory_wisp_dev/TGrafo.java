@@ -292,6 +292,8 @@ public class TGrafo{
 
             while (no != null) {
                 TNo novoNoAdj = new TNo();
+                novoNoAdj.peso = no.peso;
+
                 
                 // Subtrair 1 do índice se ele estava à frente do removido
                 if (no.w > indexToRemove) {                      // Se estava depois do removido,

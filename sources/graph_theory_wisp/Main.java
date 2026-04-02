@@ -82,14 +82,14 @@ public class Main {
             switch (op) {
 
                 case 1:
-                    System.out.println("Lendo grafo.txt...");
-                    //GraphLoader txtLoader = new GraphLoader();
-                    //txtLoader.loadFromTxt(tgraph, "sources/graph_theory_wisp/grafo.txt");
+                    System.out.println("\nLendo grafo.txt...");
+                    GraphLoader txtLoader = new GraphLoader();
+                    tgraph = new TGrafo(0);
+                    txtLoader.loadFromTxt(tgraph, "sources/graph_theory_wisp/grafo.txt");
                     break;
 
                 case 2:
                     tgraph.exportToTxtFormat("sources/graph_theory_wisp/grafo.txt");
-                    System.out.println("Grafo atual salvo em grafo.txt.");
                     break;
 
                 case 3:
