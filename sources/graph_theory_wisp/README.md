@@ -10,7 +10,7 @@ Teoria dos Grafos - Turma: 6G
 - Júlia Andrade (RA: 1042513)
 
 ✿  Documento: 
-\sources\graph_theory_wisp\Parte 2 - Relatório Projeto.pdf
+[\sources\graph_theory_wisp\Parte 2 - Relatório Projeto.pdf](https://github.com/J-B-Works/Wisp/blob/main/Relatorios%20e%20Apresentacoes/TG%20Parte%202%20-%20Relat%C3%B3rio%20Projeto.pdf)
 
 . ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁
 
