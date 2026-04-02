@@ -1,16 +1,40 @@
-Reminders
+
+  WISP– Sistema de recomendação de educação e cultura
+=
+
+Teoria dos Grafos - Turma: 6G
+
+. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.- Grupo -. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.
+
+- Bruna Gonçalves Corte David (RA: 10425696)
+- Júlia Andrade (RA: 1042513)
+
+✿  Documento: 
+\sources\graph_theory_wisp\Parte 2 - Relatório Projeto.pdf
+
+. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁
+
+To run the code:
+=
 
 Para rodar o programa, esteja dentro de Wisp/  
-Comandos:  
+
+✿ Comandos:  
+
 javac -d bin sources/graph_theory_wisp/*.java  
 java -cp bin graph_theory_wisp.Main
 
 deletar pasta bin para deletar os .class
 
+. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ 
+
 Graph Visualization
 https://graphonline.top/create_graph_by_edge_list
 
+. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁
+
 References
+=
 
 "java how to make graph"  
 https://www.youtube.com/watch?v=dwtIO8GmAuA
