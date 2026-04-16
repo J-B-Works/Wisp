@@ -2,13 +2,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class TGrafoTest {
-    // Testando Webhook
+    // Testando Webhook agr com erro em um dos testes
 
     @Test
     public void testInicializacaoComZero() {
         // Testa se o grafo começa vazio como ordenado
         TGrafo g = new TGrafo(0);
-        assertEquals(0, g.getN(), "O grafo deveria começar com 0 vértices");
+        // TODO apagar esse erro proposital depois (expected: 500) -> expected: 0
+        assertEquals(500, g.getN(), "O grafo deveria começar com 0 vértices");
     }
 
     @Test
