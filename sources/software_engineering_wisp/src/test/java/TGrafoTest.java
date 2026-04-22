@@ -1,7 +1,7 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-public class TGrafoTest {
+public class TGrafoTest { // TODO (apagar) teste para dar certo
 
     @Test
     public void testInicializacaoComZero() {
