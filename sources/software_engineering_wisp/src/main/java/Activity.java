@@ -1,3 +1,5 @@
+package software_engineering_wisp;
+
 import java.util.*;
 
 class Activity implements GraphNode {

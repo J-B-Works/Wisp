@@ -20,8 +20,7 @@ Teoria dos Grafos - Turma: 6G
 26/03/2026 - Bruna - Cria classe Establishment.java para representar o atributo "Estabelecimento" das atividades
 
 */
-
-package graph_theory_wisp;
+//package graph_theory_wisp;
 
 import java.util.*;
 

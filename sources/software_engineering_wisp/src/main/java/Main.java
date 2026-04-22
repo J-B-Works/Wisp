@@ -1,3 +1,5 @@
+package software_engineering_wisp;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -180,11 +182,18 @@ public class Main {
                     System.out.print("Digite a opção: ");
                     int tipoNode = lerInteiro();
 
+                    // ------------ TODO - TEMPORÁRIO, APAGAR/MELHORAR DPS ------------
+                    if (tipoNode == 1) {
+                        RecommendationTesting testModule = new RecommendationTesting();
+                        testModule.runTest(sc);
+                    }
+                    // ----------------------------------------------------------------
+
                     System.out.print("Digite o nome: ");
                     String nomeV = sc.nextLine();
                     
                     GraphNode novoNode;
-                    if (tipoNode == 1) { 
+                    if (tipoNode == 1) {
                         novoNode = new User(nomeV);
                     }
                     else if (tipoNode == 2) {
