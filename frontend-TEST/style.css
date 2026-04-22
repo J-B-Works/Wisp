@@ -1,0 +1,223 @@
+:root {
+  --bg-color: #F4EED8; /* Fundo principal bege claro */
+  --header-bg: #3D9E71; /* Azul claro do topo */
+  --card-bg: #0D5C9E; /* Azul escuro dos cards */
+  --accent-pink: #F39FB3; /* Rosa das bolhas de fundo e botões */
+  --accent-yellow: #EDC809; /* Amarelo dos botões e estrela */
+  --accent-orange: #E86D0D; /* Laranja dos botões */
+  --text-light: #ffffff; /* Texto branco dentro dos cards */
+  --text-dark: #333333; /* Texto escuro dos títulos */
+}
+
+/* RESET BÁSICO */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-dark);
+}
+
+/* ================= HEADER ================= */
+.navbar {
+    background-color: var(--header-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    border-bottom: 2px solid #000; /* Borda preta como no design */
+}
+
+.logo {
+    background-color: #00b4d8; /* Azul da logo */
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    border: 2px solid #000;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background-color: #aae0e5; /* Cor mais clara para o fundo da busca */
+    border: 2px solid #000;
+    border-radius: 30px;
+    padding: 10px 20px;
+    width: 50%;
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 16px;
+}
+
+.search-box i {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.nav-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Botões do Header */
+.btn-filter, .btn-icon {
+    border: 2px solid #000;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+.btn-filter {
+    background-color: #aae0e5;
+    padding: 10px 20px;
+    border-radius: 30px;
+    gap: 8px;
+    font-weight: 500;
+}
+
+.btn-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+.yellow-bg { background-color: var(--accent-yellow); }
+.blue-bg { background-color: #00b4d8; }
+
+/* ================= CONTEÚDO PRINCIPAL ================= */
+.container {
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.page-title {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+/* Categorias */
+.categories {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.tag {
+    padding: 10px 25px;
+    border-radius: 20px;
+    border: 2px solid #000;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Cores das Tags */
+.orange-tag { background-color: var(--accent-orange); color: white; }
+.pink-tag { background-color: var(--accent-pink); }
+.yellow-tag { background-color: var(--accent-yellow); }
+.blue-tag { background-color: #00b4d8; }
+
+/* ================= GRID DE CARDS ================= */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Cria 4 colunas de tamanhos iguais */
+    gap: 25px; /* Espaço entre os cards */
+}
+
+/* O Card Individual */
+.card {
+    background-color: var(--card-bg);
+    border: 2px solid #000;
+    border-radius: 12px;
+    overflow: hidden; /* Garante que a imagem não "vaze" pelas bordas arredondadas */
+    display: flex;
+    flex-direction: column;
+    height: 380px; /* Altura padrão baseada no seu protótipo */
+}
+
+/* Área Cinza de Placeholder (Futura Imagem) */
+.card-image {
+    background-color: #d9d9d9;
+    height: 55%; /* Ocupa um pouco mais da metade do card */
+    border-bottom: 2px solid #000; /* Linha preta dividindo a foto do texto */
+}
+
+/* Área Azul com Textos e Ícones */
+.card-content {
+    padding: 15px;
+    color: var(--text-light);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+/* Título e Estrela */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.card-header h3 {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.card-header i {
+    font-size: 24px;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+/* Lista de Informações (Local, Data, Valor) */
+.card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.card-info p {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Espaço entre o ícone e o texto */
+}
+
+.card-info i {
+    font-size: 18px;
+}
+/* ================= ANIMAÇÃO DA ESTRELA ================= */
+.star-icon {
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+/* Um efeitinho para quando passar o mouse por cima */
+.star-icon:hover {
+    transform: scale(1.2);
+}
+
+/* Classe que o JavaScript vai adicionar quando for clicada */
+.star-icon.active {
+    color: var(--accent-yellow); /* Fica amarela */
+}
