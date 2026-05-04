@@ -1,6 +1,6 @@
-import './Style.css'
-import '/src/assets/NavBar/navbar.css'
+import './Style.css'; 
 import React, { useState } from 'react';
+import { NavbarPrincipal } from '../../assets/NavBar/navbar.jsx';
 
 function Feed() {
 
@@ -14,42 +14,7 @@ function Feed() {
 
   return (
     <>
-      {}
-      <nav className="navbar">
-        
-        {/* Logo */}
-        <div style={{ 
-          fontWeight: 'bold', fontSize: '1.2rem', backgroundColor: 'var(--accent-azul-claro)', 
-          padding: '10px 15px', borderRadius: '50px', border: '2px solid var(--bordas)' 
-        }}>
-          Logo
-        </div>
-
-        {/* Barra de Busca e Filtros */}
-        <div style={{ display: 'flex', gap: '15px', alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-          <div style={{ position: 'relative', width: '50%' }}>
-            <input 
-              type="text" 
-              placeholder="Buscar Cursos, oficinas, exposições..." 
-              style={{ 
-                padding: '12px 20px', borderRadius: '50px', border: '2px solid var(--bordas)', 
-                width: '100%', backgroundColor: 'var(--bg-bege)', outline: 'none'
-              }}
-            />
-            <span style={{ position: 'absolute', right: '15px', top: '10px', fontSize: '1.2rem' }}>🔍</span>
-          </div>
-          <button className="tag" style={{ backgroundColor: 'var(--bg-bege)', display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <span>🔽</span> Filtros
-          </button>
-        </div>
-
-        {/* Botões de Ação (Direita) */}
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <button style={btnAcaoStyle('var(--accent-azul-claro)')}>⭐</button>
-          <button style={btnAcaoStyle('var(--card)')}>⚙️</button>
-          <button style={btnAcaoStyle('var(--accent-amarelo)')}>🍔</button>
-        </div>
-      </nav>
+      <NavbarPrincipal mostrarBusca={true} />
 
       {/* 2. CONTEÚDO PRINCIPAL */}
       <div className="main-container" style={{ backgroundColor: 'var(--bg-bege)', minHeight: '100vh' }}>
@@ -89,20 +54,5 @@ function Feed() {
     </>
   );
 }
-
-// Função auxiliar para os botões redondos do menu superior
-const btnAcaoStyle = (cor) => ({
-  backgroundColor: cor,
-  border: '2px solid var(--bordas)',
-  borderRadius: '50%',
-  width: '45px',
-  height: '45px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  cursor: 'pointer',
-  fontSize: '1.2rem'
-});
-
 
 export default Feed
