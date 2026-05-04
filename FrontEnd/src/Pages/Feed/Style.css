@@ -1,0 +1,61 @@
+
+
+body {
+  background-color: var(--bg-bege); /* CORRIGIDO AQUI */
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--bordas); /* CORRIGIDO AQUI */
+}
+
+.titulo-secao {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.card-grid {
+  display: grid;
+  /*Cria colunas automáticas:
+     Se a tela encolher, ele joga o card para baixo automaticamente */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px; 
+}
+
+.activities-card {
+  background-color: var(--card-blue);
+  border: 2px solid var(--bordas);
+  /* Borda mais gordinha de um lado: */
+  box-shadow: -4px 4px 0px 0px var(--bordas);
+  border-radius: 12px;
+  overflow: hidden; /* Garante que a imagem não vaze pelas bordas arredondadas */
+  display: flex;
+  flex-direction: column;
+  color: white; /*cor dos textos e detalhes*/
+}
+
+.card-imagem {
+  height: 220px;
+  background-color: var(--cinza-imagem);
+  border-bottom: 2px solid var(--bordas);
+}
+
+.card-conteudo {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espaçamento entre os itens de texto */
+}
+
+.card-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.card-info {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espaço entre o ícone e o texto */
+  font-size: 0.9rem;
+}

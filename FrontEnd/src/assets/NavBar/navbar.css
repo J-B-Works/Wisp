@@ -1,0 +1,11 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--barra);
+  padding: 15px 30px;
+  border-bottom: 2px solid var(--bordas);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 10;
+}
