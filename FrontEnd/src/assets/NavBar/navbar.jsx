@@ -1,39 +1,35 @@
 import React, { useState } from 'react';
-import './navbarstyle.css'; // ou style.css
+import './navbarstyle.css'; 
 
-// 1. PROPS: Adicionamos "{ mostrarBusca = true }" aqui. 
-// Por padrão a barra aparece, mas podemos forçar ela a sumir.
-export function NavbarPrincipal({ mostrarBusca = true }) {
+// 1. PROPS: Adicionamos "mostrarHamburger" para controlar o 3º ícone
+export function NavbarPrincipal({ mostrarBusca = true, mostrarHamburger = true }) {
   
-  // 2. O ESTADO DA BUSCA: Aqui é onde o React guarda o que você digita
   const [termoBusca, setTermoBusca] = useState('');
 
-  // Função para quando o usuário apertar Enter ou clicar na lupa (futuramente)
   const executarBusca = () => {
     console.log("O usuário pesquisou por:", termoBusca);
-    // Aqui você vai mandar o termoBusca para o backend/API depois
   };
 
   return (
     <nav className="navbar" style={{ backgroundColor: 'var(--barra)', borderBottom: '2px solid var(--bordas)', position: 'relative', zIndex: 10 }}>
       
-      {/* --- LOGO AQUI --- */}
+      {/* --- LADO ESQUERDO: LOGO --- */}
       <div style={{ fontWeight: 'bold', fontSize: '1.2rem', backgroundColor: 'var(--accent-azul-claro)', padding: '10px 15px', borderRadius: '50px', border: '2px solid var(--bordas)' }}>
         Logo
       </div>
 
-      {/* 3. RENDERIZAÇÃO CONDICIONAL: O React só desenha isso se mostrarBusca for true */}
-      {mostrarBusca && (
+      {/* --- CENTRO: RENDERIZAÇÃO CONDICIONAL --- */}
+      {/* Se mostrarBusca for true, desenha o input. Se for false, desenha o Título do Wisp! */}
+      {mostrarBusca ? (
         <div style={{ display: 'flex', gap: '15px', alignItems: 'center', flex: 1, justifyContent: 'center' }}>
           <div style={{ position: 'relative', width: '50%' }}>
             
-            {/* 4. O INPUT FUNCIONAL (Componente Controlado) */}
             <input 
               type="text" 
               placeholder="Buscar Cursos, oficinas, exposições..." 
-              value={termoBusca} /* O valor é amarrado à variável */
-              onChange={(e) => setTermoBusca(e.target.value)} /* Atualiza a variável a cada letra digitada */
-              onKeyDown={(e) => e.key === 'Enter' && executarBusca()} /* Permite buscar dando Enter */
+              value={termoBusca} 
+              onChange={(e) => setTermoBusca(e.target.value)} 
+              onKeyDown={(e) => e.key === 'Enter' && executarBusca()} 
               style={{ 
                 padding: '12px 20px', borderRadius: '50px', border: '2px solid var(--bordas)', 
                 width: '100%', backgroundColor: 'var(--bg-bege)', outline: 'none'
@@ -52,25 +48,32 @@ export function NavbarPrincipal({ mostrarBusca = true }) {
             <span>🔽</span> Filtros
           </button>
         </div>
+      ) : (
+        // O TÍTULO CENTRALIZADO (Aparece no Cadastro)
+        <div style={{ flex: 1, textAlign: 'center', color: 'white', fontSize: '1.8rem', fontWeight: 'bold' }}>
+          Wisp - Guia de Educação e Cultura
+        </div>
       )}
 
-        {/* Botões de Ação (Direita) */}
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <button style={btnAcaoStyle('var(--accent-azul-claro)')}>⭐</button>
-          <button style={btnAcaoStyle('var(--card)')}>⚙️</button>
-          <button style={btnAcaoStyle('var(--accent-amarelo)')}>🍔</button>
-        </div>
-
-      {/* --- BOTÕES DA DIREITA AQUI --- */}
+      {/* --- LADO DIREITO: BOTÕES DE AÇÃO --- */}
       <div style={{ display: 'flex', gap: '10px' }}>
-        {/* ... seus botoes de estrela, config, etc ... */}
+        <button style={btnAcaoStyle('var(--accent-azul-claro)')}>⭐</button>
+        
+        {/* Nota: Na sua imagem de referência não tem a engrenagem, apenas a estrela e o botão amarelo. 
+            Se quiser esconder a engrenagem também no futuro, é só usar a mesma lógica do hambúrguer! */}
+        <button style={btnAcaoStyle('var(--card)')}>⚙️</button>
+        
+        {/* 3. O ícone de Hambúrguer só aparece se a prop "mostrarHamburger" for true */}
+        {mostrarHamburger && (
+          <button style={btnAcaoStyle('var(--accent-amarelo)')}>🍔</button>
+        )}
       </div>
 
     </nav>
   );
 }
 
-// Função auxiliar para os botões redondos do menu superior
+// Função auxiliar mantida intacta
 const btnAcaoStyle = (cor) => ({
   backgroundColor: cor,
   border: '2px solid var(--bordas)',

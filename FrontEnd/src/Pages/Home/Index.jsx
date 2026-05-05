@@ -13,7 +13,7 @@ export function Home() {
   };
 
   const irParaCadastro = () => {
-    navigate('/Login'); // Como a sua tela tem ambas as opções, mandamos para o mesmo lugar
+    navigate('/Cadastro'); // Como a sua tela tem ambas as opções, mandamos para o mesmo lugar
   };
 
   return (
@@ -95,7 +95,7 @@ export function Home() {
           padding: '10px 30px',
           borderRadius: '8px',
           border: '2px solid var(--bordas)',
-          boxShadow: '4px 4px 0px 0px var(--bordas)',
+          boxShadow: '-4px 4px 0px 0px var(--bordas)',
           fontWeight: 'bold',
           fontSize: '1rem',
           cursor: 'pointer'

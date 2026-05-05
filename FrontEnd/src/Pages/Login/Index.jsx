@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import '../../index.css'; // Ajuste o caminho se necessário, igual fizemos na Home
+import { useNavigate } from 'react-router-dom';
 
 export function Login() {
+
+  // COLOQUE ESTA LINHA AQUI:
+  const navigate = useNavigate();
+
   // Estados para guardar o que o usuário digita
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -13,11 +18,11 @@ export function Login() {
 
   // ARRUMADO: O nome aqui estava repetido!
   const handleCadastro = () => {
-    console.log("Levando para página de criar conta completa...");
+    navigate('/cadastro');
   };
 
   const handleSemLogin = () => {
-    console.log("Entrando como visitante no feed...");
+    navigate('/Feed');
   };
 
   return (
@@ -113,7 +118,7 @@ export function Login() {
 
         {/* BOTÃO ENTRE */}
         <button onClick={handleLogin} style={{
-          backgroundColor: '#0F4D8A', // Azul escuro
+          backgroundColor: 'var(--card-blue)', // Azul escuro
           color: 'white',
           padding: '12px',
           borderRadius: '8px',
@@ -127,7 +132,7 @@ export function Login() {
         </button>
 
         {/* BOTÃO CADASTRE-SE */}
-        <button onClick={handleLogin} style={{
+        <button onClick={handleCadastro} style={{
           backgroundColor: '#F1D888', // Amarelo/Bege
           color: 'var(--bordas)',
           padding: '12px',

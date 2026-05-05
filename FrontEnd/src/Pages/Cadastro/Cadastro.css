@@ -1,0 +1,120 @@
+/* Cadastro.css */
+
+.cadastro-page {
+  background-color: var(--bg-bege);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.cadastro-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px; /* Respiro do topo */
+  gap: 30px;
+}
+
+.cadastro-title {
+  color: #2C8E75;
+  font-size: 2.2rem;
+  font-weight: bold;
+}
+
+.cadastro-botoes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 250px;
+}
+
+/* Estilo base para todos os botões do cadastro */
+.btn-cadastro {
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid var(--bordas);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+  transition: filter 0.2s; /* Efeito suave ao passar o mouse */
+}
+
+.btn-cadastro:hover {
+  filter: brightness(0.9); /* Escurece um pouquinho ao passar o mouse */
+}
+
+/* Cores específicas de cada botão */
+.btn-comum {
+  background-color: #309A8F;
+}
+
+.btn-instituicao {
+  background-color: var(--accent-laranja); 
+}
+
+.btn-voltar {
+  background-color: #B22A36;
+}
+
+/* --- ESTILOS DO FORMULÁRIO (PASSO 2 EM DIANTE) --- */
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 500px; /* Deixa o formulário com um tamanho agradável na tela */
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: left;
+  font-weight: 500;
+}
+
+.input-row {
+  display: flex;
+  gap: 20px;
+}
+
+.input-row .input-group {
+  flex: 1; /* Faz os campos dividirem o espaço igualmente (Ex: Senha e Confirmar) */
+}
+
+/* Campos pequenininhos (Idade e CEP) */
+.input-small {
+  width: 120px;
+}
+
+.cadastro-input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--bordas);
+  background-color: transparent;
+  font-size: 1rem;
+  outline: none;
+  font-family: inherit;
+}
+
+/* Container para os botões Voltar/Avançar ficarem nas pontas */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* Novas cores de botões */
+.btn-amarelo {
+  background-color: #F6D056;
+  color: var(--bordas);
+}
+
+.btn-rosa {
+  background-color: #EFA6BA;
+  color: var(--bordas);
+}
