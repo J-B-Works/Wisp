@@ -16,26 +16,27 @@ function Feed() {
   useEffect(() => {
     const buscarDadosDaApi = async () => {
       try {
+        const userID = localStorage.getItem('wisp_userId');
         // ==============================================================
         // QUANDO SUA API ESTIVER LIGADA, O CÓDIGO REAL SERÁ ESTE AQUI:
-        // const resposta = await fetch('http://localhost:3000/api/atividades');
-        // const dadosJson = await resposta.json();
-        // setRecomendacoes(dadosJson);
-        // setCarregando(false);
+        const resposta = await fetch('http://localhost:8080/api/recomendacoes/' + userID);
+        const dadosJson = await resposta.json();
+        setRecomendacoes(dadosJson);
+        setCarregando(false);
         // ==============================================================
 
         // POR ENQUANTO: Vamos fingir que a API demorou 1,5 segundos para responder
-        setTimeout(() => {
-          const dadosDoBanco = [
-            { id: 1, titulo: "Oficina de Python", local: "Fábrica Vila Nova", data: "12/05/2026", valor: "Gratuito", imagem: "https://images.unsplash.com/photo-1526379095098-d400fd0bfce8?auto=format&fit=crop&w=400&q=80"},
-            { id: 2, titulo: "Curso de Redes", local: "SENAC Santana", data: "15/05/2026", valor: "R$ 150,00", imagem: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=400&q=80" },
-            { id: 3, titulo: "Exposição de Arte", local: "SESC Pompeia", data: "20/05/2026", valor: "Gratuito", imagem: "https://images.unsplash.com/photo-1536924940846-227afb31e2a5?auto=format&fit=crop&w=400&q=80"},
-            { id: 4, titulo: "oie", local: "ensaios da Anitta", data: "25/02/2026", valor: "Pago", imagem: ""}
-          ];
+        //setTimeout(() => {
+        //  const dadosDoBanco = [
+        //    { id: 1, titulo: "Oficina de Python", local: "Fábrica Vila Nova", data: "12/05/2026", valor: "Gratuito", imagem: "https://images.unsplash.com/photo-1526379095098-d400fd0bfce8?auto=format&fit=crop&w=400&q=80"},
+        //    { id: 2, titulo: "Curso de Redes", local: "SENAC Santana", data: "15/05/2026", valor: "R$ 150,00", imagem: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=400&q=80" },
+        //    { id: 3, titulo: "Exposição de Arte", local: "SESC Pompeia", data: "20/05/2026", valor: "Gratuito", imagem: "https://images.unsplash.com/photo-1536924940846-227afb31e2a5?auto=format&fit=crop&w=400&q=80"},
+        //    { id: 4, titulo: "oie", local: "ensaios da Anitta", data: "25/02/2026", valor: "Pago", imagem: ""}
+        //  ];
           
-          setRecomendacoes(dadosDoBanco); // Salva os dados
-          setCarregando(false); // Desliga a mensagem de carregamento
-        }, 1500);
+          //setRecomendacoes(dadosDoBanco); // Salva os dados
+          //setCarregando(false); // Desliga a mensagem de carregamento
+        //}, 1500);
 
       } catch (erro) {
         console.error("Erro ao conectar com a API:", erro);

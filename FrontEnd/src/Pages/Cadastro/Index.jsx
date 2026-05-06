@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../index.css'; 
 import './Cadastro.css'; 
@@ -39,7 +39,7 @@ export function Cadastro() {
   };
 
   // Lógica inteligente do botão Avançar/Confirmar
-  const avancarFormulario = () => {
+  const avancarFormulario = () => { // TODO [DUVIDA] Bruna - Esse seria o envio de dados da instituição enquanto o finalizarCadastro() é o envio de dados do usuário comum?
     if (dadosUsuario.tipoUsuario === 'instituicao') {
       // Se for instituição, acabou o cadastro! Manda pro Feed.
       console.log("Dados finais enviados para o Banco de Dados:", dadosUsuario);
@@ -66,16 +66,42 @@ export function Cadastro() {
   BRUNA, PODE MUDAR AS CATEGORIAS AQUI, PODE ADICIONAR OU REMOVER, SÃO AUTOMÁTICAS
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   */
-  const opcoesInteressesEspecificos = [
-    'Teatro', 'Música', 'Esporte', 'Dança', 
-    'Esculturas', 'Artes Visuais', 'Cinema e Vídeo', 'Circo',
-    'Meio Ambiente', 'Beleza e Estética', 'Comunicação', 'Moda'
-  ];
+  // Memória vazia para preencher com as categorias existentes
+  const [opcoesInteressesEspecificos, setOpcoesInteressesEspecificos] = useState([]);
+
+  useEffect(() => {
+    const buscarCategorias = async () => {
+      try {
+        // REACT ---> JAVA
+        const resposta = await fetch('http://localhost:8080/api/categorias');
+        // REACT <--- JAVA
+        const dados = await resposta.json();
+        setOpcoesInteressesEspecificos(dados); // Preenche categorias existentes
+      } catch (erro) {
+        console.error("Erro ao carregar categorias do Grafo:", erro);
+      }
+    };
+
+    buscarCategorias();
+  }, []);
 
   // Função finalizadora (Passo 4 do comum)
-  const finalizarCadastro = () => {
+  const finalizarCadastro = async () => {
     console.log("MÁGICA FEITA! Dados enviados para o Banco de Dados:", dadosUsuario);
-    // Aqui no futuro entra o código do backend (Axios/Fetch)
+    
+    // REACT ---> JAVA
+    const resposta = await fetch('http://localhost:8080/api/usuarios/cadastrar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dadosUsuario)
+    });
+
+    // REACT <--- JAVA
+    const idDoUsuario = await resposta.text();
+    console.log("Usuário cadastrado com sucesso! ID do vértice desse usuário no Grafo:", idDoUsuario);
+
+    localStorage.setItem('wisp_userId', idDoUsuario); // SALVA ID DO USUÁRIO NA MEMÓRIA DO NAVEGADOR, necessário pra página Feed saber p/ qual usuário solicitar recomendações
+
     navigate('/feed'); // Leva para o feed
   };
 
@@ -230,63 +256,9 @@ export function Cadastro() {
           </>
         )}
         {/* ========================================================= */}
-        {/* PASSO 3: O QUIZ (Só para usuários comuns) */}
+        {/* PASSO 3: O QUIZ ESPECÍFICO (Só para usuários comuns) */}
         {/* ========================================================= */}
         {passoAtual === 3 && dadosUsuario.tipoUsuario === 'comum' && (
-          <>
-            <h1 className="cadastro-title" style={{ color: '#2CB3D4', marginBottom: '30px' }}>
-              Quais são seus interesses?
-            </h1>
-
-            {/* Container dos botões do Quiz */}
-            <div style={{ 
-              display: 'flex', 
-              gap: '15px', 
-              justifyContent: 'center', 
-              flexWrap: 'wrap', 
-              maxWidth: '800px', 
-              marginBottom: '40px' 
-            }}>
-              
-              {/* O React vai desenhar um botão para cada item dessa lista */}
-              {['Cursos', 'Oficinas', 'Exposições', 'Apresentações'].map((opcao) => (
-                <button
-                  key={opcao}
-                  onClick={() => toggleInteresse(opcao)}
-                  style={{
-                    padding: '12px 30px',
-                    borderRadius: '8px',
-                    border: '1px solid var(--bordas)',
-                    // Se o item estiver na nossa "memória", fica amarelo, senão fica transparente:
-                    backgroundColor: dadosUsuario.interesses.includes(opcao) ? '#F6D056' : 'transparent',
-                    color: 'var(--bordas)',
-                    fontSize: '1.2rem',
-                    cursor: 'pointer',
-                    minWidth: '160px',
-                    transition: 'background-color 0.2s'
-                  }}
-                >
-                  {opcao}
-                </button>
-              ))}
-
-            </div>
-
-            {/* Botões de Ação */}
-            <div className="form-actions" style={{ width: '100%', maxWidth: '500px', justifyContent: 'space-between' }}>
-              <button className="btn-cadastro btn-amarelo" style={{ padding: '10px 30px' }} onClick={voltar}>
-                Voltar
-              </button>
-              <button className="btn-cadastro btn-rosa" style={{ padding: '10px 30px' }} onClick={avancarFormulario}>
-                Avançar
-              </button>
-            </div>
-          </>
-        )}
-        {/* ========================================================= */}
-        {/* PASSO 4: O QUIZ ESPECÍFICO (Só para usuários comuns) */}
-        {/* ========================================================= */}
-        {passoAtual === 4 && dadosUsuario.tipoUsuario === 'comum' && (
           <>
             {/* Título Laranja igual ao design */}
             <h1 className="cadastro-title" style={{ color: 'var(--accent-laranja)', marginBottom: '30px' }}>

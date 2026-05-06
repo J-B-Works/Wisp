@@ -1,7 +1,12 @@
-package software_engineering_wisp;
+package wisp.services;
 
 import java.io.*;
 import java.util.*;
+
+import wisp.models.Activity;
+import wisp.models.Category;
+import wisp.models.Establishment;
+import wisp.models.TGrafo;
 
 public class DataLoader {
 
@@ -74,7 +79,7 @@ public class DataLoader {
 
     // Carrega CATEGORIAS das FÁBRICAS DE CULTURA e as insere como vértices no grafo
     private void loadFCCategories(TGrafo graph, Map<String, Category> globalCatMap) {      
-        try (BufferedReader br = new BufferedReader(new FileReader(FC_CATEGORIES_PATH))) {
+        try (BufferedReader br = new BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(FC_CATEGORIES_PATH), java.nio.charset.StandardCharsets.UTF_8))) {
             String line;
             while ((line = br.readLine()) != null) {                  
                 if (!line.trim().isEmpty()) {                         
@@ -103,7 +108,7 @@ public class DataLoader {
     // Carrega ATIVIDADES das FÁBRICAS DE CULTURA e as insere como vértices no grafo
     private void loadFCActivities(TGrafo graph, Map<String, Category> catMap, Integer limit) {
         Map<String, Establishment> tempEstMap = new HashMap<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(FC_CSV_PATH))) {
+        try (BufferedReader br = new BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(FC_CSV_PATH), java.nio.charset.StandardCharsets.UTF_8))) {
             br.readLine(); // Pula cabeçalho
             String line;
             while ((line = br.readLine()) != null) {                  
@@ -119,7 +124,10 @@ public class DataLoader {
                 String actName = cols[0];
                 String catListStr = cols[1];
                 String unitName = cols[2];
+                String data = cols[3];
+                String imagem = cols.length > 4 ? cols[4] : "";
                 String link = "https://www.fabricasdecultura.org.br/"; // Todas as atividades da FC possuem o mesmo link do site da FC
+                String valor = "Gratuito";
 
                 Establishment est = tempEstMap.get(unitName);
                 if (est == null) {
@@ -149,7 +157,7 @@ public class DataLoader {
 
                 // Cria e insere atividade no grafo (que tenha pelo menos 1 categoria válida)
                 if (!validCatsForThisAct.isEmpty()) {                 // Deve ter pelo menos uma categoria válida/listada previamente
-                    Activity act = new Activity(actName, link, est);  // Cria atividade com nome, link externo e estabelecimento informados
+                    Activity act = new Activity(actName, link, est, data, valor, imagem);  // Cria atividade com nome, link externo e estabelecimento informados
                     graph.insereV(act);                               // Insere atividade no grafo
 
                     for (Category catNode : validCatsForThisAct) {    // Cria aresta entre a atividade e suas categorias
@@ -169,7 +177,7 @@ public class DataLoader {
 
     // Carrega CATEGORIAS dos SESC e as insere como vértices no grafo
     private void loadSescCategories(TGrafo graph, Map<String, Category> globalCatMap) {
-        try (BufferedReader br = new BufferedReader(new FileReader(SESC_CATEGORIES_PATH))) {
+        try (BufferedReader br = new BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(SESC_CATEGORIES_PATH), java.nio.charset.StandardCharsets.UTF_8))) {
             String line;
             while ((line = br.readLine()) != null) {                  // Enquanto houver linhas para ler
                 if (!line.trim().isEmpty()) {                         // Se a linha for vazia, ignora
@@ -193,7 +201,7 @@ public class DataLoader {
     // Carrega ATIVIDADES dos SESC e as insere como vértices no grafo
     private void loadSescActivities(TGrafo graph, Map<String, Category> catMap, Integer limit) {
         Map<String, Establishment> tempEstMap = new HashMap<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(SESC_CSV_PATH))) {
+        try (BufferedReader br = new BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(SESC_CSV_PATH), java.nio.charset.StandardCharsets.UTF_8))) {
             br.readLine();                                            // Pula cabeçalho
             String line;
             while ((line = br.readLine()) != null) {                  // Enquanto houver linhas para ler
@@ -210,9 +218,12 @@ public class DataLoader {
 
                 // Extrai dados das colunas (PS: AINDA não estamos usando todos)
                 String actName = cols[0];
+                String data = cols[1];
                 String unitName = cols[4];
                 String catListStr = cols[5];
+                String valor = cols[6];
                 String link = cols[7];
+                String imagem = "";
 
                 // Se ainda não existir esse estabelecimento, cria novo estabelecimento com nome e coordenadas
                 Establishment est = tempEstMap.get(unitName);
@@ -237,7 +248,7 @@ public class DataLoader {
 
                 // Cria e insere atividade no grafo (que tenha pelo menos 1 categoria válida)
                 if (!validCatsForThisAct.isEmpty()) {                 // Deve ter pelo menos uma categoria válida/listada previamente
-                    Activity act = new Activity(actName, link, est);  // Cria atividade com nome, link externo e estabelecimento informados
+                    Activity act = new Activity(actName, link, est, data, valor, imagem);  // Cria atividade com nome, link externo e estabelecimento informados
                     graph.insereV(act);                               // Insere atividade no grafo
 
                     for (Category catNode : validCatsForThisAct) {    // Cria aresta entre a atividade e suas categorias

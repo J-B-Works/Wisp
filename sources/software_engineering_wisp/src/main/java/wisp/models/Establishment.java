@@ -1,8 +1,7 @@
-package software_engineering_wisp;
-
+package wisp.models;
 import java.util.*;
 
-class Establishment {
+public class Establishment { // TODO confirmar esse public dps
     private String id;
     private String name;
     private double latitude;

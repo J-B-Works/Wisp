@@ -12,8 +12,28 @@ export function Login() {
   const [senha, setSenha] = useState('');
 
   // Funções dos botões
-  const handleLogin = () => {
-    console.log("Tentando logar com:", email, senha);
+  const handleLogin = async () => {
+    try {
+      // REACT ---> JAVA
+      const resposta = await fetch('http://localhost:8080/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email }) // Envia o email digitado pelo usuário no useState
+      });
+
+      // REACT <--- JAVA
+      const idDoUsuario = await resposta.text();
+
+      if (idDoUsuario !== "ERRO") { // Se a resposta NÃO for ERRO, o usuário pode "logar"
+        localStorage.setItem('wisp_userId', idDoUsuario); // Setta wisp_userId atual para ser o id desse usuário
+        navigate('/feed');          // Gera recomendações com base nesse usuário
+      } else {                      // Se a resposta FOR ERRO, então o usuário "não existe"/não tinha se cadastrado antes
+        alert("Email não encontrado! Faça seu cadastro.");
+      }
+    } catch (erro) {
+      console.error("Erro no servidor:", erro);
+      alert("Erro ao tentar conectar com o servidor.");
+    }
   };
 
   // ARRUMADO: O nome aqui estava repetido!

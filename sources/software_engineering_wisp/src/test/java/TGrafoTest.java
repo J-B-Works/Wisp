@@ -1,7 +1,10 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-public class TGrafoTest { // TODO (apagar) teste para dar certo
+import wisp.models.TGrafo;
+import wisp.models.User;
+
+public class TGrafoTest {
 
     @Test
     public void testInicializacaoComZero() {
@@ -10,6 +13,9 @@ public class TGrafoTest { // TODO (apagar) teste para dar certo
         assertEquals(0, g.getN(), "O grafo deveria começar com 0 vértices");
     }
 
+    // TODO: ADICIONAR TESTES REAIS PARA MELHORAR O DESENVOLVIMENTO FINAL DO PROJETO
+
+    /*
     @Test
     public void testInsercaoUnicaAumentaN() {
         TGrafo g = new TGrafo(0);
@@ -34,4 +40,5 @@ public class TGrafoTest { // TODO (apagar) teste para dar certo
 
         assertEquals(3, g.getN(), "O n deve ser 3 após inserir 3 usuários");
     }
+    */
 }

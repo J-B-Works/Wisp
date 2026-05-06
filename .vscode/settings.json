@@ -1,5 +1,6 @@
 {
   "java.project.sourcePaths": [ "sources" ],
   "java.project.outputPath": "bin",
-  "java.project.referencedLibraries": []
+  "java.project.referencedLibraries": [],
+  "java.configuration.updateBuildConfiguration": "interactive"
 }

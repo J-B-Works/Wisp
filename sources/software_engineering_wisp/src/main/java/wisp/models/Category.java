@@ -1,8 +1,7 @@
-package software_engineering_wisp;
-
+package wisp.models;
 import java.util.*;
 
-class Category implements GraphNode {
+public class Category implements GraphNode { // TODO confirmar esse public dps
     private String id;
     private String name;
 

@@ -1,24 +1,14 @@
-package software_engineering_wisp;
-
+package wisp.models;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-
 // =================================================================== //
 // 	   MUDANÇAS FEITAS PELO NOSSO GRUPO NESSA CLASSE SERÁ MARACADA     //
 //   	COM A TAG         // === MUDANÇA ===                           //
 // =================================================================== //
-
-
-//definicao da classe de nós da lista
-class TNo{ // define uma struct (registro)
-	public	int w;  // vértice que é adjacente ao elemento da lista
-    public Integer peso = null; // === MUDANÇA === // Guarda peso da aresta, se ela tiver
-	public TNo prox;
-}
 
 //definição de uma classe para armezanar um grafo
 public class TGrafo{
@@ -292,8 +282,6 @@ public class TGrafo{
 
             while (no != null) {
                 TNo novoNoAdj = new TNo();
-                novoNoAdj.peso = no.peso;
-
                 
                 // Subtrair 1 do índice se ele estava à frente do removido
                 if (no.w > indexToRemove) {                      // Se estava depois do removido,
