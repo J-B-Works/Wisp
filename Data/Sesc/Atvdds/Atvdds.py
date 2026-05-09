@@ -45,7 +45,8 @@ with open('Atvdds_urls.txt', 'r', encoding = 'utf-8') as urls: # utf-8 é pra n�
                             pagamento = "Pago" 
                         else:
                             pagamento = "Gratuito"
-
+                        
+                        imagem = item.get('imagem')
                         link = "https://www.sescsp.org.br" + item.get('link', '')#O link no ngc não ta completo
 
                         
@@ -57,7 +58,8 @@ with open('Atvdds_urls.txt', 'r', encoding = 'utf-8') as urls: # utf-8 é pra n�
                         "Unidade": unidade_avdd,
                         "Categorias": categoria_atvdd,
                         "Acesso": pagamento, 
-                        "Link": link}
+                        "Link": link,
+                        "Imagem": imagem}
 
                 count_dados_lidos += 1
             else:
@@ -80,7 +82,8 @@ with open('Atividades_SESC.txt', 'w', encoding='utf-8') as Atvdds:
         Atvdds.write(f"Categorias: {atividade['Categorias']}\n")
         Atvdds.write(f"Acesso: {atividade['Acesso']}\n")
         Atvdds.write(f"Link: {atividade['Link']}\n")
-        
+        Atvdds.write(f"Imagem:{atividade['Imagem']}\n")
+
         # Adiciona uma linha divisória para separar da próxima atividade
         Atvdds.write("-" * 50 + "\n\n")
 
