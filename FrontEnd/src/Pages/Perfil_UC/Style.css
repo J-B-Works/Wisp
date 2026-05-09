@@ -1,0 +1,85 @@
+/* PerfilUsuario.css */
+
+.perfil-page {
+  /* O fundo bege padrão. Para as formas coloridas (blobs), o ideal 
+     é exportar a imagem do fundo do Figma como SVG e colocar aqui:
+     background-image: url('../../assets/fundo-blobs.svg');
+     background-size: cover; */
+  background-color: var(--bg-bege);
+  min-height: 100vh;
+}
+
+.perfil-container {
+  max-width: 800px;
+  margin: 60px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 0 20px;
+}
+
+/* O fundo azul claro dos retângulos */
+.perfil-card {
+  background-color: #A1C6DA; /* Azul claro aproximado da sua imagem */
+  border: 2px solid var(--bordas);
+  border-radius: 12px;
+  padding: 30px;
+  position: relative; /* Isso é essencial para o botão Editar ficar no canto! */
+}
+
+/* Títulos dos cards */
+.perfil-card h2 {
+  font-size: 1.6rem;
+  color: var(--bordas);
+  margin-bottom: 25px;
+}
+
+/* Textos de Informações Pessoais */
+.info-linha {
+  font-size: 1.1rem;
+  color: var(--bordas);
+  margin-bottom: 12px;
+}
+
+/* Botão Editar */
+.btn-editar {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  background-color: var(--card-blue); /* #0D5C9E do seu CSS global */
+  color: white;
+  border: 2px solid var(--bordas);
+  border-radius: 6px;
+  padding: 6px 15px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: filter 0.2s;
+}
+
+.btn-editar:hover {
+  filter: brightness(1.2);
+}
+
+/* Grid das Tags de Preferências */
+.preferencias-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center; /* Centraliza os botões como no design */
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.tag-preferencia {
+  background-color: var(--bg-bege);
+  border: 2px solid var(--bordas);
+  padding: 10px 30px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--bordas);
+}
