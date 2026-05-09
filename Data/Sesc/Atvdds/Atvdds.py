@@ -1,5 +1,7 @@
 import requests
 import pandas as pd
+import time
+from bs4 import BeautifulSoup
 
 todas_Atvdds = {} #dicionario inteligente
 
@@ -18,6 +20,9 @@ with open('Atvdds_urls.txt', 'r', encoding = 'utf-8') as urls: # utf-8 é pra n�
                 if 'atividade' in raw_data and raw_data['atividade']:
                     for item in raw_data['atividade']:
                         
+                        if not item or type(item) is not dict: 
+                            continue
+
                         id_ativ = item.get('id') #Id vem do site do sesc, não é nosso id proprio
 
                         nome_atvdd = item.get('titulo','Sem título') #no get da pra fazer com case caso esteja vazio
@@ -27,7 +32,6 @@ with open('Atvdds_urls.txt', 'r', encoding = 'utf-8') as urls: # utf-8 é pra n�
                         raw_date_FS = item.get('dataPrimeiraSessao','Data não especificada')#Data da primeira sessão
                         raw_date_LS = item.get('dataUltimaSessao','')
                         raw_date_PS = item.get('dataProxSessao','')
-                        
                         
                         clean_date_FS = raw_date_FS.replace('T',' ') if raw_date_FS else ' ' 
                         clean_date_LS = raw_date_LS.replace('T',' ') if raw_date_LS else ' '
@@ -48,7 +52,6 @@ with open('Atvdds_urls.txt', 'r', encoding = 'utf-8') as urls: # utf-8 é pra n�
                         
                         imagem = item.get('imagem')
                         link = "https://www.sescsp.org.br" + item.get('link', '')#O link no ngc não ta completo
-
                         
                         todas_Atvdds[id_ativ] = {
                         "Nome da Atividade": nome_atvdd,
@@ -65,7 +68,39 @@ with open('Atvdds_urls.txt', 'r', encoding = 'utf-8') as urls: # utf-8 é pra n�
             else:
                 print(f"Erro. Código de erro: ", pingada.status_code)
 
-print(f"Dados extraídos com sucesso:", count_dados_lidos) #deve estar igual ao numero de links inseridos no txt de URLS          
+print(f"Dados extraídos com sucesso:", count_dados_lidos) 
+
+"""
+# Código de scraping com o beautiful soup para extrair as descrições:
+# Elas apenas est~~ao completas no html
+print("Buscando as descrições nas páginas de detalhes (Isso pode demorar um pouquinho)...")
+
+for id_ativ, dados_atividade in todas_Atvdds.items():
+    link_detalhe = dados_atividade['Link']
+    
+    try:
+        resposta_detalhe = requests.get(link_detalhe)
+        
+        if resposta_detalhe.status_code == 200:
+            sopa = BeautifulSoup(resposta_detalhe.text, 'html.parser')
+            bloco_texto = sopa.find('div', class_='principal--post--conteudo')
+            
+            if bloco_texto:
+                descricao_limpa = bloco_texto.get_text(separator=' ', strip=True)
+                todas_Atvdds[id_ativ]["Descricao"] = descricao_limpa
+            else:
+                todas_Atvdds[id_ativ]["Descricao"] = "Sem descrição"
+        else:
+             todas_Atvdds[id_ativ]["Descricao"] = f"Erro {resposta_detalhe.status_code}"
+             
+    except Exception as e:
+        todas_Atvdds[id_ativ]["Descricao"] = "Erro de conexão"
+        
+    time.sleep(1) # Pausa vital para o site do Sesc não bloquear o código
+
+print("Descrições extraídas com sucesso!")
+"""
+
 #----------------------------------------------------
 #Output File (TXT)
 with open('Atividades_SESC.txt', 'w', encoding='utf-8') as Atvdds:
@@ -83,13 +118,17 @@ with open('Atividades_SESC.txt', 'w', encoding='utf-8') as Atvdds:
         Atvdds.write(f"Acesso: {atividade['Acesso']}\n")
         Atvdds.write(f"Link: {atividade['Link']}\n")
         Atvdds.write(f"Imagem:{atividade['Imagem']}\n")
+        
+        # --- ATENÇÃO: ADICIONEI A LINHA ABAIXO PARA SALVAR A DESCRIÇÃO NO TXT ---
+        #Atvdds.write(f"Descrição: {atividade.get('Descricao', '')}\n")
 
         # Adiciona uma linha divisória para separar da próxima atividade
         Atvdds.write("-" * 50 + "\n\n")
 
-
 #Output File (CSV)
-
 lista_de_atividades = list(todas_Atvdds.values())
 df_atividades = pd.DataFrame(lista_de_atividades) #transforma no dataframe
+
+# O Pandas é inteligente: como adicionamos a chave "Descricao" no dicionário 
+# ali em cima, ele automaticamente vai criar uma nova coluna no CSV para ela!
 df_atividades.to_csv("Atividades_SESC.csv", index=False, sep=";", encoding="utf-8-sig") #salva em CSV
