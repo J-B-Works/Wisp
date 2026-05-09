@@ -60,13 +60,47 @@ try:
             except:
                 img = "Sem imagem"
 
+            # Extração da descrição (Interação com o modal)
+            try:
+                # 1. Rola a tela até o card atual para garantir que o Selenium consiga clicar nele
+                navegador.execute_script("arguments[0].scrollIntoView({block: 'center'});", atvdd)
+                time.sleep(0.5) 
+                
+                # 2. Clica no card para abrir a janela modal
+                atvdd.click()
+                time.sleep(1) # Tempo crucial para a animação da janela terminar de carregar
+                
+                # 3. Busca o modal que está ativo/visível na tela no momento
+                # Pela sua imagem, o modal aberto ganha um 'style="display: block;"'
+                modal_ativo = navegador.find_element(By.CSS_SELECTOR, "div.modal[style*='display: block']")
+                
+                # 4. Extrai o texto da div class="wysiwyg" (que você achou no inspecionar)
+                descricao = modal_ativo.find_element(By.CSS_SELECTOR, ".wysiwyg").text
+                
+                # 5. Clica no botão "X" para fechar o modal
+                btn_fechar = modal_ativo.find_element(By.CSS_SELECTOR, ".btn-close")
+                btn_fechar.click()
+                time.sleep(0.5) # Tempo para a animação de sumir da tela
+                
+            except Exception as e:
+                descricao = "Sem descrição"
+                
+                # SISTEMA DE SEGURANÇA (FALLBACK)
+                # Se algo der errado no meio (ex: a div wysiwyg não existir), o modal pode ficar aberto e travar o loop.
+                # Aqui nós simulamos o pressionamento da tecla 'ESC' no teclado para forçar o fechamento.
+                try:
+                    webdriver.ActionChains(navegador).send_keys('\x1b').perform()
+                    time.sleep(0.5)
+                except:
+                    pass
+            # =================================================================
             '''
             nome = atvdd.find_element(By.CSS_SELECTOR, ".titulo.mb-1").text
             categoria = atvdd.find_element(By.CSS_SELECTOR, ".programacao-categoria").text
             unidade = atvdd.find_element(By.CSS_SELECTOR, ".col").text
             
             '''
-            dados_list.append([nome, categoria, unidade, data, img])
+            dados_list.append([nome, categoria, unidade, data, img, descricao])
             
         itens_lidos = qtd_atvdds_tela
         
@@ -93,7 +127,7 @@ finally:
 with open('Atividades_FC.csv', mode='w', newline='', encoding='utf-8-sig') as csv_file:
     
     writer = csv.writer(csv_file, delimiter=';')#; separa as colunas no excel br
-    writer.writerow(['Nome', 'Categoria', 'Unidade', 'Data', 'Imagem'])#Nomes das colunas
+    writer.writerow(['Nome', 'Categoria', 'Unidade', 'Data', 'Imagem', 'descricao'])#Nomes das colunas
     
     writer.writerows(dados_list)#escreve as linhas
 
