@@ -1,0 +1,77 @@
+.wip-page {
+  background-color: var(--bg-bege);
+  min-height: 100vh;
+  position: relative; /* Importante para prender as manchas no fundo */
+  overflow: hidden; /* Esconde a parte das manchas que vazar para fora da tela */
+  display: flex;
+  flex-direction: column;
+}
+
+/* O container que centraliza o fantasminha e o texto */
+.wip-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2; /* Garante que o texto fique por cima das manchas */
+  position: relative;
+}
+
+.wip-icone {
+  /* Se você não tiver a imagem cortada, usei um emoji provisório. 
+     Se tiver, remova o font-size e coloque o img lá no JSX! */
+  font-size: 8rem; 
+  margin-bottom: 20px;
+  animation: flutuar 3s ease-in-out infinite; /* Um charmezinho: faz ele flutuar! */
+}
+
+.wip-titulo {
+  font-size: 3.5rem;
+  color: var(--accent-azul-claro); /* Usa a sua variável azul clara */
+  font-family: 'Quicksand', 'Nunito', 'Comic Sans MS', sans-serif; /* Fontes arredondadas */
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+/* --- ANIMAÇÃO DO FANTASMA --- */
+@keyframes flutuar {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+/* --- DESENHANDO AS MANCHAS COM CSS (Sem precisar de imagem) --- */
+.blob {
+  position: absolute;
+  z-index: 1; /* Ficam no fundo da tela */
+}
+
+.blob-vermelho {
+  background-color: #B52A34; /* Cor extraída do seu print */
+  width: 50vw;
+  height: 30vh;
+  top: 0;
+  left: 0;
+  border-radius: 0 0 50% 30% / 0 0 70% 50%;
+}
+
+.blob-amarelo {
+  background-color: #F4CE5E;
+  width: 35vw;
+  height: 40vh;
+  bottom: -5vh;
+  left: -5vw;
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  transform: rotate(20deg);
+}
+
+.blob-laranja {
+  background-color: #E27926;
+  width: 45vw;
+  height: 80vh;
+  bottom: -10vh;
+  right: -10vw;
+  border-radius: 60% 40% 30% 70% / 50% 40% 60% 50%;
+}

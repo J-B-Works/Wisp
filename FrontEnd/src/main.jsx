@@ -9,7 +9,8 @@ import { Login } from './Pages/Login/Index.jsx' // <--- Puxando o seu arquivo de
 import Feed from './Pages/Feed/Index.jsx'
 import { Cadastro } from './Pages/Cadastro/Index.jsx'
 import PerfilUC from './Pages/Perfil_UC/Index.jsx'
-import { DetalhesAtividade } from './Pages/Detalhes_Atvdds/DetalhesAtividade.jsx';
+import { DetalhesAtividade } from './Pages/Detalhes_Atvdds/DetalhesAtividade.jsx'
+import { WIP } from './Pages/WIP/WIP.jsx';
 
 
 createRoot(document.getElementById('root')).render(
@@ -22,6 +23,8 @@ createRoot(document.getElementById('root')).render(
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/perfiluc" element={<PerfilUC />} />
         <Route path="/atividade/:id" element={<DetalhesAtividade />} />
+        <Route path="/em-breve" element={<WIP />} />
+        
       </Routes>
     </BrowserRouter>
   </StrictMode>,

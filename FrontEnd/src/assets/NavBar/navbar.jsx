@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import './navbarstyle.css'; 
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export function NavbarPrincipal({ mostrarBusca = true, mostrarHamburger = true, botaoVoltar = false, acaoVoltar }) {
   
+  const navigate = useNavigate();
+
   const [termoBusca, setTermoBusca] = useState('');
 
   const executarBusca = () => {
@@ -66,12 +69,12 @@ export function NavbarPrincipal({ mostrarBusca = true, mostrarHamburger = true, 
 
       {/* --- LADO DIREITO: BOTÕES DE AÇÃO --- */}
       <div style={{ display: 'flex', gap: '10px' }}>
-        <button style={btnAcaoStyle('var(--accent-azul-claro)')}>⭐</button>
+        <button onClick={() => navigate('/em-breve')} style={btnAcaoStyle('var(--accent-azul-claro)')}>⭐</button>
         
-        <button style={btnAcaoStyle('var(--card)')}>⚙️</button>
+        <button onClick={() => navigate('/em-breve')} style={btnAcaoStyle('var(--card)')}>⚙️</button>
         
         {mostrarHamburger && (
-          <button style={btnAcaoStyle('var(--accent-amarelo)')}>🍔</button>
+          <button onClick={() => navigate('/perfiluc')} style={btnAcaoStyle('var(--accent-amarelo)')}>🍔</button>
         )}
       </div>
 
