@@ -1,8 +1,10 @@
 import './Style.css'; 
+import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react'; // 1. Adicionado o useEffect aqui
 import { NavbarPrincipal } from '../../assets/NavBar/navbar.jsx';
 
 function Feed() {
+  const navigate = useNavigate();
 
   // 2. CRIANDO A MEMÓRIA DO COMPONENTE
   // Trocamos o array fixo por um useState vazio. Ele vai guardar o JSON que vier da API.
@@ -73,7 +75,7 @@ function Feed() {
           /* GRID DE CARDS (Seu código original mantido 100% igual) */
           <div className="card-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))' }}>
             {recomendacoes.map((item) => (
-              <div className="activities-card" key={item.id}>
+              <div className="activities-card" key={item.id} style={{ cursor: 'pointer' }} onClick={() => navigate(`/atividade/${item.id}`, { state: { atividade: item } })}>
                 
                 <div className="card-imagem" style={{ backgroundColor: 'var(--cinza-imagem)', borderBottom: '2px solid var(--bordas)', height: '220px', overflow: 'hidden' }}>
                   {/* A INTELIGÊNCIA: Verifica se a API mandou um link de imagem */}

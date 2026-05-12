@@ -1,0 +1,117 @@
+.detalhes-page {
+  background-color: var(--bg-bege);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* O Header da atividade (Imagem + Info) */
+.detalhes-header {
+  display: flex;
+  background-color: var(--bg-bege);
+  border-bottom: 2px solid var(--bordas);
+  height: 320px; 
+  overflow: hidden;
+}
+
+.detalhes-imagem-container {
+  width: 35%; /* <--- Definimos uma largura fixa mais compacta para a imagem */
+  background-color: var(-- cinza-imagem);
+  border-right: 2px solid var(--bordas);
+  height: 100%;
+}
+
+.detalhes-imagem-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imagem-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 3rem;
+}
+
+.detalhes-info-container {
+  width: 65%; /* <--- O resto do espaço para o texto */
+  padding: 15px 30px; /* <--- Reduzimos muito o padding para compactar */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* <--- SEGREDO: Empurra o botão para o fundo */
+  gap: 10px;
+}
+
+.detalhes-titulo {
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--bordas);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.detalhes-titulo span {
+  cursor: pointer;
+  color: #F6D056; /* Amarelo da estrela */
+}
+
+.detalhes-texto {
+  font-size: 1rem; /* <--- Texto menor */
+  color: var(--bordas);
+  margin: 0;
+}
+
+/* Botão Saiba Mais base */
+.btn-saiba-mais {
+  background-color: var(--card-blue);
+  color: white;
+  padding: 8px 20px; /* <--- Botão mais compacto */
+  border-radius: 8px;
+  border: 2px solid var(--bordas);
+  font-size: 1rem; /* <--- Fonte do botão menor */
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Botão do Header (empurrado pro canto inferior direito) */
+.header-btn {
+  align-self: flex-end; /* Mantemos o alinhamento para a direita */
+}
+
+/* O Corpo da atividade (A caixa azul clara) */
+.detalhes-body {
+  padding: 40px;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.detalhes-descricao-box {
+  background-color: #C0E1E8; 
+  border: 2px solid var(--bordas);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 1000px;
+  min-height: 300px;
+  padding: 30px;
+  position: relative; 
+}
+
+/* Botão da caixa azul */
+.box-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+}
+
+.detalhes-footer-azul {
+  background-color: var(--card-blue);
+  height: 150px;
+  width: 100%;
+}
