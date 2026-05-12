@@ -17,6 +17,13 @@ export function DetalhesAtividade() {
       </div>
     );
   }
+  const lidarComCliqueSaibaMais = () => {
+    if (atividade.linkExterno) {
+      window.open(atividade.linkExterno, '_blank');
+    } else {
+      alert("O link de inscrição desta atividade ainda não está disponível.");
+    }
+  };
 
   return (
     <div className="detalhes-page">
@@ -49,14 +56,7 @@ export function DetalhesAtividade() {
           {/* Botão com a inteligência do Link Externo */}
           <button 
             className="btn-saiba-mais header-btn"
-            onClick={() => {
-              // Verifica se a API mandou a URL. Se sim, abre em nova aba.
-              if (atividade.linkExterno) {
-                window.open(atividade.linkExterno, '_blank');
-              } else {
-                alert("O link de inscrição desta atividade ainda não está disponível.");
-              }
-            }}
+            onClick={lidarComCliqueSaibaMais}
           >Saiba Mais</button>
         </div>
       </div>
@@ -66,7 +66,9 @@ export function DetalhesAtividade() {
           <p style={{ fontSize: '1.2rem', color: 'var(--bordas)' }}>
             Mais informações sobre esta atividade aparecerão aqui...
           </p>
-          <button className="btn-saiba-mais box-btn">Saiba Mais</button>
+          <button 
+            className="btn-saiba-mais box-btn" onClick={lidarComCliqueSaibaMais}>Saiba Mais
+          </button>
         </div>
       </div>
 
