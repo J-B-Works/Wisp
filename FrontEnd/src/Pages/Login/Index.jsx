@@ -15,7 +15,7 @@ export function Login() {
   const handleLogin = async () => {
     try {
       // REACT ---> JAVA
-      const resposta = await fetch('http://localhost:8080/api/auth/login', {
+      const resposta = await fetch(import.meta.env.VITE_API_URL + '/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email }) // Envia o email digitado pelo usuário no useState

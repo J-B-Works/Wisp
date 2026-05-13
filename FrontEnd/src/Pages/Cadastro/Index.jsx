@@ -100,7 +100,7 @@ export function Cadastro() {
   useEffect(() => {
     const buscarCategorias = async () => {
       try {
-        const resposta = await fetch('http://localhost:8080/api/categorias');
+        const resposta = await fetch(import.meta.env.VITE_API_URL + '/categorias');
         const dados = await resposta.json();
         setOpcoesInteressesEspecificos(dados);
       } catch (erro) {
@@ -112,7 +112,7 @@ export function Cadastro() {
 
   const finalizarCadastro = async () => {
     console.log("Dados enviados:", dadosUsuario);
-    const resposta = await fetch('http://localhost:8080/api/usuarios/cadastrar', {
+    const resposta = await fetch(import.meta.env.VITE_API_URL + '/usuarios/cadastrar', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(dadosUsuario)

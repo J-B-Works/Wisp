@@ -21,7 +21,7 @@ function Feed() {
         const userID = localStorage.getItem('wisp_userId');
         // ==============================================================
         // QUANDO SUA API ESTIVER LIGADA, O CÓDIGO REAL SERÁ ESTE AQUI:
-        const resposta = await fetch('http://localhost:8080/api/recomendacoes/' + userID);
+        const resposta = await fetch(import.meta.env.VITE_API_URL + '/recomendacoes/' + userID);
         const dadosJson = await resposta.json();
         setRecomendacoes(dadosJson);
         setCarregando(false);
