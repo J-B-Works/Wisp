@@ -16,7 +16,7 @@
 
 .detalhes-imagem-container {
   width: 35%; /* <--- Definimos uma largura fixa mais compacta para a imagem */
-  background-color: var(-- cinza-imagem);
+  background-color: var(--cinza-imagem);
   border-right: 2px solid var(--bordas);
   height: 100%;
 }
