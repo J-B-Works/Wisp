@@ -43,7 +43,7 @@ public class GraphService {
     }
 
     public User registerUserAPI(String nome, String email, List<String> preferences) { // CADASTRA UM NOVO USUÁRIO E SUAS CATEGORIAS PREFERIDAS NO GRAFO
-        User newUser = new User(nome, email);
+        User newUser = new User(nome, email, ""); // O CEP começa vazio pois o Controller o preencherá
         this.graph.insereV(newUser);
 
         if (preferences != null && !preferences.isEmpty()) { // Se as categorias do usuário estiverem especificadas, adicionamos elas ao grafo (arestas U <-> C)
@@ -103,7 +103,7 @@ public class GraphService {
             String valor = (act.getValue() != null && !act.getValue().isEmpty()) ? act.getValue() : "Placeholder";
             String imagem = (act.getImage() != null && !act.getImage().isEmpty()) ? act.getImage() : "";
 
-            ActivityDTO dto = new ActivityDTO(actId, titulo, localName, data, valor, imagem);
+            ActivityDTO dto = new ActivityDTO(actId, titulo, localName, data, valor, imagem, act.getDescription(), act.getExternalLink());
             translatedList.add(dto);
         }
 
@@ -120,9 +120,39 @@ public class GraphService {
     //                       SISTEMA DE RECOMENDAÇÃO
     // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     
-    private double normalizedDistanceCalculation(User u, Activity a) {     // TODO Placeholder para o método auxiliar de cálculo de Distância de Haversine
-        return 0.0;
+    private double normalizedDistanceCalculation(User u, Activity a) { // TODO testar e revisar
+    // Se o usuário não tem coordenadas por erro no Mapbox, retornamos 0.5
+    if (u.getLatitude() == 0.0 && u.getLongitude() == 0.0) {
+        return 0.5;
     }
+
+    // -------------------- FÓRMULA DE HAVERSINE --------------------
+    final int R = 6371;                // Raio da Terra em Km
+
+    double lat1 = u.getLatitude();
+    double lon1 = u.getLongitude();
+    double lat2 = a.getLat();
+    double lon2 = a.getLon();
+
+    double dLat = Math.toRadians(lat2 - lat1);
+    double dLon = Math.toRadians(lon2 - lon1);
+
+    double aCalc = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+               Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+               Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    
+    double cCalc = 2 * Math.atan2(Math.sqrt(aCalc), Math.sqrt(1 - aCalc));
+    double distanceInKm = R * cCalc;
+
+    // -------------------- NORMALIZAÇÃO (0.0 a 1.0) --------------------
+    double maxDistance = 50.0;         // 50km é o limite máximo
+
+    if (distanceInKm >= maxDistance) { // Se estiver muito longe,
+        return 1.0;                    // Implica penalidade máxima no score
+    }
+
+    return distanceInKm / maxDistance; // Proporcional (ex: 10km vira 0.2)
+}
 
     private List<Activity> initialRecommendation(User user, TGrafo graph) { // CONTENT-BASED SCORING
 

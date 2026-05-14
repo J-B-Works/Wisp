@@ -64,7 +64,7 @@ export function DetalhesAtividade() {
       <div className="detalhes-body">
         <div className="detalhes-descricao-box">
           <p style={{ fontSize: '1.2rem', color: 'var(--bordas)' }}>
-            Mais informações sobre esta atividade aparecerão aqui...
+            {atividade.descricao}
           </p>
           <button 
             className="btn-saiba-mais box-btn" onClick={lidarComCliqueSaibaMais}>Saiba Mais

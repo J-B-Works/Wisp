@@ -32,7 +32,7 @@ public class DataLoader {
         "Casa Verde", new double[]{-23.5007, -46.6456},
         "Pompeia", new double[]{-23.5260, -46.6835},
         "Avenida Paulista", new double[]{-23.5706, -46.6456},
-        "Consolação", new double[]{-46.6501, -23.5460},
+        "Consolação", new double[]{-23.5460, -46.6501},
         "Santana", new double[]{-23.4965, -46.6128},
         "14 Bis", new double[]{-23.5578, -46.6520},
         "Centro de Pesquisa e Formação", new double[]{-23.5577, -46.6519},
@@ -126,6 +126,7 @@ public class DataLoader {
                 String unitName = cols[2];
                 String data = cols[3];
                 String imagem = cols.length > 4 ? cols[4] : "";
+                String descricao = cols.length > 5 ? cols[5] : "Sem descrição disponível.";
                 String link = "https://www.fabricasdecultura.org.br/"; // Todas as atividades da FC possuem o mesmo link do site da FC
                 String valor = "Gratuito";
 
@@ -157,7 +158,7 @@ public class DataLoader {
 
                 // Cria e insere atividade no grafo (que tenha pelo menos 1 categoria válida)
                 if (!validCatsForThisAct.isEmpty()) {                 // Deve ter pelo menos uma categoria válida/listada previamente
-                    Activity act = new Activity(actName, link, est, data, valor, imagem);  // Cria atividade com nome, link externo e estabelecimento informados
+                    Activity act = new Activity(actName, link, est, data, valor, imagem, descricao);  // Cria atividade com nome, link externo e estabelecimento informados
                     graph.insereV(act);                               // Insere atividade no grafo
 
                     for (Category catNode : validCatsForThisAct) {    // Cria aresta entre a atividade e suas categorias
@@ -223,7 +224,8 @@ public class DataLoader {
                 String catListStr = cols[5];
                 String valor = cols[6];
                 String link = cols[7];
-                String imagem = "";
+                String imagem = cols.length > 8 ? cols[8] : "";
+                String descricao = "Sem descrição disponível.";
 
                 // Se ainda não existir esse estabelecimento, cria novo estabelecimento com nome e coordenadas
                 Establishment est = tempEstMap.get(unitName);
@@ -248,7 +250,7 @@ public class DataLoader {
 
                 // Cria e insere atividade no grafo (que tenha pelo menos 1 categoria válida)
                 if (!validCatsForThisAct.isEmpty()) {                 // Deve ter pelo menos uma categoria válida/listada previamente
-                    Activity act = new Activity(actName, link, est, data, valor, imagem);  // Cria atividade com nome, link externo e estabelecimento informados
+                    Activity act = new Activity(actName, link, est, data, valor, imagem, descricao);  // Cria atividade com nome, link externo e estabelecimento informados
                     graph.insereV(act);                               // Insere atividade no grafo
 
                     for (Category catNode : validCatsForThisAct) {    // Cria aresta entre a atividade e suas categorias

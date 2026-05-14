@@ -1,9 +1,9 @@
-# ---------- IMAGE OFICIAL DO MAVEN ----------
-# Image pesada do Maven para compilar o código
+# ---------- IMAGE OFICIAL DO NODE ----------
+# Image do Node para instalar dependências e compilar o Front-end
 FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
 
-# ---------- DEPENDÊNCIAS, CÓDIGO FONTE E DADOS ----------
+# ---------- DEPENDÊNCIAS E CÓDIGO FONTE ----------
 COPY sources/software_engineering_wisp/pom.xml .
 COPY sources/software_engineering_wisp/src ./src
 COPY Data ./Data
