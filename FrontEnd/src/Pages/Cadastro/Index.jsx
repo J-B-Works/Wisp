@@ -118,7 +118,7 @@ export function Cadastro() {
 
     // 2. Tentamos enviar para o Java (Backend)
     try {
-      const resposta = await fetch('http://localhost:8080/api/usuarios/cadastrar', {
+      const resposta = await fetch(import.meta.env.VITE_API_URL + '/usuarios/cadastrar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dadosUsuario)
