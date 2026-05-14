@@ -9,3 +9,140 @@
   position: relative;
   z-index: 10;
 }
+/* =========================================
+   ESTILOS DO MENU LATERAL (HAMBÚRGUER)
+   ========================================= */
+
+/* Fundo escuro que fecha o menu ao clicar fora */
+.menu-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 99; /* Fica logo abaixo do menu */
+  backdrop-filter: blur(2px); /* Dá um desfoque chique no fundo! */
+}
+
+/* A "Gaveta" do Menu */
+.menu-lateral {
+  position: fixed;
+  top: 0;
+  right: -350px; /* Esconde o menu 350px para fora da tela na direita */
+  width: 300px;
+  height: 100vh;
+  background-color: #0D5C9E; /* O Azul escuro (var(--card-blue)) */
+  z-index: 100;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+  transition: right 0.3s ease-in-out; /* A animação suave de deslizar */
+  overflow-y: auto;
+}
+
+/* Quando ativamos essa classe, a gaveta entra na tela */
+.menu-lateral.aberto {
+  right: 0; 
+}
+
+/* Botão de voltar amarelo no topo */
+/* Botão de voltar amarelo no topo flutuante */
+.btn-fechar-menu {
+  position: absolute; /* O SEGREDO: Tira o botão da pilha, ele passa a flutuar */
+  top: 20px;          /* Distância do topo */
+  left: 20px;         /* Distância da esquerda */
+  color: #F6D056; 
+  font-size: 1.8rem;
+  font-weight: 900;
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin: 0; /* Tiramos a margem para não atrapalhar */
+}
+
+/* Cabeçalho do Perfil no Menu */
+.menu-perfil {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  
+  /* Você pode alterar este valor (ex: 0px, 10px, 20px) para subir ou descer a logo! */
+  margin-top: 10px; 
+  
+  margin-bottom: 40px;
+}
+.menu-logo-circle {
+  width: 80px;
+  height: 80px;
+  background-color: #A1C6DA; /* Azul claro */
+  border-radius: 50%;
+  border: 2px solid var(--bordas);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--bordas);
+  margin-bottom: 10px;
+}
+
+/* --- ESTILO DOS BOTÕES PÍLULA --- */
+.menu-item {
+  width: 100%;
+  height: 80px;
+  background-color: rgba(255, 255, 255, 0.85); 
+  border-radius: 40px; 
+  border: 2px solid var(--bordas); /* A borda preta volta pro lugar certo! */
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--bordas);
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s;
+  
+  /* Removemos o overflow: hidden! Não vamos cortar mais nada à força. */
+}
+
+.menu-item:hover {
+  transform: scale(1.02); 
+}
+
+/* A bolinha de ícone que encaixa perfeitamente */
+.menu-icon-circle {
+  width: 50px;
+  min-width: 50px; 
+  height: 100%; 
+  
+  /* A MÁGICA: Curva de 25px em TODOS os cantos. 
+     A esquerda vai se aninhar perfeitamente dentro da borda da pílula pai, 
+     e a direita fará a curva ")" que separa o ícone do texto! */
+  border-radius: 25px; 
+  
+  border-right: 2px solid var(--bordas); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  margin-right: 15px;
+}
+
+/* --- CORES ESPECÍFICAS DOS ÍCONES --- */
+.bg-amarelo { background-color: #F6D056; }
+.bg-azul { background-color: #A1C6DA; }
+.bg-laranja { background-color: #E27926; }
+.bg-rosa { background-color: #F2A4B3; }
+.bg-branco { background-color: #FFFFFF; }
+
+/* --- BOTÃO DE SAIR ESPECIAL --- */
+.menu-btn-sair {
+  margin-top: auto; /* Empurra o botão pro fundo da tela */
+  width: 140px;
+  background-color: #C6787E; /* Cor do botão sair */
+}
+.bg-vermelho { background-color: #B52A34; color: white; }

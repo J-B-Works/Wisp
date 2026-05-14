@@ -1,23 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // <-- Adicionamos o useEffect
 import { NavbarPrincipal } from '../../assets/NavBar/navbar.jsx';
-import './Style.css'; // Importando nosso novo CSS
+import './Style.css'; 
 import '../../index.css';
+
 
 export function PerfilUC() {
   
-  // MOCK DE DADOS: Simulando o que vai vir do Banco de Dados (Java)
   const [usuario, setUsuario] = useState({
-    nome: 'Júlia Andrade',
-    email: '10428513@mackenzista.com.br',
-    idade: 21,
-    cep: '00000-000',
-    interesses: ['Cursos', 'Oficinas', 'Artes Visuais', 'Tecnologia', 'Moda']
+    nome: 'Carregando...',
+    email: '',
+    idade: '',
+    cep: '',
+    interesses: [] 
   });
 
+  // 👇 ESSE BLOCO PRECISA ESTAR AQUI 👇
+  useEffect(() => {
+    // Procura os dados que o Cadastro acabou de salvar
+    const dadosSalvos = localStorage.getItem('usuarioWisp');
+
+    if (dadosSalvos) {
+      // Se achou, atualiza a tela!
+      setUsuario(JSON.parse(dadosSalvos));
+    } else {
+      console.log("Nenhum usuário encontrado na memória.");
+    }
+  }, []);
+  
   return (
     <div className="perfil-page">
-      
-      {/* Navbar Padrão (Sem barra de busca se quiser, igual ao print) */}
       <NavbarPrincipal mostrarBusca={false} mostrarHamburger={true} />
 
       <div className="perfil-container">
@@ -27,7 +38,6 @@ export function PerfilUC() {
         {/* ============================== */}
         <div className="perfil-card">
           <h2>Informações pessoais:</h2>
-          
           <button className="btn-editar">
             <span style={{ fontSize: '1.2rem' }}>📝</span> Editar
           </button>
@@ -44,23 +54,19 @@ export function PerfilUC() {
         {/* CARD 2: PREFERÊNCIAS */}
         {/* ============================== */}
         <div className="perfil-card">
-          
-          {/* Título centralizado com style inline para não afetar o outro card */}
           <h2 style={{ textAlign: 'center' }}>Preferências:</h2>
-          
           <button className="btn-editar">
             <span style={{ fontSize: '1.2rem' }}>📝</span> Editar
           </button>
 
-          {/* O React desenha um botão para cada item da lista "interesses" */}
           <div className="preferencias-grid">
-            {usuario.interesses.map((interesse) => (
+            {/* Usamos a interrogação (?) por segurança, caso os interesses demorem a carregar */}
+            {usuario.interesses?.map((interesse) => (
               <div key={interesse} className="tag-preferencia">
                 {interesse}
               </div>
             ))}
           </div>
-
         </div>
 
       </div>

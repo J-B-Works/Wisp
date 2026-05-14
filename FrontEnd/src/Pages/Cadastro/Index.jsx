@@ -111,15 +111,31 @@ export function Cadastro() {
   }, []);
 
   const finalizarCadastro = async () => {
-    console.log("Dados enviados:", dadosUsuario);
-    const resposta = await fetch('http://localhost:8080/api/usuarios/cadastrar', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(dadosUsuario)
-    });
-    const idDoUsuario = await resposta.text();
-    localStorage.setItem('wisp_userId', idDoUsuario);
-    navigate('/feed');
+    console.log("Dados preparados para envio:", dadosUsuario);
+
+    // 1. A MÁGICA: Salvamos todos os dados no navegador para a tela de Perfil conseguir ler!
+    localStorage.setItem('usuarioWisp', JSON.stringify(dadosUsuario));
+
+    // 2. Tentamos enviar para o Java (Backend)
+    try {
+      const resposta = await fetch('http://localhost:8080/api/usuarios/cadastrar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dadosUsuario)
+      });
+      
+      if (resposta.ok) {
+        const idDoUsuario = await resposta.text();
+        localStorage.setItem('wisp_userId', idDoUsuario);
+      }
+    } catch (erro) {
+      // Se o Java estiver desligado, o código cai aqui, avisa no console, mas não quebra a tela!
+      console.warn("Aviso: Backend Java não encontrado. Os dados foram salvos localmente para teste visual.", erro);
+    }
+
+    // 3. Mandamos o usuário direto para a tela de perfil para ele ver os dados dele! 
+    // (Se preferir, pode voltar para '/feed')
+    navigate('/perfiluc');
   };
 
   return (
