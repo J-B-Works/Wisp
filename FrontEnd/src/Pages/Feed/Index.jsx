@@ -1,6 +1,6 @@
 import './Style.css'; 
 import { useNavigate } from 'react-router-dom';
-import React, { useState, useEffect } from 'react'; // 1. Adicionado o useEffect aqui
+import React, { useState, useEffect } from 'react'; 
 import { NavbarPrincipal } from '../../assets/NavBar/navbar.jsx';
 
 function Feed() {
@@ -12,6 +12,28 @@ function Feed() {
   
   // Criamos uma variável para controlar quando a tela deve mostrar o "Carregando..."
   const [carregando, setCarregando] = useState(true);
+
+  const [isFavorito, setIsFavorito] = useState(false);
+
+  useEffect(() => {
+  const favoritosSalvos = JSON.parse(localStorage.getItem('favoritosWisp')) || [];
+  // Verifica se o ID desta atividade já está na lista
+  const jaEstaSalvo = favoritosSalvos.some(fav => fav.id === atividade.id);
+  setIsFavorito(jaEstaSalvo);}, [atividade.id]);
+
+  const lidarComEstrela = () => {
+  let favoritosSalvos = JSON.parse(localStorage.getItem('favoritosWisp')) || [];
+
+  if (isFavorito) {
+    // Se já era favorito, o clique REMOVE da lista
+    favoritosSalvos = favoritosSalvos.filter(fav => fav.id !== atividade.id);
+  } else {
+    // Se não era, o clique ADICIONA a atividade inteira na lista
+    favoritosSalvos.push(atividade);
+  }
+
+  localStorage.setItem('favoritosWisp', JSON.stringify(favoritosSalvos));
+  setIsFavorito(!isFavorito);};
 
   // 3. O TELEFONE DO REACT: useEffect
   // Esse bloco roda automaticamente assim que a página abre, indo buscar os dados
@@ -99,10 +121,14 @@ function Feed() {
                 </div>
                 
                 <div className="card-conteudo">
-                  <div className="card-cabecalho">
-                    <span>{item.titulo}</span>
-                    <span style={{ fontSize: '1.5rem', cursor: 'pointer' }}>⭐</span>
-                  </div>
+                  <button 
+                    onClick={lidarComEstrela} 
+                    style={{ 
+                      background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.5rem',
+                      color: isFavorito ? '#F6D056' : '#FFFFFF' // Amarelo se favorito, branco se não
+                    }}>
+                    {isFavorito ? '⭐' : '☆'} {/* Muda o ícone visualmente também */}
+                  </button>
                   <div className="card-info">📍 {item.local}</div>
                   <div className="card-info">📅 {item.data}</div>
                   <div className="card-info">💲 {item.valor}</div>
