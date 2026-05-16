@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './navbarstyle.css'; 
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -9,6 +9,28 @@ export function NavbarPrincipal({ mostrarBusca = true, mostrarHamburger = true, 
   
   // 1. CRIANDO A MEMÓRIA DO MENU LATERAL (Inicia fechado: false)
   const [menuAberto, setMenuAberto] = useState(false);
+
+  // ====================================================
+  // NOVO: MEMÓRIA DO NOME DO USUÁRIO
+  // ====================================================
+  const [nomeUsuario, setNomeUsuario] = useState('Usuário');
+
+  useEffect(() => {
+    // Busca os dados do usuário salvos no navegador (feitos lá no Cadastro)
+    const dadosSalvos = localStorage.getItem('usuarioWisp');
+    if (dadosSalvos) {
+      try {
+        const usuarioObj = JSON.parse(dadosSalvos);
+        // Se existir um nome, atualiza a variável! Se for o primeiro nome, podemos até dividir.
+        if (usuarioObj.nome) {
+          setNomeUsuario(usuarioObj.nome);
+        }
+      } catch (error) {
+        console.error("Erro ao ler os dados do usuário", error);
+      }
+    }
+  }, []);
+  // ====================================================
 
   const executarBusca = () => {
     console.log("O utilizador pesquisou por:", termoBusca);
@@ -61,7 +83,7 @@ export function NavbarPrincipal({ mostrarBusca = true, mostrarHamburger = true, 
 
         {/* --- LADO DIREITO: BOTÕES DE AÇÃO --- */}
         <div style={{ display: 'flex', gap: '10px' }}>
-          <button onClick={() => navigate('/em-breve')} style={btnAcaoStyle('var(--accent-azul-claro)')}>⭐</button>
+          <button onClick={() => navigate('/favoritos')} style={btnAcaoStyle('var(--accent-azul-claro)')}>⭐</button>
           <button onClick={() => navigate('/em-breve')} style={btnAcaoStyle('var(--card)')}>⚙️</button>
           
           {mostrarHamburger && (
@@ -87,7 +109,8 @@ export function NavbarPrincipal({ mostrarBusca = true, mostrarHamburger = true, 
         {/* Perfil Header */}
         <div className="menu-perfil">
           <div className="menu-logo-circle">Logo</div>
-          <span>Júlia Andrade</span> {/* Nome fixo provisório! */}
+          {/* MÁGICA: A variável do nome entrou aqui! */}
+          <span>{nomeUsuario}</span> 
         </div>
 
         {/* Botões do Menu (Pílulas) */}
@@ -96,7 +119,7 @@ export function NavbarPrincipal({ mostrarBusca = true, mostrarHamburger = true, 
           <span>Personalizar Perfil</span>
         </div>
 
-        <div className="menu-item" onClick={() => irPara('/em-breve')}>
+        <div className="menu-item" onClick={() => irPara('/favoritos')}>
           <div className="menu-icon-circle bg-azul">⭐</div>
           <span>Favoritos</span>
         </div>

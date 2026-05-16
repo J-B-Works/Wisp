@@ -11,6 +11,7 @@ import { Cadastro } from './Pages/Cadastro/Index.jsx'
 import PerfilUC from './Pages/Perfil_UC/Index.jsx'
 import { DetalhesAtividade } from './Pages/Detalhes_Atvdds/DetalhesAtividade.jsx'
 import { WIP } from './Pages/WIP/WIP.jsx';
+import { Favoritos } from './Pages/Favoritos/Favoritos.jsx';
 
 
 createRoot(document.getElementById('root')).render(
@@ -24,6 +25,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/perfiluc" element={<PerfilUC />} />
         <Route path="/atividade/:id" element={<DetalhesAtividade />} />
         <Route path="/em-breve" element={<WIP />} />
+        <Route path="/favoritos" element={<Favoritos />} />
         
       </Routes>
     </BrowserRouter>

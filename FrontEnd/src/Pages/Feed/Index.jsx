@@ -3,64 +3,53 @@ import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react'; 
 import { NavbarPrincipal } from '../../assets/NavBar/navbar.jsx';
 
-function Feed() {
+export function Feed() {
   const navigate = useNavigate();
 
-  // 2. CRIANDO A MEMÓRIA DO COMPONENTE
-  // Trocamos o array fixo por um useState vazio. Ele vai guardar o JSON que vier da API.
   const [recomendacoes, setRecomendacoes] = useState([]);
-  
-  // Criamos uma variável para controlar quando a tela deve mostrar o "Carregando..."
   const [carregando, setCarregando] = useState(true);
 
-  const [isFavorito, setIsFavorito] = useState(false);
+  // 1. A INTELIGÊNCIA DA ESTRELA SIMPLIFICADA
+  // Em vez de true/false, guardamos um array com os IDs favoritados!
+  const [favoritosIds, setFavoritosIds] = useState([]);
 
+  // Assim que abre a tela, ele lê o localStorage e pega só os IDs
   useEffect(() => {
-  const favoritosSalvos = JSON.parse(localStorage.getItem('favoritosWisp')) || [];
-  // Verifica se o ID desta atividade já está na lista
-  const jaEstaSalvo = favoritosSalvos.some(fav => fav.id === atividade.id);
-  setIsFavorito(jaEstaSalvo);}, [atividade.id]);
+    const salvos = JSON.parse(localStorage.getItem('favoritosWisp')) || [];
+    setFavoritosIds(salvos.map(fav => fav.id));
+  }, []);
 
-  const lidarComEstrela = () => {
-  let favoritosSalvos = JSON.parse(localStorage.getItem('favoritosWisp')) || [];
+  // Quando clica na estrela, a função recebe "quem" foi clicado
+  const lidarComEstrela = (evento, itemClicado) => {
+    evento.stopPropagation(); // MÁGICA: Impede de abrir a tela de detalhes quando clica na estrela!
 
-  if (isFavorito) {
-    // Se já era favorito, o clique REMOVE da lista
-    favoritosSalvos = favoritosSalvos.filter(fav => fav.id !== atividade.id);
-  } else {
-    // Se não era, o clique ADICIONA a atividade inteira na lista
-    favoritosSalvos.push(atividade);
-  }
+    let salvos = JSON.parse(localStorage.getItem('favoritosWisp')) || [];
+    const jaExiste = salvos.some(fav => fav.id === itemClicado.id);
 
-  localStorage.setItem('favoritosWisp', JSON.stringify(favoritosSalvos));
-  setIsFavorito(!isFavorito);};
+    if (jaExiste) {
+      // Tira do localStorage e da tela
+      salvos = salvos.filter(fav => fav.id !== itemClicado.id);
+      setFavoritosIds(favoritosIds.filter(id => id !== itemClicado.id));
+    } else {
+      // Coloca no localStorage e na tela
+      salvos.push(itemClicado);
+      setFavoritosIds([...favoritosIds, itemClicado.id]);
+    }
 
-  // 3. O TELEFONE DO REACT: useEffect
-  // Esse bloco roda automaticamente assim que a página abre, indo buscar os dados
+    localStorage.setItem('favoritosWisp', JSON.stringify(salvos));
+  };
+
+  // 2. BUSCANDO OS DADOS (Comentado o Back, Ativado o Mock)
   useEffect(() => {
     const buscarDadosDaApi = async () => {
       try {
+        
         const userID = localStorage.getItem('wisp_userId');
-        // ==============================================================
-        // QUANDO SUA API ESTIVER LIGADA, O CÓDIGO REAL SERÁ ESTE AQUI:
         const resposta = await fetch(import.meta.env.VITE_API_URL + '/recomendacoes/' + userID);
         const dadosJson = await resposta.json();
         setRecomendacoes(dadosJson);
         setCarregando(false);
-        // ==============================================================
-
-        // POR ENQUANTO: Vamos fingir que a API demorou 1,5 segundos para responder
-        //setTimeout(() => {
-        //  const dadosDoBanco = [
-        //    { id: 1, titulo: "Oficina de Python", local: "Fábrica Vila Nova", data: "12/05/2026", valor: "Gratuito", imagem: "https://images.unsplash.com/photo-1526379095098-d400fd0bfce8?auto=format&fit=crop&w=400&q=80"},
-        //    { id: 2, titulo: "Curso de Redes", local: "SENAC Santana", data: "15/05/2026", valor: "R$ 150,00", imagem: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=400&q=80" },
-        //    { id: 3, titulo: "Exposição de Arte", local: "SESC Pompeia", data: "20/05/2026", valor: "Gratuito", imagem: "https://images.unsplash.com/photo-1536924940846-227afb31e2a5?auto=format&fit=crop&w=400&q=80"},
-        //    { id: 4, titulo: "oie", local: "ensaios da Anitta", data: "25/02/2026", valor: "Pago", imagem: ""}
-        //  ];
-          
-          //setRecomendacoes(dadosDoBanco); // Salva os dados
-          //setCarregando(false); // Desliga a mensagem de carregamento
-        //}, 1500);
+        
 
       } catch (erro) {
         console.error("Erro ao conectar com a API:", erro);
@@ -69,18 +58,15 @@ function Feed() {
     };
 
     buscarDadosDaApi();
-  }, []); // <-- O array vazio garante que a API só seja chamada UMA VEZ ao abrir a tela.
-
+  }, []); 
 
   return (
     <>
-      <NavbarPrincipal mostrarBusca={true} />
+      <NavbarPrincipal mostrarBusca={true} mostrarHamburger={true} />
 
-      {/* 2. CONTEÚDO PRINCIPAL */}
       <div className="main-container" style={{ backgroundColor: 'var(--bg-bege)', minHeight: '100vh' }}>
         <h1 className="titulo-secao">Recomendações para você</h1>
         
-        {/* TAGS COLORIDAS */}
         <div className="tags-container">
           <button className="tag" style={{ backgroundColor: 'var(--accent-laranja)', color: 'var(--bordas)' }}>Cursos</button>
           <button className="tag" style={{ backgroundColor: 'var(--accent-rosa)', color: 'var(--bordas)' }}>Oficinas</button>
@@ -88,54 +74,51 @@ function Feed() {
           <button className="tag" style={{ backgroundColor: 'var(--accent-azul-claro)', color: 'var(--bordas)' }}>Apresentações</button>
         </div>
 
-        {/* 4. A CONDICIONAL (IF/ELSE) NA TELA */}
-        {/* Se 'carregando' for true, mostra a mensagem. Se for false, mostra o seu grid! */}
         {carregando ? (
           <h2 style={{ textAlign: 'center', marginTop: '50px' }}>⏳ Buscando atividades...</h2>
         ) : (
           
-          /* GRID DE CARDS (Seu código original mantido 100% igual) */
           <div className="card-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))' }}>
-            {recomendacoes.map((item) => (
-              <div className="activities-card" key={item.id} style={{ cursor: 'pointer' }} onClick={() => navigate(`/atividade/${item.id}`, { state: { atividade: item } })}>
-                
-                <div className="card-imagem" style={{ backgroundColor: 'var(--cinza-imagem)', borderBottom: '2px solid var(--bordas)', height: '220px', overflow: 'hidden' }}>
-                  {/* A INTELIGÊNCIA: Verifica se a API mandou um link de imagem */}
-                  {item.imagem ? (
-                    <img 
-                      src={item.imagem} 
-                      alt={`Imagem da atividade: ${item.titulo}`} 
+            {recomendacoes.map((item) => {
+              
+              // Verifica se ESTE item específico está no nosso array de favoritos
+              const isFavorito = favoritosIds.includes(item.id);
+
+              return (
+                <div className="activities-card" key={item.id} style={{ cursor: 'pointer', position: 'relative' }} onClick={() => navigate(`/detalhes`, { state: { atividade: item } })}>
+                  
+                  <div className="card-imagem" style={{ backgroundColor: 'var(--cinza-imagem)', borderBottom: '2px solid var(--bordas)', height: '220px', overflow: 'hidden' }}>
+                    {item.imagem ? (
+                      <img src={item.imagem} alt={item.titulo} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    ) : (
+                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666', fontSize: '2rem' }}>📷</div>
+                    )}
+                  </div>
+                  
+                  <div className="card-conteudo">
+                    
+                    {/* BOTÃO DA ESTRELA */}
+                    <button 
+                      onClick={(evento) => lidarComEstrela(evento, item)} 
                       style={{ 
-                        width: '100%', 
-                        height: '100%', 
-                        objectFit: 'cover' /* O SEGREDO: Corta a foto perfeitamente sem esticar ou achatar! */
-                      }} 
-                    />
-                  ) : (
-                    /* O PLANO B: Se não tiver imagem na API, desenha uma caixinha cinza com um ícone */
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666', fontSize: '2rem' }}>
-                      📷
-                    </div>
-                  )}
+                        position: 'absolute', top: '230px', right: '15px', // Coloquei ela flutuando, você pode ajustar o top/right!
+                        background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.8rem',
+                        color: isFavorito ? '#F6D056' : '#cccccc', 
+                        textShadow: isFavorito ? 'none' : '0px 0px 2px rgba(0,0,0,0.5)'
+                      }}>
+                      {isFavorito ? '⭐' : '☆'}
+                    </button>
+                    
+                    {/* Coloquei o título de volta aqui também */}
+                    <h3 style={{ margin: '0 0 10px 0', paddingRight: '30px' }}>{item.titulo}</h3>
+                    <div className="card-info">📍 {item.local}</div>
+                    <div className="card-info">📅 {item.data}</div>
+                    <div className="card-info">💲 {item.valor}</div>
+                  </div>
 
                 </div>
-                
-                <div className="card-conteudo">
-                  <button 
-                    onClick={lidarComEstrela} 
-                    style={{ 
-                      background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.5rem',
-                      color: isFavorito ? '#F6D056' : '#FFFFFF' // Amarelo se favorito, branco se não
-                    }}>
-                    {isFavorito ? '⭐' : '☆'} {/* Muda o ícone visualmente também */}
-                  </button>
-                  <div className="card-info">📍 {item.local}</div>
-                  <div className="card-info">📅 {item.data}</div>
-                  <div className="card-info">💲 {item.valor}</div>
-                </div>
-
-              </div>
-            ))}
+              );
+            })}
           </div>
 
         )}
