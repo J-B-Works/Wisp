@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NavbarPrincipal } from '../../assets/NavBar/navbar.jsx';
 
-import './Style.css';
+import './Perfil.css';
 
 export function EditarPerfil() {
     const navigate = useNavigate();
