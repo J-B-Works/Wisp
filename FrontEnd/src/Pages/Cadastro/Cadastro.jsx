@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'; // CORRIGIDO: Adicionado useLocation
 import '../../index.css'; 
 import './Cadastro.css'; 
-import { NavbarPrincipal } from '../../assets/NavBar/navbar.jsx'; 
+import { NavbarPrincipal } from '../../assets/NavBar/NavBar.jsx'; 
 
 export function Cadastro() {
   const navigate = useNavigate();

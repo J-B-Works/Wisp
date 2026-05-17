@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './navbarstyle.css'; 
+import './NavBar.css'; 
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export function NavbarPrincipal({ mostrarBusca = true, mostrarHamburger = true, botaoVoltar = false, acaoVoltar }) {
@@ -7,21 +7,17 @@ export function NavbarPrincipal({ mostrarBusca = true, mostrarHamburger = true, 
   const navigate = useNavigate();
   const [termoBusca, setTermoBusca] = useState('');
   
-  // 1. CRIANDO A MEMÓRIA DO MENU LATERAL (Inicia fechado: false)
+  // 1. MEMÓRIAS DOS MENUS
   const [menuAberto, setMenuAberto] = useState(false);
+  const [filtroAberto, setFiltroAberto] = useState(false); // <-- NOVO: Controla o dropdown de filtros
 
-  // ====================================================
-  // NOVO: MEMÓRIA DO NOME DO USUÁRIO
-  // ====================================================
   const [nomeUsuario, setNomeUsuario] = useState('Usuário');
 
   useEffect(() => {
-    // Busca os dados do usuário salvos no navegador (feitos lá no Cadastro)
     const dadosSalvos = localStorage.getItem('usuarioWisp');
     if (dadosSalvos) {
       try {
         const usuarioObj = JSON.parse(dadosSalvos);
-        // Se existir um nome, atualiza a variável! Se for o primeiro nome, podemos até dividir.
         if (usuarioObj.nome) {
           setNomeUsuario(usuarioObj.nome);
         }
@@ -30,20 +26,25 @@ export function NavbarPrincipal({ mostrarBusca = true, mostrarHamburger = true, 
       }
     }
   }, []);
-  // ====================================================
 
   const executarBusca = () => {
     console.log("O utilizador pesquisou por:", termoBusca);
   };
 
-  // 2. FUNÇÃO INTELIGENTE PARA NAVEGAR E FECHAR O MENU AO MESMO TEMPO
   const irPara = (rota) => {
-    setMenuAberto(false); // Fecha o menu
-    navigate(rota);       // Navega para a página
+    setMenuAberto(false); 
+    navigate(rota);       
+  };
+
+  // 2. FUNÇÃO QUE RODA AO CLICAR EM UM FILTRO
+  const selecionarFiltro = (filtroEscolhido) => {
+    console.log("Filtro selecionado para envio ao Java:", filtroEscolhido);
+    // Aqui no futuro você vai chamar a função que recarrega o feed!
+    setFiltroAberto(false); // Fecha o menu de filtros após escolher
   };
 
   return (
-    <> {/* Fragmento do React necessário quando temos elementos irmãos */}
+    <> 
       <nav className="navbar" style={{ backgroundColor: 'var(--barra)', borderBottom: '2px solid var(--bordas)', position: 'relative', zIndex: 10 }}>
         
         {/* --- LADO ESQUERDO: INTELIGÊNCIA DE VOLTAR OU LOGO --- */}
@@ -71,9 +72,79 @@ export function NavbarPrincipal({ mostrarBusca = true, mostrarHamburger = true, 
               />
               <span onClick={executarBusca} style={{ position: 'absolute', right: '15px', top: '10px', fontSize: '1.2rem', cursor: 'pointer' }}>🔍</span>
             </div>
-            <button className="tag" style={{ backgroundColor: 'var(--bg-bege)', display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <span>🔽</span> Filtros
-            </button>
+            
+            {/* ==================================================== */}
+            {/* O BOTÃO E O MENU SUSPENSO DE FILTROS                 */}
+            {/* ==================================================== */}
+            <div style={{ position: 'relative' }}>
+              <button 
+                className="tag" 
+                onClick={() => setFiltroAberto(!filtroAberto)} // Abre/Fecha o menu
+                style={{ backgroundColor: 'var(--bg-bege)', display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}
+              >
+                {/* Muda a setinha se estiver aberto ou fechado! */}
+                <span>{filtroAberto ? '🔼' : '🔽'}</span> Filtros
+              </button>
+
+              {/* A CAIXINHA DO MENU SUSPENSO */}
+              {filtroAberto && (
+                <div style={{
+                  position: 'absolute',
+                  top: '120%', // Fica logo abaixo do botão
+                  right: '0',  // Alinhado à direita
+                  backgroundColor: 'white',
+                  border: '2px solid var(--bordas)',
+                  borderRadius: '12px',
+                  boxShadow: '0px 8px 16px rgba(0,0,0,0.15)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '180px',
+                  overflow: 'hidden',
+                  zIndex: 50 // Fica por cima de tudo no site
+                }}>
+                  
+                  {/* Opções baseadas nas tags que você usa no Wisp */}
+                  {['Cursos', 'Oficinas', 'Exposições', 'Apresentações'].map((opcao) => (
+                    <div 
+                      key={opcao}
+                      onClick={() => selecionarFiltro(opcao)}
+                      style={{ 
+                        padding: '12px 15px', 
+                        cursor: 'pointer', 
+                        borderBottom: '1px solid #eee', 
+                        fontWeight: '500', 
+                        color: 'var(--bordas)',
+                        transition: 'background-color 0.2s'
+                      }}
+                      onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--bg-bege)'}
+                      onMouseLeave={(e) => e.target.style.backgroundColor = 'white'}
+                    >
+                      {opcao}
+                    </div>
+                  ))}
+
+                  {/* Botão de Limpar */}
+                  <div 
+                    onClick={() => selecionarFiltro('Limpar')}
+                    style={{ 
+                      padding: '12px 15px', 
+                      cursor: 'pointer', 
+                      backgroundColor: '#f9f9f9', 
+                      color: '#B52A34', 
+                      fontWeight: 'bold', 
+                      textAlign: 'center' 
+                    }}
+                    onMouseEnter={(e) => e.target.style.backgroundColor = '#f1e6e6'}
+                    onMouseLeave={(e) => e.target.style.backgroundColor = '#f9f9f9'}
+                  >
+                    Limpar Filtros
+                  </div>
+
+                </div>
+              )}
+            </div>
+            {/* ==================================================== */}
+
           </div>
         ) : (
           <div style={{ flex: 1, textAlign: 'center', color: 'white', fontSize: '1.8rem', fontWeight: 'bold' }}>
@@ -87,7 +158,6 @@ export function NavbarPrincipal({ mostrarBusca = true, mostrarHamburger = true, 
           <button onClick={() => navigate('/em-breve')} style={btnAcaoStyle('var(--card)')}>⚙️</button>
           
           {mostrarHamburger && (
-            // 3. O BOTÃO AGORA SÓ ABRE O MENU LATERAL (muda para true)
             <button onClick={() => setMenuAberto(true)} style={btnAcaoStyle('var(--accent-amarelo)')}>🍔</button>
           )}
         </div>
@@ -97,23 +167,17 @@ export function NavbarPrincipal({ mostrarBusca = true, mostrarHamburger = true, 
       {/* O MENU LATERAL (RENDERIZAÇÃO CONDICIONAL E CSS CLASS)*/}
       {/* ==================================================== */}
       
-      {/* O fundo escuro: Só aparece se menuAberto for true. Se clicar nele, fecha o menu. */}
       {menuAberto && <div className="menu-backdrop" onClick={() => setMenuAberto(false)}></div>}
 
-      {/* A Gaveta: Se menuAberto for true, adiciona a classe 'aberto' que faz ela deslizar pra tela */}
       <div className={`menu-lateral ${menuAberto ? 'aberto' : ''}`}>
         
-        {/* Seta amarela para fechar */}
         <button className="btn-fechar-menu" onClick={() => setMenuAberto(false)}>&lt;</button>
 
-        {/* Perfil Header */}
         <div className="menu-perfil">
           <div className="menu-logo-circle">Logo</div>
-          {/* MÁGICA: A variável do nome entrou aqui! */}
           <span>{nomeUsuario}</span> 
         </div>
 
-        {/* Botões do Menu (Pílulas) */}
         <div className="menu-item" onClick={() => irPara('/perfiluc')}>
           <div className="menu-icon-circle bg-amarelo">👤</div>
           <span>Personalizar Perfil</span>
@@ -139,8 +203,12 @@ export function NavbarPrincipal({ mostrarBusca = true, mostrarHamburger = true, 
           <span>Configurações</span>
         </div>
 
-        {/* Botão Sair Especial */}
-        <div className="menu-item menu-btn-sair" onClick={() => irPara('/Login')}>
+        {/* Função de Logout Atualizada */}
+        <div className="menu-item menu-btn-sair" onClick={() => {
+            localStorage.removeItem('usuarioWisp');
+            localStorage.removeItem('wisp_userId');
+            irPara('/Login');
+        }}>
           <div className="menu-icon-circle bg-vermelho" style={{border: 'none'}}>🚪</div>
           <span style={{color: 'white', marginLeft: '10px'}}>Sair</span>
         </div>

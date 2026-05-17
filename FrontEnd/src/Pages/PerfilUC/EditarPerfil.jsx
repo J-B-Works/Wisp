@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { NavbarPrincipal } from '../../assets/NavBar/navbar.jsx';
+import { NavbarPrincipal } from '../../assets/NavBar/NavBar.jsx';
 
 import './Perfil.css';
 
