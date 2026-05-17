@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'; // <-- Adicionamos o useEffect
 import { NavbarPrincipal } from '../../assets/NavBar/navbar.jsx';
+import { useNavigate } from 'react-router-dom';
 import './Style.css'; 
 import '../../index.css';
 
 
 export function PerfilUC() {
+
+  const navigate = useNavigate();
   
   const [usuario, setUsuario] = useState({
     nome: 'Carregando...',
@@ -38,7 +41,7 @@ export function PerfilUC() {
         {/* ============================== */}
         <div className="perfil-card">
           <h2>Informações pessoais:</h2>
-          <button className="btn-editar">
+          <button className="btn-editar" onClick={() => navigate('/editar-perfil')}>
             <span style={{ fontSize: '1.2rem' }}>📝</span> Editar
           </button>
 
@@ -53,9 +56,15 @@ export function PerfilUC() {
         {/* ============================== */}
         {/* CARD 2: PREFERÊNCIAS */}
         {/* ============================== */}
+        {/* CARD 2: PREFERÊNCIAS */}
         <div className="perfil-card">
           <h2 style={{ textAlign: 'center' }}>Preferências:</h2>
-          <button className="btn-editar">
+          
+          {/* A MÁGICA: Navegamos para o Cadastro, mas passamos um "aviso" escondido! */}
+          <button 
+            className="btn-editar" 
+            onClick={() => navigate('/cadastro', { state: { editarPreferencias: true } })}
+          >
             <span style={{ fontSize: '1.2rem' }}>📝</span> Editar
           </button>
 

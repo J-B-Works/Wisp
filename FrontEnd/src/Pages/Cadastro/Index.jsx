@@ -1,37 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom'; // CORRIGIDO: Adicionado useLocation
 import '../../index.css'; 
 import './Cadastro.css'; 
 import { NavbarPrincipal } from '../../assets/NavBar/navbar.jsx'; 
 
 export function Cadastro() {
   const navigate = useNavigate();
-  const [passoAtual, setPassoAtual] = useState(1);
+  const location = useLocation(); // Ativa a leitura do estado da rota
 
-  const [dadosUsuario, setDadosUsuario] = useState({
-    tipoUsuario: '', 
-    nome: '', 
-    idade: '', 
-    cep: '',
-    email: '', 
-    confirmarEmail: '',
-    senha: '', 
-    confirmarSenha: '', 
-    cnpj: '', 
-    numero: '', 
-    interesses: []
+  // Verifica se veio do botão de editar preferências do perfil
+  const modoEdicaoQuiz = location.state?.editarPreferencias || false;
+
+  // Se for modo edição, pula direto para o passo 3 (Quiz), se não, começa no 1
+  const [passoAtual, setPassoAtual] = useState(modoEdicaoQuiz ? 3 : 1);
+
+  // Inicialização inteligente do estado do usuário
+  const [dadosUsuario, setDadosUsuario] = useState(() => {
+    if (modoEdicaoQuiz) {
+      const salvos = JSON.parse(localStorage.getItem('usuarioWisp'));
+      return salvos || { interesses: [], tipoUsuario: 'comum' };
+    }
+    return {
+      tipoUsuario: '', 
+      nome: '', 
+      idade: '', 
+      cep: '',
+      email: '', 
+      confirmarEmail: '',
+      senha: '', 
+      confirmarSenha: '', 
+      cnpj: '', 
+      numero: '', 
+      interesses: []
+    };
   });
 
   const handleChange = (e) => {
-    let { name, value } = e.target; // Usamos "let" em vez de "const" porque vamos modificar o valor
+    let { name, value } = e.target;
 
     // MÁSCARA DO CNPJ: Formata automaticamente enquanto digita
     if (name === 'cnpj') {
-      value = value.replace(/\D/g, ''); // Remove tudo o que não for número (impede letras)
-      value = value.replace(/^(\d{2})(\d)/, '$1.$2'); // Coloca o primeiro ponto
-      value = value.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3'); // Coloca o segundo ponto
-      value = value.replace(/\.(\d{3})(\d)/, '.$1/$2'); // Coloca a barra
-      value = value.replace(/(\d{4})(\d{1,2})$/, '$1-$2'); // Coloca o traço
+      value = value.replace(/\D/g, '');
+      value = value.replace(/^(\d{2})(\d)/, '$1.$2');
+      value = value.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+      value = value.replace(/\.(\d{3})(\d)/, '.$1/$2');
+      value = value.replace(/(\d{4})(\d{1,2})$/, '$1-$2');
     }
 
     setDadosUsuario({ ...dadosUsuario, [name]: value });
@@ -47,12 +60,10 @@ export function Cadastro() {
     else setPassoAtual(passoAtual - 1);
   };
 
-  // ARRUMADO: Lógica simplificada para avançar
   const avancarFormulario = () => {
-    // 1. VALIDAÇÃO GERAL: Emails e Senhas precisam bater
     if (dadosUsuario.email !== dadosUsuario.confirmarEmail) {
       alert("Os e-mails não coincidem! Verifique e tente novamente.");
-      return; // O "return" expulsa a pessoa da função e não deixa o código continuar
+      return;
     }
 
     if (dadosUsuario.senha !== dadosUsuario.confirmarSenha) {
@@ -60,27 +71,18 @@ export function Cadastro() {
       return;
     }
 
-    // 2. VALIDAÇÃO INSTITUIÇÃO
     if (dadosUsuario.tipoUsuario === 'instituicao') {
-      
-      // Checa se ALGUM dos campos importantes está vazio
       if (!dadosUsuario.nome || !dadosUsuario.cnpj || !dadosUsuario.cep || !dadosUsuario.numero || !dadosUsuario.email || !dadosUsuario.senha) {
         alert("Atenção! Todos os dados da Instituição são obrigatórios.");
         return;
       }
-      
-      setPassoAtual(5); // Se passou por todos os "ifs", vai para a tela de aviso!
-
-    // 3. VALIDAÇÃO USUÁRIO COMUM
+      setPassoAtual(5);
     } else {
-      
-      // Checa se os campos essenciais do usuário estão vazios
       if (!dadosUsuario.nome || !dadosUsuario.email || !dadosUsuario.senha) {
         alert("Atenção! Preencha seu Nome, Email e Senha para continuar.");
         return;
       }
-
-      setPassoAtual(passoAtual + 1); // Se passou por todos os "ifs", vai para o Quiz!
+      setPassoAtual(passoAtual + 1);
     }
   };
 
@@ -110,13 +112,12 @@ export function Cadastro() {
     buscarCategorias();
   }, []);
 
+  // CORRIGIDO: Removida a duplicação de escopo que quebrava o código
   const finalizarCadastro = async () => {
     console.log("Dados preparados para envio:", dadosUsuario);
 
-    // 1. A MÁGICA: Salvamos todos os dados no navegador para a tela de Perfil conseguir ler!
     localStorage.setItem('usuarioWisp', JSON.stringify(dadosUsuario));
 
-    // 2. Tentamos enviar para o Java (Backend)
     try {
       const resposta = await fetch(import.meta.env.VITE_API_URL + '/usuarios/cadastrar', {
         method: 'POST',
@@ -129,22 +130,11 @@ export function Cadastro() {
         localStorage.setItem('wisp_userId', idDoUsuario);
       }
     } catch (erro) {
-      // Se o Java estiver desligado, o código cai aqui, avisa no console, mas não quebra a tela!
       console.warn("Aviso: Backend Java não encontrado. Os dados foram salvos localmente para teste visual.", erro);
     }
 
-    // 3. Mandamos o usuário direto para a tela de perfil para ele ver os dados dele! 
-    // (Se preferir, pode voltar para '/feed')
+    // Retorna para a tela de perfil após salvar as alterações
     navigate('/perfiluc');
-    console.log("Dados enviados:", dadosUsuario);
-    const resposta = await fetch(import.meta.env.VITE_API_URL + '/usuarios/cadastrar', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(dadosUsuario)
-    });
-    const idDoUsuario = await resposta.text();
-    localStorage.setItem('wisp_userId', idDoUsuario);
-    navigate('/feed');
   };
 
   return (
@@ -284,13 +274,19 @@ export function Cadastro() {
               ))}
             </div>
             <div className="form-actions" style={{ width: '100%', maxWidth: '500px' }}>
-              <button className="btn-cadastro btn-amarelo" onClick={voltar}>Voltar</button>
+              {/* CORRIGIDO: Botão voltar inteligente se estiver editando */}
+              <button 
+                className="btn-cadastro btn-amarelo" 
+                onClick={() => modoEdicaoQuiz ? navigate('/perfiluc') : voltar()}
+              >
+                Voltar
+              </button>
               <button className="btn-cadastro btn-rosa" onClick={finalizarCadastro}>Salvar</button>
             </div>
           </>
         )}
 
-        {/* PASSO 5: AVISO ANALISE (Movido para dentro do return) */}
+        {/* PASSO 5: AVISO ANALISE */}
         {passoAtual === 5 && dadosUsuario.tipoUsuario === 'instituicao' && (
           <div style={{ textAlign: 'center', maxWidth: '500px', marginTop: '40px' }}>
             <h1 className="cadastro-title" style={{ color: 'var(--accent-laranja)', marginBottom: '20px' }}>Cadastro em Análise! ⏳</h1>

@@ -12,7 +12,7 @@ import PerfilUC from './Pages/Perfil_UC/Index.jsx'
 import { DetalhesAtividade } from './Pages/Detalhes_Atvdds/DetalhesAtividade.jsx'
 import { WIP } from './Pages/WIP/WIP.jsx';
 import { Favoritos } from './Pages/Favoritos/Favoritos.jsx';
-
+import { EditarPerfil } from './Pages/Perfil_UC/Editar_perfil.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -26,6 +26,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/atividade/:id" element={<DetalhesAtividade />} />
         <Route path="/em-breve" element={<WIP />} />
         <Route path="/favoritos" element={<Favoritos />} />
+        <Route path="/editar-perfil" element={<EditarPerfil />} />
         
       </Routes>
     </BrowserRouter>
