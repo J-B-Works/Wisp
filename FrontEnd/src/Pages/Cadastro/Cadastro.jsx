@@ -112,7 +112,7 @@ export function Cadastro() {
     buscarCategorias();
   }, []);
 
-  // CORRIGIDO: Removida a duplicação de escopo que quebrava o código
+  
   const finalizarCadastro = async () => {
     console.log("Dados preparados para envio:", dadosUsuario);
 
@@ -134,7 +134,7 @@ export function Cadastro() {
     }
 
     // Retorna para a tela de perfil após salvar as alterações
-    navigate('/perfiluc');
+    navigate('/feed');
   };
 
   return (
@@ -277,7 +277,7 @@ export function Cadastro() {
               {/* CORRIGIDO: Botão voltar inteligente se estiver editando */}
               <button 
                 className="btn-cadastro btn-amarelo" 
-                onClick={() => modoEdicaoQuiz ? navigate('/perfiluc') : voltar()}
+                onClick={() => modoEdicaoQuiz ? navigate('/feed') : voltar()}
               >
                 Voltar
               </button>
