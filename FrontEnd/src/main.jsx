@@ -4,15 +4,15 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 
 // Importando as duas páginas
-import { Home } from './Pages/Home/Index.jsx'
-import { Login } from './Pages/Login/Index.jsx' // <--- Puxando o seu arquivo de Login
-import Feed from './Pages/Feed/Index.jsx'
-import { Cadastro } from './Pages/Cadastro/Index.jsx'
-import PerfilUC from './Pages/Perfil_UC/Index.jsx'
-import { DetalhesAtividade } from './Pages/Detalhes_Atvdds/DetalhesAtividade.jsx'
+import { Home } from './Pages/Home/Home.jsx'
+import { Login } from './Pages/Login/Login.jsx' // <--- Puxando o seu arquivo de Login
+import Feed from './Pages/Feed/Feed.jsx'
+import { Cadastro } from './Pages/Cadastro/Cadastro.jsx'
+import PerfilUC from './Pages/PerfilUC/Perfil.jsx'
+import { DetalhesAtividade } from './Pages/DetalhesAtvdds/DetalhesAtividade.jsx'
 import { WIP } from './Pages/WIP/WIP.jsx';
 import { Favoritos } from './Pages/Favoritos/Favoritos.jsx';
-import { EditarPerfil } from './Pages/Perfil_UC/Editar_perfil.jsx';
+import { EditarPerfil } from './Pages/PerfilUC/EditarPerfil.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

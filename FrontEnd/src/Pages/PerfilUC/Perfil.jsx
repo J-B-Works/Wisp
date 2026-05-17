@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'; // <-- Adicionamos o useEffect
 import { NavbarPrincipal } from '../../assets/NavBar/navbar.jsx';
 import { useNavigate } from 'react-router-dom';
-import './Style.css'; 
+import './Perfil.css'; 
 import '../../index.css';
 
 

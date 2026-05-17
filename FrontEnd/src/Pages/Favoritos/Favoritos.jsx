@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NavbarPrincipal } from '../../assets/NavBar/navbar.jsx';
 // Importando o CSS do Feed para reaproveitar tudo!
-import '../Feed/Style.css'; 
+import '../Feed/Feed.css'; 
 
 export function Favoritos() {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../index.css'; // Ajuste o caminho se necessário, igual fizemos na Home
+import '../../index.css'; 
 import { useNavigate } from 'react-router-dom';
 
 export function Login() {
