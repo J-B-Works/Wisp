@@ -17,25 +17,26 @@ Teoria dos Grafos - Turma: 6G
 -- Histórico de Alterações --
 
 26/03/2026 - Bruna - Cria classe Activity.java para representar o nó do tipo "Atividade"
+17/05/2026 - Júlia - Adiciona atributos de latitude e longitude
 
 */
 
-//package graph_theory_wisp;
+package graph_theory_wisp.graph_node_types;
 
 import java.util.*;
 
-class Activity implements GraphNode {
+public class Activity implements GraphNode {
     private String id;
     private String name;
-    private String externalLink;
-    private Establishment establishment;
+    private double lat;
+    private double lon;
     private int clickCount;
 
-    public Activity(String name, String externalLink, Establishment establishment) {
+    public Activity(double lat, double lon, String name) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
-        this.externalLink = externalLink;
-        this.establishment = establishment;
+        this.lat = lat;
+        this.lon = lon;
         this.clickCount = 0;
     }
 
@@ -43,7 +44,8 @@ class Activity implements GraphNode {
     public String getId() { return id; }
     @Override
     public String getName() { return name; }
-    public double getLat() { return establishment.getLatitude(); }
-    public double getLon() { return establishment.getLongitude(); }
+    public double getLat() { return lat; }
+    public double getLon() { return lon; }
     public void registerClick() { this.clickCount++; }
+    public int getClickCount() { return clickCount; }
 }

@@ -19,11 +19,11 @@ Teoria dos Grafos - Turma: 6G
 
 */
 
-//package graph_theory_wisp;
+package graph_theory_wisp.graph_node_types;
 
 import java.util.*;
 
-class Category implements GraphNode {
+public class Category implements GraphNode {
     private String id;
     private String name;
 

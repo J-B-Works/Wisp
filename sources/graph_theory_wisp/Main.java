@@ -23,11 +23,13 @@ Teoria dos Grafos - Turma: 6G
                 -> Menu normal para lidar apenas com grafo.txt final
 01/04/2026 - Bruna - Main refatorada para não conter mais Menu dev, apenas o Menu final
 01/04/2026 - Júlia - Adição de cabeçalho, síntese, refatoração de comentários e melhoria das prints
+17/05/2026 - Júlia - Adaptação de chamadas de classes graph_node_types para inclur latitude e longitude
+17/05/2026 - Bruna - Expansão do menu para incluir novas features
 
 */
 
 
-//package graph_theory_wisp;
+package graph_theory_wisp;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,13 +37,26 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 
+import graph_theory_wisp.graph_node_types.Activity;
+import graph_theory_wisp.graph_node_types.Category;
+import graph_theory_wisp.graph_node_types.GraphNode;
+import graph_theory_wisp.graph_node_types.User;
+
 public class Main {
+
+    // =========================================================================
+    //                               GLOBAIS
+    // =========================================================================
     private static Scanner sc = new Scanner(System.in);
+    private static RecommendationSystem recSystem = new RecommendationSystem();
     
+    // =========================================================================
+    //                                MAIN
+    // =========================================================================
     public static void main(String[] args) {
-        System.out.println("========================================");
-        System.out.println("       BEM-VINDO AO NOSSO PROJETO       ");
-        System.out.println("========================================\n");
+        System.out.println("=======================================================================");
+        System.out.println("                       BEM-VINDO AO NOSSO PROJETO                      ");
+        System.out.println("=======================================================================\n");
         System.out.println("Teoria dos Grafos - Turma: 6G");
         System.out.println("- Bruna Gonçalves Corte David (RA: 10425696)");
         System.out.println("- Júlia Andrade (RA: 1042513)\n");
@@ -60,10 +75,10 @@ public class Main {
         TGrafo tgraph = new TGrafo(0); // Cria objeto grafo vazio (aumenta dinamicamente)
         
         int op = -1;
-        while (op != 10) {
-            System.out.println("\n=======================================================");
-            System.out.println(" WISP - SISTEMA DE RECOMENDAÇÃO DE EDUCAÇÃO E CULTURAL");
-            System.out.println("=======================================================\n");
+        while (op != 12) {
+            System.out.println("\n=======================================================================");
+            System.out.println("          WISP - SISTEMA DE RECOMENDAÇÃO DE EDUCAÇÃO E CULTURAL          ");
+            System.out.println("=======================================================================\n");
 
             System.out.println("1. Ler dados do arquivo grafo.txt");
             System.out.println("2. Gravar dados no arquivo grafo.txt");
@@ -74,7 +89,9 @@ public class Main {
             System.out.println("7. Mostrar conteúdo do arquivo (grafo.txt)");
             System.out.println("8. Mostrar grafo (lista de adjacências)");
             System.out.println("9. Apresentar conexidade do grafo e o reduzido");
-            System.out.println("10. Encerrar a aplicação.");
+            System.out.println("10. Investigar uma solução para o problema (RECOMENDAÇÃO)");
+            System.out.println("11. Características do problema");
+            System.out.println("12. Encerrar a aplicação");
             System.out.print("Escolha uma opção: ");
             
             op = lerInteiro();
@@ -83,13 +100,12 @@ public class Main {
 
                 case 1:
                     System.out.println("\nLendo grafo.txt...");
-                    GraphLoader txtLoader = new GraphLoader();
                     tgraph = new TGrafo(0);
-                    txtLoader.loadFromTxt(tgraph, "sources/graph_theory_wisp/grafo.txt");
+                    tgraph.loadFromTxt("sources/graph_theory_wisp/exported_txt_files/grafo.txt");
                     break;
 
                 case 2:
-                    tgraph.exportToTxtFormat("sources/graph_theory_wisp/grafo.txt");
+                    tgraph.exportToTxtFormat("sources/graph_theory_wisp/exported_txt_files/grafo.txt");
                     break;
 
                 case 3:
@@ -104,13 +120,14 @@ public class Main {
                     
                     GraphNode novoNode;
                     if (tipoNode == 1) { 
-                        novoNode = new User(nomeV);
+                        novoNode = new User(nomeV, 0.0, 0.0);
+                        recSystem.registerNewUserManually((User) novoNode); // PARA SISTEMA DE RECOMENDAÇÃO CADASTRAR E ESSE USUÁRIO NÃO SER PERDIDO
                     }
                     else if (tipoNode == 2) {
                         novoNode = new Category(nomeV);
                     }
                     else {
-                        novoNode = new Activity(nomeV, "N/A", new Establishment("N/A", 0, 0));
+                        novoNode = new Activity(0, 0, nomeV);
                     }
                     
                     tgraph.insereV(novoNode);
@@ -170,7 +187,7 @@ public class Main {
                 case 7:
                     System.out.println("\n--- CONTEÚDO DE GRAFO.TXT ---");
                     try {
-                        List<String> linhas = Files.readAllLines(Paths.get("sources/graph_theory_wisp/grafo.txt"));
+                        List<String> linhas = Files.readAllLines(Paths.get("sources/graph_theory_wisp/exported_txt_files/grafo.txt"));
                         for (String linha : linhas) {
                             System.out.println(linha);
                         }
@@ -189,6 +206,34 @@ public class Main {
                     break;
 
                 case 10:
+                    recSystem.menu(tgraph); // Inicia menu do simulador do sistema de recomendação
+                    break;
+
+                case 11:
+                    System.out.println("\n--- CARACTERÍSTICAS DO PROBLEMA ---");
+                    System.out.println("1. Análise de Grau dos Vértices (Engajamento/Popularidade)");
+                    System.out.println("2. Verificação Euleriana (Fluxos de navegação)");
+                    System.out.println("3. Coloração de Vértices (Agrupamento de gostos)");
+                    System.out.print("Sua escolha: ");
+                    
+                    int caracteristica = Integer.parseInt(sc.nextLine());
+
+                    switch (caracteristica) {
+                        case 1:
+                            tgraph.analyzeVertexDegrees();
+                            break;
+                        case 2:
+                            tgraph.checkEulerianPath();
+                            break;
+                        case 3:
+                            tgraph.sequentialColoring();
+                            break;
+                        default:
+                            System.out.println("Opção inválida.");
+                    }
+                    break;
+
+                case 12:
                     break;
                     
                 default:

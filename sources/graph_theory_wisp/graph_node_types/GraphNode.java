@@ -22,9 +22,9 @@ como um único nó generalizado
 
 */
 
-//package graph_theory_wisp;
+package graph_theory_wisp.graph_node_types;
 
-interface GraphNode {
-    String getId();    // Todo nó do grafo é obrigado a ter um método interno que retorna seu ID único
-    String getName();  // Todo nó do grafo é obrigado a ter um método interno que retorna seu nome
+public interface GraphNode {
+  String getId();    // Todo nó do grafo é obrigado a ter um método interno que retorna seu ID único
+  String getName();  // Todo nó do grafo é obrigado a ter um método interno que retorna seu nome
 }

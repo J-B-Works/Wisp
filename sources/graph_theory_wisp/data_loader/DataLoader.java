@@ -1,7 +1,35 @@
-//package graph_theory_wisp_dev;
+/*
+
+=======================================================
+  WISP– Sistema de recomendação de educação e cultura
+=======================================================
+
+-- Grupo --
+Teoria dos Grafos - Turma: 6G
+- Bruna Gonçalves Corte David (RA: 10425696)
+- Júlia Andrade (RA: 1042513)
+
+-- Síntese do Conteúdo --
+
+-> Classe que representa um nó do tipo Atividade no grafo
+-> Alguns atributos e métodos como link, cliques e localização ainda não estão sendo utilizados, são para uso futuro
+
+-- Histórico de Alterações --
+
+17/05/2026 - Júlia - Atualiza DataLoader.java para suportar mudanças nas colunas dos .csv
+17/05/2026 - Júlia - Atualiza DataLoader.java para construir atividades com latitudes e longitudes das instituições 
+
+*/
+
+
+package graph_theory_wisp.data_loader;
 
 import java.io.*;
 import java.util.*;
+
+import graph_theory_wisp.TGrafo;
+import graph_theory_wisp.graph_node_types.Activity;
+import graph_theory_wisp.graph_node_types.Category;
 
 public class DataLoader {
 
@@ -102,7 +130,6 @@ public class DataLoader {
 
     // Carrega ATIVIDADES das FÁBRICAS DE CULTURA e as insere como vértices no grafo
     private void loadFCActivities(TGrafo graph, Map<String, Category> catMap, Integer limit) {
-        Map<String, Establishment> tempEstMap = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader(FC_CSV_PATH))) {
             br.readLine(); // Pula cabeçalho
             String line;
@@ -115,18 +142,13 @@ public class DataLoader {
                 String[] cols = line.split(";");
                 if (cols.length < 5) continue;                        // Verifica se linha não está errada
 
-                // Extrai dados das colunas (PS: AINDA não estamos usando todos)
+                // Extrai dados das colunas
                 String actName = cols[0];
                 String catListStr = cols[1];
                 String unitName = cols[2];
-                String link = "https://www.fabricasdecultura.org.br/"; // Todas as atividades da FC possuem o mesmo link do site da FC
 
-                Establishment est = tempEstMap.get(unitName);
-                if (est == null) {
-                    double[] coords = FC_COORDS.getOrDefault(unitName, new double[]{-23.4754, -46.6623}); // Default para a unidade da Vila Nova Cachoeirinha, caso alguma unidade nova apareça no CSV que não esteja no nosso mapa de coordenadas
-                    est = new Establishment(unitName, coords[0], coords[1]);
-                    tempEstMap.put(unitName, est);
-                }
+                // Adquire coordenadas respectivas a essa atividade
+                double[] coords = FC_COORDS.getOrDefault(unitName, new double[]{-23.4754, -46.6623}); // Default para a unidade da Vila Nova Cachoeirinha, caso alguma unidade nova apareça no CSV que não esteja no nosso mapa de coordenadas
 
                 // Prepara a lista de categorias válidas ANTES de inserir a atividade no grafo
                 // (evita de adicionar atividades que não tenham categoria listada previamente/válida)
@@ -149,7 +171,7 @@ public class DataLoader {
 
                 // Cria e insere atividade no grafo (que tenha pelo menos 1 categoria válida)
                 if (!validCatsForThisAct.isEmpty()) {                 // Deve ter pelo menos uma categoria válida/listada previamente
-                    Activity act = new Activity(actName, link, est);  // Cria atividade com nome, link externo e estabelecimento informados
+                    Activity act = new Activity(coords[0], coords[1], actName);  // Cria atividade com sua latitude e longitude diretamente e nome informados
                     graph.insereV(act);                               // Insere atividade no grafo
 
                     for (Category catNode : validCatsForThisAct) {    // Cria aresta entre a atividade e suas categorias
@@ -192,7 +214,6 @@ public class DataLoader {
 
     // Carrega ATIVIDADES dos SESC e as insere como vértices no grafo
     private void loadSescActivities(TGrafo graph, Map<String, Category> catMap, Integer limit) {
-        Map<String, Establishment> tempEstMap = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader(SESC_CSV_PATH))) {
             br.readLine();                                            // Pula cabeçalho
             String line;
@@ -212,16 +233,9 @@ public class DataLoader {
                 String actName = cols[0];
                 String unitName = cols[4];
                 String catListStr = cols[5];
-                String link = cols[7];
 
-                // Se ainda não existir esse estabelecimento, cria novo estabelecimento com nome e coordenadas
-                Establishment est = tempEstMap.get(unitName);
-                if (est == null) {
-                    double[] coords = SESC_COORDS.getOrDefault(unitName, new double[]{-23.5711, -46.6437}); // Default para a unidade da Paulista, caso alguma unidade nova apareça no CSV que não esteja no nosso mapa de coordenadas
-                    est = new Establishment(unitName, coords[0], coords[1]);
-                    tempEstMap.put(unitName, est);
-                }
-
+                // Adquire coordenadas respectivas a essa atividade
+                double[] coords = SESC_COORDS.getOrDefault(unitName, new double[]{-23.5711, -46.6437}); // Default para a unidade da Paulista, caso alguma unidade nova apareça no CSV que não esteja no nosso mapa de coordenadas
 
                 // Prepara a lista de categorias válidas ANTES de inserir a atividade no grafo
                 // (evita de adicionar atividades que não tenham categoria listada previamente/válida)
@@ -237,7 +251,7 @@ public class DataLoader {
 
                 // Cria e insere atividade no grafo (que tenha pelo menos 1 categoria válida)
                 if (!validCatsForThisAct.isEmpty()) {                 // Deve ter pelo menos uma categoria válida/listada previamente
-                    Activity act = new Activity(actName, link, est);  // Cria atividade com nome, link externo e estabelecimento informados
+                    Activity act = new Activity(coords[0], coords[1], actName);  // Cria atividade com sua latitude e longitude diretamente e nome informados
                     graph.insereV(act);                               // Insere atividade no grafo
 
                     for (Category catNode : validCatsForThisAct) {    // Cria aresta entre a atividade e suas categorias

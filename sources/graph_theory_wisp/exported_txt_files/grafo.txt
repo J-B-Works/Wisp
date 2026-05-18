@@ -1,0 +1,397 @@
+2
+200
+0 "Category: Cinema e Vídeo"
+1 "Category: Literatura"
+2 "Category: Teatro"
+3 "Category: Contação de História"
+4 "Category: Bate-papo"
+5 "Category: Oficina"
+6 "Category: Biblioteca"
+7 "Category: Circo"
+8 "Category: Dança"
+9 "Category: Meio ambiente"
+10 "Activity: -23.4749, -46.6503, K.O. – LAB"
+11 "Activity: -23.4749, -46.6503, CARIMBANDO HISTÓRIAS: A ARTE DA GRAVURA AO LONGO DO TEMPO – COM EQUIPE BIBLIOTECA"
+12 "Activity: -23.4749, -46.6503, OFICINA DE LAMBE-LAMBE – COM EQUIPE BIBLIOTECA"
+13 "Activity: -23.4527, -46.6747, CONTAÇÃO DE HISTÓRIAS: CONTOS POPULARES E CONTOS PIRAPORIANOS, COM JANINE RODRIGUES"
+14 "Activity: -23.4527, -46.6747, WORKSHOP DE DANÇA CHARME E PASSINHOS DE BAILE COM JAMAL AYO"
+15 "Activity: -23.4749, -46.6503, CINE FÁBRICA VNC"
+16 "Activity: -23.4527, -46.6747, ESPECIAL ORGULHO GEEK: OFICINA DE SWORDPLAY, BISCUIT E CARDGAMES"
+17 "Activity: -23.4749, -46.6503, FEIRA DE TROCA LIVROS E DVDS: GIRANDO HISTÓRIAS – COM EQUIPE BIBLIOTECA"
+18 "Activity: -23.4527, -46.6747, ERA UMA VEZ: UM CONTO COLETIVO – COM EQUIPE BIBLIOTECA"
+19 "Activity: -23.4527, -46.6747, PALAVRA DENTRO DA PALAVRA – COM EQUIPE BIBLIOTECA"
+20 "Activity: -23.4527, -46.6747, CONTAÇÃO DE HISTÓRIA E DINÂMICA: REDE DE APOIO AMIZADE QUE SUSTENTA – COM EQUIPE BIBLIOTECA"
+21 "Activity: -23.4527, -46.6747, VIRADA CULTURAL 2026 – O CIRCO QUE FUGIU COM COLETIVO XOXO"
+22 "Activity: -23.4749, -46.6503, VIRADA CULTURAL 2026 – AULÃO DE ZUMBA"
+23 "Activity: -23.4527, -46.6747, CELEBRANDO A MATA ATLÂNTICA: OS SONS DA FLORESTA E A ARTE – COM EQUIPE BIBLIOTECA"
+24 "Activity: -23.4749, -46.6503, SE OS TUBARÕES FOSSEM HOMENS? COMO SERIA O TRABALHO NO FUNDO DO MAR – COM EQUIPE BIBLIOTECA"
+25 "Activity: -23.4749, -46.6503, CONTAÇÃO DE HISTÓRIAS: CONTOS POPULARES E CONTOS PIRAPORIANOS, COM JANINE RODRIGUES"
+26 "Activity: -23.4527, -46.6747, OFICINA CRIAÇÃO E ADAPTAÇÃO DE ROTEIRO PARA HISTÓRIAS EM QUADRINHOS – COM EDE GALILEU"
+27 "Activity: -23.4527, -46.6747, CINE MÃE – ESPECIAL DIA DAS MÃES"
+28 "Activity: -23.4527, -46.6747, OFICINA DE MANUTENÇÃO RESIDENCIAL PARA MULHERES COM: JAQUE CONSERTA"
+29 "Activity: -23.4527, -46.6747, OFICINA LIVRO BICHO – COM MÍNIMO DIÁRIO"
+30 "Activity: -23.4749, -46.6503, A INFÂNCIA EM TEMPOS DE COPA DO MUNDO – COM EQUIPE BIBLIOTECA"
+31 "Activity: -23.4527, -46.6747, MUSEU AFETIVO: MEMÓRIAS QUE NOS FORMAM – COM EQUIPE BIBLIOTECA"
+32 "Activity: -23.4749, -46.6503, CONTAÇÃO DE HISTÓRIAS: DARCY, A PRINCESA DRAGÃO – COM CONTOS CORAJOSOS"
+33 "Activity: -23.4749, -46.6503, BELEZA SUSTENTÁVEL: ECOJOIAS, CRIANDO COM RECICLAGEM – COM EQUIPE BIBLIOTECA"
+34 "Activity: -23.4749, -46.6503, CINE FÁBRICA VNC"
+35 "Activity: -23.4749, -46.6503, WORKSHOP: COMO PRODUZIR UM SHOW DE K-POP NO BRASIL – COM CAROL AKIOKA"
+36 "Activity: -23.4527, -46.6747, TRAÇOS DO TERRITÓRIO – COM EQUIPE BIBLIOTECA"
+37 "Activity: -23.4749, -46.6503, OFICINA LIVRO BICHO – COM MÍNIMO DIÁRIO"
+38 "Activity: -23.4527, -46.6747, CONTAÇÃO DE HISTÓRIAS: DARCY, A PRINCESA DRAGÃO – COM CONTOS CORAJOSOS"
+39 "Activity: -23.4527, -46.6747, CINE BRASILIDADES"
+40 "Activity: -23.4527, -46.6747, HISTÓRIAS DE PARTIDAS E CHEGADAS – QUANDO PRECISAMOS RECOMEÇAR – COM EQUIPE BIBLIOTECA"
+41 "Activity: -23.4749, -46.6503, MOSTRA DE CINEMA BRASILEIRO – COM EQUIPE BIBLIOTECA"
+42 "Activity: -23.4527, -46.6747, OFICINA ESTRATÉGIA DE DIVULGAÇÃO AUDIOVISUAL PARA MÚSICOS: COM MONOMITO FILMES"
+43 "Activity: -23.4527, -46.6747, ARTE NA BIBLIOTECA COM TINTA INVISÍVEL – COM EQUIPE BIBLIOTECA"
+44 "Activity: -23.4749, -46.6503, BOI BUMBÁ CUPUAÇU – COM EQUIPE BIBLIOTECA"
+45 "Activity: -23.4527, -46.6747, ORGULHO DE SER: HISTÓRIAS DE RESPEITO E DIVERSIDADE – COM EQUIPE BIBLIOTECA"
+46 "Activity: -23.4749, -46.6503, KARAOKÊ NA BIBLIO – COM EQUIPE BIBLIOTECA"
+47 "Activity: -23.4527, -46.6747, CINE FÉRIAS"
+48 "Activity: -23.4749, -46.6503, ATIVIDADE DE FÉRIAS: VIVÊNCIA NO TÊNIS DE MESA – REGRAS E TÉCNICAS"
+49 "Activity: -23.4527, -46.6747, OFICINA DE LIBRAS COM: LIBRAS NA QUEBRADA [FORMAÇÃO FUNCIONÁRIOS]"
+50 "Category: Tecnologias e Artes"
+51 "Category: Música"
+52 "Category: Artes Visuais"
+53 "Category: Jovens"
+54 "Category: Esporte e Atividade Física"
+55 "Category: Crianças"
+56 "Category: Ações para Cidadania"
+57 "Category: Pessoas Idosas"
+58 "Activity: -23.5007, -46.6456, Marcenaria Lúdica: Passe Trappe"
+59 "Activity: -23.5007, -46.6456, Banda Bola de Meia"
+60 "Activity: -23.5007, -46.6456, Entre Nós | String art: Arte com Linhas"
+61 "Activity: -23.5007, -46.6456, "Oficina ""Florescer o Feminino em Movimento""""
+62 "Activity: -23.5007, -46.6456, Casa Zen"
+63 "Activity: -23.5007, -46.6456, Sarau da Abigail"
+64 "Activity: -23.5007, -46.6456, "Roda Aberta de Danças Circulares ""Dançando a Natureza: O Corpo como Templo""""
+65 "Activity: -23.5007, -46.6456, AteliArte: Iniciação ao desenho"
+66 "Activity: -23.5007, -46.6456, Nina Oliveira"
+67 "Activity: -23.5007, -46.6456, Cunhado de Lobisomem"
+68 "Activity: -23.5007, -46.6456, Neymar Dias e Claudio Lacerda"
+69 "Activity: -23.5007, -46.6456, LARP: Peleja dos vivos na noite dos mortos"
+70 "Activity: -23.5007, -46.6456, Frases sob medida - Ativações poéticas"
+71 "Activity: -23.5007, -46.6456, Orquestra Filarmônica de Violas"
+72 "Activity: -23.5007, -46.6456, Adriana Farias trio"
+73 "Activity: -23.5007, -46.6456, LARP | Os causos de Piratininga: Uma garoa que povoa"
+74 "Activity: -23.5007, -46.6456, Vivência: O Batuque de Umbigada do Oeste Paulista"
+75 "Activity: -23.5007, -46.6456, A Menina Inezita"
+76 "Activity: -23.5007, -46.6456, Brincadeiras de Quintal"
+77 "Activity: -23.5007, -46.6456, Itamar Assumpção por Juçara Marçal, Suzana Salles e Kiko Dinucci"
+78 "Activity: -23.5007, -46.6456, Aulas de Ritmos: Salsa"
+79 "Activity: -23.5007, -46.6456, Mini golfe na Fábrica de Cultura Vila Nova Cachoeirinha"
+80 "Activity: -23.5007, -46.6456, Basquete em cadeiras de rodas com Magic Hands"
+81 "Activity: -23.5007, -46.6456, Vivência de Caiaque com rodas"
+82 "Activity: -23.5007, -46.6456, Curling de Mesa"
+83 "Activity: -23.5007, -46.6456, Corre pra valer! Teste de velocidade em pista com sensores"
+84 "Activity: -23.5007, -46.6456, AyurYoga"
+85 "Activity: -23.5007, -46.6456, Que Som É  Esse?"
+86 "Activity: -23.5007, -46.6456, Lab Costura: Ateliê Aberto"
+87 "Activity: -23.5007, -46.6456, Natureza de Pertinho"
+88 "Activity: -23.5007, -46.6456, Daniel Daibem Trio"
+89 "Activity: -23.5007, -46.6456, Coco de Criança - Samba de Coco Para Primeira Infância"
+90 "Activity: -23.5007, -46.6456, Jogos Literários e Musicais"
+91 "Activity: -23.5007, -46.6456, Brincadeira de Quintal"
+92 "Activity: -23.5007, -46.6456, Bate o Pé, Roda o Coco - Show Brincante Para Primeira Infância"
+93 "Activity: -23.5007, -46.6456, Grancirco DuNavô"
+94 "Activity: -23.5007, -46.6456, Vivência Jogos de Destreza"
+95 "Activity: -23.5007, -46.6456, A medida das coisas"
+96 "Activity: -23.5007, -46.6456, Palco de Brincar"
+97 "Activity: -23.5007, -46.6456, Vivência de Pickleball"
+98 "Activity: -23.5007, -46.6456, Movimento Consciente"
+99 "Activity: -23.5007, -46.6456, Treino Coletivo de Ginástica Multifuncional"
+100 "Activity: -23.5007, -46.6456, Joga Comigo!"
+101 "Activity: -23.5007, -46.6456, Tênis de Mesa"
+102 "Activity: -23.5007, -46.6456, Vivência de Basquete 3x3"
+103 "Activity: -23.4965, -46.6128, Adulto brinca junto!"
+104 "Activity: -23.4965, -46.6128, Da lança ao movimento: Maracatu Rural para crianças"
+105 "Activity: -23.4965, -46.6128, Práticas Aquáticas - De 3 a 6 anos"
+106 "Activity: -23.4965, -46.6128, Comum a Toda Pessoa: A idade não te define!"
+107 "Activity: -23.4965, -46.6128, Super tosco"
+108 "Activity: -23.4965, -46.6128, Futsal Feminino"
+109 "Activity: -23.4965, -46.6128, Chim Kung Perfumado"
+110 "Activity: -23.4965, -46.6128, Praça de Esportes"
+111 "Activity: -23.4965, -46.6128, Relicário de Histórias"
+112 "Activity: -23.4965, -46.6128, Ateliê Têxtil - Bordado"
+113 "Activity: -23.4965, -46.6128, Saltimbembe mambembanco"
+114 "Activity: -23.4965, -46.6128, Traquinartes"
+115 "Activity: -23.4965, -46.6128, Ressignificando móveis"
+116 "Activity: -23.4965, -46.6128, Projetos Livres"
+117 "Activity: -23.4965, -46.6128, As artes do Rosa dos ventos"
+118 "Activity: -23.4965, -46.6128, Práticas de encontro: caderno de proposições artístico-pedagógicas"
+119 "Activity: -23.4965, -46.6128, Colagem e poesia"
+120 "Activity: -23.4965, -46.6128, Da Pena de Fome ao Pena Justa - direito humano à alimentação e sistema prisional"
+121 "Activity: -23.4965, -46.6128, Assombrinho"
+122 "Activity: -23.4965, -46.6128, Da brincadeira ao personagem: Cavalo Marinho para crianças"
+123 "Activity: -23.4965, -46.6128, Juventudes"
+124 "Activity: -23.4965, -46.6128, Bolsas em Tear"
+125 "Activity: -23.4965, -46.6128, Tecer Comunitário"
+126 "Activity: -23.4965, -46.6128, Vôlei Jovem"
+127 "Activity: -23.4965, -46.6128, Tênis de Mesa"
+128 "Activity: -23.4965, -46.6128, Feira de troca BiblioSesc"
+129 "Activity: -23.4965, -46.6128, Ginástica Multifuncional"
+130 "Activity: -23.4965, -46.6128, Traquinartes"
+131 "Activity: -23.4965, -46.6128, Esporte Adulto - Vôlei"
+132 "Activity: -23.4965, -46.6128, Práticas Aquáticas - De 6 a 12 anos"
+133 "Activity: -23.4965, -46.6128, BiblioSesc | Santana"
+134 "Activity: -23.4965, -46.6128, Curumim"
+135 "Activity: -23.4965, -46.6128, Esporte Adulto - Iniciação à Corrida"
+136 "Activity: -23.4965, -46.6128, Práticas Aquáticas - A partir de 12 anos"
+137 "Activity: -23.4965, -46.6128, Plantão de dúvidas: Bê-a-bá digital"
+138 "Activity: -23.4965, -46.6128, Condicionamento Físico Aquático"
+139 "Activity: -23.4965, -46.6128, Vôlei para Pessoas Idosas"
+140 "Activity: -23.4965, -46.6128, Espaço de Brincar"
+141 "Activity: -46.6501, -23.546, Atelierê: Na Palma, no Pé, o Toque"
+142 "Activity: -46.6501, -23.546, LivrETA recebe Marcelo da Silva Antunes"
+143 "Activity: -46.6501, -23.546, Movimento Consciente"
+144 "Activity: -46.6501, -23.546, Corporeidades Ballroom"
+145 "Activity: -46.6501, -23.546, Canto"
+146 "Activity: -46.6501, -23.546, Curumim"
+147 "Activity: -46.6501, -23.546, Esporte Adulto - Futsal Masculino"
+148 "Activity: -46.6501, -23.546, Prática Vocal"
+149 "Activity: -46.6501, -23.546, Violino para Crianças"
+150 "Activity: -46.6501, -23.546, A Mensagem de Jequi"
+151 "Activity: -46.6501, -23.546, Esporte Criança - 3 a 6 anos"
+152 "Activity: -46.6501, -23.546, Voz 60+"
+153 "Activity: -46.6501, -23.546, Visual em Foco: Corpo, Movimento e Cena na Libras"
+154 "Activity: -46.6501, -23.546, Esporte Adulto – Clube do Vôlei"
+155 "Activity: -46.6501, -23.546, Prática Coletiva de Cordas"
+156 "Activity: -46.6501, -23.546, Violoncelo - Iniciantes"
+157 "Activity: -46.6501, -23.546, Estruturação e Percepção Musical"
+158 "Activity: -46.6501, -23.546, Parkour"
+159 "Activity: -46.6501, -23.546, É Dia de Feira!"
+160 "Activity: -46.6501, -23.546, Giro Cultural - Histórias e Vozes Silenciadas"
+161 "Activity: -46.6501, -23.546, Corrida Virtual | 3k e 5k"
+162 "Activity: -46.6501, -23.546, Contrabaixo Acústico - Iniciante"
+163 "Activity: -46.6501, -23.546, Prática de Orquestra para Crianças"
+164 "Activity: -46.6501, -23.546, Fábrica de engenhocas"
+165 "Activity: -46.6501, -23.546, Violão Popular - Iniciação"
+166 "Activity: -46.6501, -23.546, Os Fios da Trama: Grandes Temas da Música Popular Tradicional Brasileira"
+167 "Activity: -46.6501, -23.546, Linhas e Linhagens: Investigações Visuais e Processos Criativos"
+168 "Activity: -46.6501, -23.546, Práticas Aquáticas - Adulto"
+169 "Activity: -46.6501, -23.546, Introdução ao Universo das Estampas"
+170 "Activity: -46.6501, -23.546, Sons e Vozes dos Povos Originários"
+171 "Activity: -46.6501, -23.546, Skate e Paraskate"
+172 "Activity: -46.6501, -23.546, Iniciação aos Sopros - Madeiras"
+173 "Activity: -46.6501, -23.546, Música e Movimento para Bebês"
+174 "Activity: -46.6501, -23.546, Choro da Consolação"
+175 "Activity: -46.6501, -23.546, Produção Musical"
+176 "Activity: -46.6501, -23.546, Contrabaixo Acústico - Continuidade"
+177 "Activity: -46.6501, -23.546, Violoncelo - Continuidade"
+178 "Activity: -46.6501, -23.546, Canto Infanto-Juvenil"
+179 "Activity: -46.6501, -23.546, Pífano Brasileiro"
+180 "Activity: -46.6501, -23.546, Violino e Viola Erudita - Iniciante"
+181 "Activity: -46.6501, -23.546, Violino e Viola Erudita - Continuidade"
+182 "Activity: -46.6501, -23.546, Esporte Adulto - Iniciação ao Vôlei"
+183 "Activity: -46.6501, -23.546, Coral de Madeiras"
+184 "Activity: -46.6501, -23.546, Práticas Aquáticas - 3 a 6 anos"
+185 "Activity: -46.6501, -23.546, Prática Instrumental"
+186 "Activity: -46.6501, -23.546, Esporte Jovem - Handebol"
+187 "Activity: -46.6501, -23.546, Condicionamento Físico Aquático"
+188 "Activity: -46.6501, -23.546, Esporte Criança - 6 a 10 anos"
+189 "Activity: -46.6501, -23.546, Esporte para pessoas idosas"
+190 "Activity: -46.6501, -23.546, Juventudes - Iniciação ao Teatro"
+191 "Activity: -46.6501, -23.546, Esporte Jovem - 10 a 13 anos"
+192 "Activity: -46.6501, -23.546, Esporte Adulto - Handebol Feminino"
+193 "Activity: -46.6501, -23.546, Yoga"
+194 "Activity: -46.6501, -23.546, Esporte Adulto - Handebol"
+195 "Activity: -46.6501, -23.546, Espaço de Leitura"
+196 "Activity: -46.6501, -23.546, Espaço de Brincar"
+197 "Activity: -46.6501, -23.546, Esporte Adulto - Basquete"
+198 "Activity: -46.6501, -23.546, Esporte Jovem – Basquete"
+199 "Activity: -46.6501, -23.546, Esporte Adulto - Basquete Feminino"
+194
+0 15
+0 27
+0 34
+0 39
+0 47
+0 150
+1 90
+1 111
+1 128
+1 133
+1 142
+1 195
+2 153
+3 20
+4 35
+4 42
+4 118
+4 120
+5 16
+5 28
+5 48
+5 49
+5 60
+5 61
+5 65
+5 86
+5 89
+5 119
+5 141
+6 11
+6 12
+6 13
+6 17
+6 18
+6 19
+6 24
+6 25
+6 26
+6 29
+6 30
+6 31
+6 32
+6 33
+6 36
+6 37
+6 38
+6 40
+6 41
+6 43
+6 44
+6 45
+6 46
+7 21
+7 93
+8 10
+8 14
+8 22
+8 74
+8 144
+9 23
+50 58
+50 60
+50 86
+50 94
+50 112
+50 115
+50 116
+50 119
+50 124
+50 125
+50 137
+50 141
+50 167
+50 169
+51 59
+51 66
+51 67
+51 68
+51 71
+51 72
+51 77
+51 88
+51 145
+51 148
+51 149
+51 152
+51 155
+51 156
+51 157
+51 162
+51 163
+51 165
+51 166
+51 170
+51 172
+51 173
+51 174
+51 175
+51 176
+51 177
+51 178
+51 179
+51 180
+51 181
+51 183
+51 185
+52 65
+52 70
+52 95
+53 69
+53 123
+53 126
+53 160
+53 190
+54 62
+54 78
+54 79
+54 80
+54 81
+54 82
+54 83
+54 84
+54 97
+54 98
+54 99
+54 100
+54 101
+54 102
+54 105
+54 108
+54 109
+54 127
+54 129
+54 131
+54 132
+54 135
+54 136
+54 138
+54 139
+54 143
+54 147
+54 151
+54 154
+54 158
+54 161
+54 168
+54 171
+54 182
+54 184
+54 186
+54 187
+54 188
+54 189
+54 191
+54 192
+54 193
+54 194
+54 197
+54 198
+54 199
+55 63
+55 73
+55 75
+55 76
+55 85
+55 87
+55 89
+55 91
+55 92
+55 96
+55 103
+55 104
+55 107
+55 110
+55 113
+55 114
+55 117
+55 121
+55 122
+55 130
+55 140
+55 146
+55 164
+55 196
+56 118
+56 120
+56 134
+56 159
+57 61
+57 64
+57 106
+57 139
+57 152
+57 189

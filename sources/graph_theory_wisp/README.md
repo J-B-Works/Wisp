@@ -1,5 +1,5 @@
 
-  WISP– Sistema de recomendação de educação e cultura
+  WISP – Sistema de recomendação de educação e cultura
 =
 
 Teoria dos Grafos - Turma: 6G
@@ -9,29 +9,36 @@ Teoria dos Grafos - Turma: 6G
 - Bruna Gonçalves Corte David (RA: 10425696)
 - Júlia Andrade (RA: 1042513)
 
-✿  Documento: 
-[\sources\graph_theory_wisp\Parte 2 - Relatório Projeto.pdf](/documentation/Relatorios%20e%20Apresentacoes/TG%20Parte%202%20-%20Relatório%20Projeto.pdf)
+✿  **Documento ((((((WIP)))))): 
+<ins> [\sources\graph_theory_wisp\Parte 2 - Relatório Projeto.pdf](/documentation/Relatorios%20e%20Apresentacoes/TG%20Parte%202%20-%20Relatório%20Projeto.pdf)** </ins>
+
+✿ Graph Visualization: <ins> [https://graphonline.top/create_graph_by_edge_list](http://graphonline.top/?graph=fbboJTyCDtlYBwyZ) </ins>
+
 
 . ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁
 
 To run the code:
 =
 
-Para rodar o programa, esteja dentro de Wisp/  
+Para rodar o programa, **esteja dentro de Wisp/**  
+Ou seja, no root do repositório.  
+É necessário clonar todo o repositório.
 
 ✿ Comandos:  
+```javac -d bin -sourcepath sources sources/graph_theory_wisp/Main.java```  
+```java -cp bin graph_theory_wisp.Main```  
 
-javac -d bin sources/graph_theory_wisp/*.java  
-java -cp bin graph_theory_wisp.Main
+---
 
-deletar pasta bin para deletar os .class
+Se quiser testar o **Data Loader**, ou seja, o código que utilizamos para carregar os dados em [Data/](/Data/) para o primeiro arquivo grafo.txt **uma única vez** e **não** é parte do programa em si:
 
-. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ 
+**esteja dentro de Wisp/**  
+Ou seja, no root do repositório.  
+É necessário clonar todo o repositório.
 
-Graph Visualization
-[https://graphonline.top/create_graph_by_edge_list](http://graphonline.top/?graph=SZlpGVlIUMtwMBgG)
-
-. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁
+✿ Comandos:  
+```javac -d bin -sourcepath sources sources/graph_theory_wisp/data_loader/Main.java```  
+```java -cp bin graph_theory_wisp.data_loader.Main```  
 
 References
 =

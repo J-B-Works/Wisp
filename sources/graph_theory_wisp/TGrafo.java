@@ -27,7 +27,12 @@ e vice-versa
 
 -> Possui métodos de inserir e remover vértices e arestas
 -> Possui métodos extra para exportar o grafo para grafo.txt e no formato para graph online desenhá-lo
+-> Possuir método extra para carregar um grafo escrito num grafo.txt
+
 -> Possui método que roda um BFS para verificar se o grafo é conexo e calcula o seu grafo reduzido
+-> Possui método que analisa o grau dos vértices do grafo
+-> Possui método que verifica se o grafo é euleriano
+-> Possui método que roda um algoritmo de coloração sequencial
 
 -- Histórico de Alterações --
 
@@ -36,17 +41,26 @@ e vice-versa
 27/03/2026 - Júlia - Implementação dos métodos de exportação do grafo escrevendo-os em arquivos .txt
 01/04/2026 - Bruna - Adiciona suporte à peso nas arestas exclusivamente de usuário <-> categoria
 01/04/2026 - Bruna - Implementa método de remoção de vértice, cálculo de conexidade e grafo reduzido
+17/05/2026 - Júlia - Transfere responsabilidade de carregamento do grafo.txt para esta classe através do método loadFromTxt
+17/05/2026 - Bruna - Implementa os 3 métodos que utilizam técnicas da disciplina para descobrir três características do problema
 
 */
 
 
-//package graph_theory_wisp;
+package graph_theory_wisp;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+
+import graph_theory_wisp.graph_node_types.Activity;
+import graph_theory_wisp.graph_node_types.Category;
+import graph_theory_wisp.graph_node_types.GraphNode;
+import graph_theory_wisp.graph_node_types.User;
 
 
 // =================================================================== //
@@ -474,9 +488,11 @@ public class TGrafo{
                 if (node instanceof Category) {
                     label = "Category: " + node.getName();
                 } else if (node instanceof Activity) {
-                    label = "Activity: " + node.getName();
+                    Activity act = (Activity) node; // Especifica que o node é tipo Activity para extrair atributos mais específicos
+                    label = "Activity: " + act.getLat() + ", " + act.getLon() + ", " + act.getName();
                 } else if (node instanceof User) {
-                    label = "User: " + node.getName();
+                    User u = (User) node;           // Especifica que o node é tipo User para extrair atributos mais específicos
+                    label = "User: " + u.getLat() + ", " + u.getLon() + ", " + u.getName();
                 }
 
                 // Formato: i "Rótulo"
@@ -505,7 +521,74 @@ public class TGrafo{
         }
     }
 
-   // --- Método extra p/ Verificar se o grafo é Conexo usando BFS e gerar sua versão Reduzida ---
+    // --- Método p/ ler um arquivo grafo.txt ---
+    public void loadFromTxt(String path) {
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            
+            br.readLine(); // Pula a primeira linha que só serve para indicar o tipo de grafo
+
+            int numVertices = Integer.parseInt(br.readLine().trim()); // Extrai total de vértices
+            
+            for (int i = 0; i < numVertices; i++) {                   // Leitura dos vértices
+
+                String line = br.readLine().trim();                   // Lê a linha do nó atual
+                
+                int firstQuote = line.indexOf('"');               // Procura a primeira aspas (os dados úteis estão dentro das aspas)
+                int lastQuote = line.lastIndexOf('"');            // Procura a última aspas
+                if (firstQuote == -1 || lastQuote == -1) {            // No caso de erro, ignora linha
+                    continue;
+                }
+
+                // Extrai conteúdo no formato "Tipo: lat, lon, nome"
+                String content = line.substring(firstQuote + 1, lastQuote); // Extrai conteúdo entre as aspas
+                String[] typeAndData = content.split(":", 2);  // Corta conteúdo em dois em cima do ':' para diferenciar "Tipo" de "lat, lon, name"
+                String type = typeAndData[0].trim(); // Guarda o "Tipo"
+                String data = typeAndData[1].trim(); // Guarda os dados "lat, lon, name"
+
+                GraphNode node = null; 
+                if (type.equals("User")) {                   // Se o "Tipo" for User...
+                    String[] parts = data.split(",", 3); // Corta os dados em 3 encontrando as vírgulas pra separar "lat, lon, name"
+                    double lat = Double.parseDouble(parts[0].trim()); // Latitude
+                    double lon = Double.parseDouble(parts[1].trim()); // Longitude
+                    String name = parts[2].trim();                    // Nome
+                    node = new User(name, lat, lon);                  // Cria User com esses dados
+                } else if (type.equals("Category")) {       // Se o "Tipo" for Category...
+                    node = new Category(data);                        // O único dado já é o nome, cria Category direto
+                } else if (type.equals("Activity")) {       // Se o "Tipo" for Activity...
+                    String[] parts = data.split(",", 3); // Corta os dados em 3 encontrando as vírgulas pra separar "lat, lon, name"
+                    double lat = Double.parseDouble(parts[0].trim()); // Latitude
+                    double lon = Double.parseDouble(parts[1].trim()); // Longitude
+                    String name = parts[2].trim();                    // Nome
+                    node = new Activity(lat, lon, name);              // Cria Activity com esses dados
+                }
+
+                if (node != null) {                                   // Segurança de que node foi criado
+                    this.insereV(node);                               // Insere o vértice grafo
+                }
+            }
+
+            int numArestas = Integer.parseInt(br.readLine().trim());  // Quantidade de arestas
+            for (int i = 0; i < numArestas; i++) {                    // Leitura das arestas
+                String[] parts = br.readLine().trim().split(" "); // Cortda os dados por espaço "origem destino peso"
+                int u = Integer.parseInt(parts[0]);                   // Origem
+                int v = Integer.parseInt(parts[1]);                   // Destino
+                Integer peso = null;                                  // Peso nulo por padrão 
+                
+                if (parts.length >= 3) {                              // Se tiver 3 dados na linha, significa que tem peso
+                    peso = Integer.parseInt(parts[2]);                // Peso
+                }
+
+                this.insereA(this.getNodeByIndex(u), this.getNodeByIndex(v), peso); // Insere aresta no grafo
+            }
+
+            System.out.println("grafo.txt carregado com sucesso! Vértices: " + this.getN() + " | Arestas: " + this.getM());
+
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar grafo.txt: " + e.getMessage());
+        }
+    }
+
+    // --- Método extra p/ Verificar se o grafo é Conexo usando BFS e gerar sua versão Reduzida ---
     public void printConnectivityAndReducedGraph() {
         System.out.println("\n======== ANÁLISE DE CONEXIDADE E GRAFO REDUZIDO ========");
     
@@ -549,5 +632,134 @@ public class TGrafo{
             System.out.println("Conexidade: O Grafo é DESCONEXO.");
             System.out.println("Grafo Reduzido: É composto por " + numComponentes + " vértices isolados e 0 arestas.");
         }
+    }
+
+    // --- Método extra p/ descobrir o grau dos vértices do grafo ---
+    public void analyzeVertexDegrees() {
+        System.out.println("\n---------- ANÁLISE DE GRAU DOS VÉRTICES ----------");
+
+        // Obtemos também o usuário de maior engajamento, a categoria mais popular e a atividade mais genérica/popular
+        // Logo, criamos variáveis auxiliares para obter esses "recordes"
+        GraphNode maxUser = null;
+        GraphNode maxCat = null;
+        GraphNode maxAct = null;
+        int maxUserDeg = -1;
+        int maxCatDeg = -1;
+        int maxActDeg = -1;
+
+        // Percorre todos os vértices do grafo
+        for (int i = 0; i < this.n; i++) {
+            GraphNode node = this.getNodeByIndex(i);
+
+            // Calcula o grau do vértice varrendo seus vizinhos
+            int degree = 0;
+            TNo vizinho = this.adj[i];
+            while (vizinho != null) {
+                degree++;
+                vizinho = vizinho.prox;
+            }
+            System.out.println(node.getName() + ": Grau " + degree);
+
+            // Classifica e atualiza os recordes por tipo de vértice
+            if (node instanceof User) {
+                if (degree > maxUserDeg) {
+                    maxUserDeg = degree; maxUser = node;
+                }
+            } else if (node instanceof Category) {
+                if (degree > maxCatDeg) {
+                    maxCatDeg = degree; maxCat = node;
+                }
+            } else if (node instanceof Activity) {
+                if (degree > maxActDeg) {
+                    maxActDeg = degree; maxAct = node;
+                }
+            }
+        }
+
+        System.out.println("\nMAIOR GRAU DENTRE VÉRTICES DO TIPO 'USER' (Usuário mais Engajado na plataforma)");
+        if (maxUser != null) {
+            System.out.println("User mais engajado: " + maxUser.getName() + " (Grau: " + maxUserDeg + ")");
+        }
+        System.out.println("\nMAIOR GRAU DENTRE VÉRTICES DO TIPO 'CATEGORY' (Categoria mais Popular)");
+        if (maxCat != null) {
+            System.out.println("Categoria mais popular: " + maxCat.getName() + " (Grau: " + maxCatDeg + ")");
+        }
+        System.out.println("\nMAIOR GRAU DENTRE VÉRTICES DO TIPO 'ACTIVITY' (Atividade mais genérica/popular)");
+        if (maxAct != null) {
+            System.out.println("Atividade mais popular: " + maxAct.getName() + " (Grau: " + maxActDeg + ")");
+        }
+    }
+
+    // --- Método extra p/ descobrir se grafo tem percurso euleriano ---
+    public void checkEulerianPath() {
+        System.out.println("\n---------- VERIFICAÇÃO DE GRAFO EULERIANO ----------");
+
+        int qtd = 0, degree, i = 0;
+        while ((qtd <= 2) && (i < this.n)) { // Não é necessário olhar todos os vértices do grafo, se pelo menos dois forem ímpares, interrompe verificação
+            degree = 0;
+            TNo vizinho = this.adj[i];
+            
+            while (vizinho != null) {
+                degree++;
+                vizinho = vizinho.prox;
+            }
+
+            if ((degree % 2) == 1) {
+                qtd++;
+            }
+            i++;
+        }
+
+        System.out.println("Vértices de grau ímpar mapeados até a interrupção: " + qtd);
+
+        if (qtd == 0) {
+            System.out.println("O Grafo possui um CICLO EULERIANO e é um GRAFO EULERIANO");
+        } else if (qtd == 2) {
+            System.out.println("O Grafo possui um CAMINHO EULERIANO aberto e é um GRAFO SEMI-EULERIANO");
+        } else {
+            System.out.println("O Grafo NÃO é EULERIANO");
+        }
+    }
+
+    // --- Método extra p/ descobrir a coloração sequencial do grafo ---
+    public void sequentialColoring() {
+        System.out.println("\n---------- COLORAÇÃO SEQUENCIAL ----------");
+
+        int[] cores = new int[this.n];             // Inicializa vetor de classes de cores (0 significa que o vértice ainda não tem cor)
+        int maxCor = 0;                            // Inicializa Total de cores usadas
+
+        for (int i = 0; i < this.n; i++) {         // Percorre cada vértice para descobrir sua cor um de cada vez
+            int corAtual = 1;                      // A cor atual a ser verificada sempre começa como a primeira (1)
+
+            while (true) {                         // Procura qual cor esse vértice pode ser colorido
+                boolean flag = true;               // Flag para confirmar se a cor atual pode ou não ser usada para colorir o vértice atual
+                TNo no = this.adj[i];              // Olha para os vizinhos do vértice atual (i)
+                while (no != null) {               // Verifica se algum vizinho de i já está colorido com a cor atual
+                    if (cores[no.w] == corAtual) { // Se a cor do vizinho atual for igual a cor atual,
+                        flag = false;              // Então não podemos utilizar essa cor para colorir o vértice atual (i)
+                        break;                     // (Não precisamos olhar os outros vizinhos mais)
+                    }
+                    no = no.prox;                  // Prossegue a verificação para o próximo vizinho
+                }
+
+                if (flag) {                        // Se nenhum vizinho possuía a mesma cor que a atual,
+                    cores[i] = corAtual;           // Então colorimos o vértice atual (i) com a cor atual
+                    if (corAtual > maxCor) {       // Se a cor atual utilizada foi uma nova que não existia ainda (ou seja, valor maior encontrado até agora)
+                        maxCor = corAtual;         // Então aumentamos o "contador" do total de cores usadas
+                    }
+                    break;                         // Encerra loop (já encontramos a cor pra esse vértice atual)
+                } else {                           // Se um vizinho possuía a mesma cor que a atual,
+                    corAtual++;                    // Não podemos colorir o vértice atual com ela, então tentamos novamente com uma próxima cor
+                }
+            }
+        }
+
+        for (int i = 0; i < this.n; i++) {
+            GraphNode node = this.getNodeByIndex(i);
+            String nodeName = (node != null) ? node.getName() : "Vértice " + i;
+            System.out.println(nodeName + ": Cor " + cores[i]);
+        }
+        
+        System.out.println("\nTOTAL DE CORES UTILIZADAS: " + maxCor);
     }
 }
