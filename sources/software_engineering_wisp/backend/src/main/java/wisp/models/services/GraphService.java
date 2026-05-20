@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import jakarta.annotation.PostConstruct;
 //import java.util.List;
 import wisp.dtos.ActivityDTO;
-import wisp.dtos.InteractionDTO;
 import wisp.models.entities.Activity;
 import wisp.models.entities.Category;
 import wisp.models.entities.User;
