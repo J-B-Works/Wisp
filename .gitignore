@@ -4,3 +4,8 @@ generalized_wisp/
 target/
 
 .env
+.env.development
+.env.production
+
+resources/
+resources/application.properties

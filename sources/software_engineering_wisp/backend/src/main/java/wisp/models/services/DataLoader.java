@@ -1,35 +1,12 @@
-/*
-
-=======================================================
-  WISP– Sistema de recomendação de educação e cultura
-=======================================================
-
--- Grupo --
-Teoria dos Grafos - Turma: 6G
-- Bruna Gonçalves Corte David (RA: 10425696)
-- Júlia Andrade (RA: 1042513)
-
--- Síntese do Conteúdo --
-
--> Classe que representa um nó do tipo Atividade no grafo
--> Alguns atributos e métodos como link, cliques e localização ainda não estão sendo utilizados, são para uso futuro
-
--- Histórico de Alterações --
-
-17/05/2026 - Júlia - Atualiza DataLoader.java para suportar mudanças nas colunas dos .csv
-17/05/2026 - Júlia - Atualiza DataLoader.java para construir atividades com latitudes e longitudes das instituições 
-
-*/
-
-
-package graph_theory_wisp.data_loader;
+package wisp.models.services;
 
 import java.io.*;
 import java.util.*;
 
-import graph_theory_wisp.TGrafo;
-import graph_theory_wisp.graph_node_types.Activity;
-import graph_theory_wisp.graph_node_types.Category;
+import wisp.models.entities.Activity;
+import wisp.models.entities.Category;
+import wisp.models.entities.Establishment;
+import wisp.models.entities.graph_structure.TGrafo;
 
 public class DataLoader {
 
@@ -55,7 +32,7 @@ public class DataLoader {
         "Casa Verde", new double[]{-23.5007, -46.6456},
         "Pompeia", new double[]{-23.5260, -46.6835},
         "Avenida Paulista", new double[]{-23.5706, -46.6456},
-        "Consolação", new double[]{-46.6501, -23.5460},
+        "Consolação", new double[]{-23.5460, -46.6501},
         "Santana", new double[]{-23.4965, -46.6128},
         "14 Bis", new double[]{-23.5578, -46.6520},
         "Centro de Pesquisa e Formação", new double[]{-23.5577, -46.6519},
@@ -102,7 +79,7 @@ public class DataLoader {
 
     // Carrega CATEGORIAS das FÁBRICAS DE CULTURA e as insere como vértices no grafo
     private void loadFCCategories(TGrafo graph, Map<String, Category> globalCatMap) {      
-        try (BufferedReader br = new BufferedReader(new FileReader(FC_CATEGORIES_PATH))) {
+        try (BufferedReader br = new BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(FC_CATEGORIES_PATH), java.nio.charset.StandardCharsets.UTF_8))) {
             String line;
             while ((line = br.readLine()) != null) {                  
                 if (!line.trim().isEmpty()) {                         
@@ -130,7 +107,8 @@ public class DataLoader {
 
     // Carrega ATIVIDADES das FÁBRICAS DE CULTURA e as insere como vértices no grafo
     private void loadFCActivities(TGrafo graph, Map<String, Category> catMap, Integer limit) {
-        try (BufferedReader br = new BufferedReader(new FileReader(FC_CSV_PATH))) {
+        Map<String, Establishment> tempEstMap = new HashMap<>();
+        try (BufferedReader br = new BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(FC_CSV_PATH), java.nio.charset.StandardCharsets.UTF_8))) {
             br.readLine(); // Pula cabeçalho
             String line;
             while ((line = br.readLine()) != null) {                  
@@ -142,13 +120,22 @@ public class DataLoader {
                 String[] cols = line.split(";");
                 if (cols.length < 5) continue;                        // Verifica se linha não está errada
 
-                // Extrai dados das colunas
+                // Extrai dados das colunas (PS: AINDA não estamos usando todos)
                 String actName = cols[0];
                 String catListStr = cols[1];
                 String unitName = cols[2];
+                String data = cols[3];
+                String imagem = cols.length > 4 ? cols[4] : "";
+                String descricao = cols.length > 5 ? cols[5] : "Sem descrição disponível.";
+                String link = "https://www.fabricasdecultura.org.br/"; // Todas as atividades da FC possuem o mesmo link do site da FC
+                String valor = "Gratuito";
 
-                // Adquire coordenadas respectivas a essa atividade
-                double[] coords = FC_COORDS.getOrDefault(unitName, new double[]{-23.4754, -46.6623}); // Default para a unidade da Vila Nova Cachoeirinha, caso alguma unidade nova apareça no CSV que não esteja no nosso mapa de coordenadas
+                Establishment est = tempEstMap.get(unitName);
+                if (est == null) {
+                    double[] coords = FC_COORDS.getOrDefault(unitName, new double[]{-23.4754, -46.6623}); // Default para a unidade da Vila Nova Cachoeirinha, caso alguma unidade nova apareça no CSV que não esteja no nosso mapa de coordenadas
+                    est = new Establishment(unitName, coords[0], coords[1]);
+                    tempEstMap.put(unitName, est);
+                }
 
                 // Prepara a lista de categorias válidas ANTES de inserir a atividade no grafo
                 // (evita de adicionar atividades que não tenham categoria listada previamente/válida)
@@ -171,7 +158,7 @@ public class DataLoader {
 
                 // Cria e insere atividade no grafo (que tenha pelo menos 1 categoria válida)
                 if (!validCatsForThisAct.isEmpty()) {                 // Deve ter pelo menos uma categoria válida/listada previamente
-                    Activity act = new Activity(coords[0], coords[1], actName);  // Cria atividade com sua latitude e longitude diretamente e nome informados
+                    Activity act = new Activity(actName, link, est, data, valor, imagem, descricao);  // Cria atividade com nome, link externo e estabelecimento informados
                     graph.insereV(act);                               // Insere atividade no grafo
 
                     for (Category catNode : validCatsForThisAct) {    // Cria aresta entre a atividade e suas categorias
@@ -191,7 +178,7 @@ public class DataLoader {
 
     // Carrega CATEGORIAS dos SESC e as insere como vértices no grafo
     private void loadSescCategories(TGrafo graph, Map<String, Category> globalCatMap) {
-        try (BufferedReader br = new BufferedReader(new FileReader(SESC_CATEGORIES_PATH))) {
+        try (BufferedReader br = new BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(SESC_CATEGORIES_PATH), java.nio.charset.StandardCharsets.UTF_8))) {
             String line;
             while ((line = br.readLine()) != null) {                  // Enquanto houver linhas para ler
                 if (!line.trim().isEmpty()) {                         // Se a linha for vazia, ignora
@@ -214,7 +201,8 @@ public class DataLoader {
 
     // Carrega ATIVIDADES dos SESC e as insere como vértices no grafo
     private void loadSescActivities(TGrafo graph, Map<String, Category> catMap, Integer limit) {
-        try (BufferedReader br = new BufferedReader(new FileReader(SESC_CSV_PATH))) {
+        Map<String, Establishment> tempEstMap = new HashMap<>();
+        try (BufferedReader br = new BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(SESC_CSV_PATH), java.nio.charset.StandardCharsets.UTF_8))) {
             br.readLine();                                            // Pula cabeçalho
             String line;
             while ((line = br.readLine()) != null) {                  // Enquanto houver linhas para ler
@@ -231,11 +219,22 @@ public class DataLoader {
 
                 // Extrai dados das colunas (PS: AINDA não estamos usando todos)
                 String actName = cols[0];
+                String data = cols[1];
                 String unitName = cols[4];
                 String catListStr = cols[5];
+                String valor = cols[6];
+                String link = cols[7];
+                String imagem = cols.length > 8 ? cols[8] : "";
+                String descricao = "Sem descrição disponível.";
 
-                // Adquire coordenadas respectivas a essa atividade
-                double[] coords = SESC_COORDS.getOrDefault(unitName, new double[]{-23.5711, -46.6437}); // Default para a unidade da Paulista, caso alguma unidade nova apareça no CSV que não esteja no nosso mapa de coordenadas
+                // Se ainda não existir esse estabelecimento, cria novo estabelecimento com nome e coordenadas
+                Establishment est = tempEstMap.get(unitName);
+                if (est == null) {
+                    double[] coords = SESC_COORDS.getOrDefault(unitName, new double[]{-23.5711, -46.6437}); // Default para a unidade da Paulista, caso alguma unidade nova apareça no CSV que não esteja no nosso mapa de coordenadas
+                    est = new Establishment(unitName, coords[0], coords[1]);
+                    tempEstMap.put(unitName, est);
+                }
+
 
                 // Prepara a lista de categorias válidas ANTES de inserir a atividade no grafo
                 // (evita de adicionar atividades que não tenham categoria listada previamente/válida)
@@ -251,7 +250,7 @@ public class DataLoader {
 
                 // Cria e insere atividade no grafo (que tenha pelo menos 1 categoria válida)
                 if (!validCatsForThisAct.isEmpty()) {                 // Deve ter pelo menos uma categoria válida/listada previamente
-                    Activity act = new Activity(coords[0], coords[1], actName);  // Cria atividade com sua latitude e longitude diretamente e nome informados
+                    Activity act = new Activity(actName, link, est, data, valor, imagem, descricao);  // Cria atividade com nome, link externo e estabelecimento informados
                     graph.insereV(act);                               // Insere atividade no grafo
 
                     for (Category catNode : validCatsForThisAct) {    // Cria aresta entre a atividade e suas categorias

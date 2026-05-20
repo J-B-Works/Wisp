@@ -4,7 +4,7 @@ services:
     ports:
       - "8081:8080"
     env_file:
-      - ./software_engineering_wisp/.env
+      - ./software_engineering_wisp/backend/.env
 
   frontend:
     image: wisp-frontend
