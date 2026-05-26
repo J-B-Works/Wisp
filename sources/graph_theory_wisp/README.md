@@ -9,8 +9,8 @@ Teoria dos Grafos - Turma: 6G
 - Bruna Gonçalves Corte David (RA: 10425696)
 - Júlia Andrade (RA: 1042513)
 
-✿  **Documento ((((((WIP)))))): 
-<ins> [\sources\graph_theory_wisp\Parte 2 - Relatório Projeto.pdf](/documentation/Relatorios%20e%20Apresentacoes/TG%20Parte%202%20-%20Relatório%20Projeto.pdf)** </ins>
+✿  **Documento: 
+<ins> [\sources\graph_theory_wisp\Parte 3 - Relatório Projeto.pdf](/documentation/Relatorios%20e%20Apresentacoes/Parte%203%20-%20Relatório%20Projeto.pdf)** </ins>
 
 ✿ Graph Visualization: <ins> [https://graphonline.top/create_graph_by_edge_list](http://graphonline.top/?graph=fbboJTyCDtlYBwyZ) </ins>
 
