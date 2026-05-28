@@ -4,30 +4,39 @@ left to right direction
 
 ' --- Dispositivo do Usuário ---
 node "<<device>>\nDispositivo do Usuário" as user_device {
-    node "<<node>>\nNavegador Web" as browser {
-        artifact "Frontend da Plataforma\n(JS/HTML/CSS)" as frontend
+     node "<<node>>\nNavegador Web" as browser {
+
+        artifact "Frontend\n(JS/HTML/CSS)" as frontend
+
     }
 }
 
 ' --- Nuvem AWS ---
-node "Nuvem AWS" as aws {
-    node "<<node>>\nServidor de Aplicação " as AppServer {
-        artifact "Backend / Recomendador\n(Java)" as backend
+node "Nuvem AWS (Instância EC2)" as aws {
+    node "<<node>>\nFrontend Host" as front_container {
+        artifact "Servidor de Arquivos Frontend\n(JS/HTML/CSS)" as static_files
     }
-    
-    node "<<node>>\nServidor de Banco de Dados (RDS)" as rds {
-        database "Banco de Dados\n(SQL)" as db
+    node "<<node>>\nServidor de Aplicação " as AppServer {
+        artifact "Backend\n(Java / Spring Boot)" as backend
+        database "Grafo - Categorias, Atividades e Usuários \n(Java)" as db
     }
 }
 
+' --- APIs Externas ---
+node "<<node>>\nInfraestrutura" as viacep {
+    component "API ViaCep" as viacep_api
+}
 ' --- Infraestrutura API do mapbox ---
+
 node "<<node>>\nInfraestrutura Mapbox" as mapbox {
     component "API do Mapbox" as mapbox_api
 }
 
-' --- Relacionamentos / Protocolos ---
-frontend -- backend : HTTP/JSON
-backend -- db : TCP/IP 
-backend -- mapbox_api : HTTPS/JSON
+' --- Conexões ---
+browser -- static_files : HTTP/HTTPS\n(Download)
+frontend -- backend : HTTP / JSON
+backend -- db : Acesso Direto
+backend -- viacep_api : HTTPS / JSON
+backend -- mapbox_api : HTTPS / JSON
 
 @enduml
